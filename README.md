@@ -260,6 +260,7 @@ Si copias `index.html` y `assets/theme.css` a otro repositorio, podrás usar el 
   <h1>¡Gracias!</h1>
   <p class="cover-author">Jorge Jesús Quispe Villaverde</p>
   <p class="cover-role">AI Engineer · Applied AI Researcher · AI Mentor</p>
+  <p class="closing-question">¿Preguntas?</p>
   <div class="contact-row" aria-label="Contacto del expositor">
     <a class="contact-email" href="mailto:jorgektch@gmail.com">jorgektch@gmail.com</a>
     <div class="contact-socials" aria-label="Redes sociales de jorgektch">
@@ -269,5 +270,4 @@ Si copias `index.html` y `assets/theme.css` a otro repositorio, podrás usar el 
       <span class="social-handle">/jorgektch</span>
     </div>
   </div>
-  <p class="closing-question">¿Preguntas?</p>
 </div>

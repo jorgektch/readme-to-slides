@@ -22,6 +22,20 @@
              data-separator-notes="^Note:"></section>
   </div></div>
   <div id="deck-counter" class="deck-counter" aria-label="Número de diapositiva" aria-live="off">1 / 1</div>
+  <nav class="deck-navigation" role="toolbar" aria-label="Navegación de diapositivas">
+    <button type="button" id="nav-first" title="Ir a la primera diapositiva" aria-label="Ir a la primera diapositiva">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5v14M18 5l-7 7 7 7"/></svg>
+    </button>
+    <button type="button" id="nav-prev" title="Diapositiva anterior" aria-label="Diapositiva anterior">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button type="button" id="nav-next" title="Diapositiva siguiente" aria-label="Diapositiva siguiente">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <button type="button" id="nav-last" title="Ir a la última diapositiva" aria-label="Ir a la última diapositiva">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5v14M6 5l7 7-7 7"/></svg>
+    </button>
+  </nav>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
@@ -61,7 +75,7 @@
     }
 
     await Reveal.initialize({
-      hash: true, slideNumber: false, controls: true,
+      hash: true, slideNumber: false, controls: false,
       controlsLayout: "bottom-right", controlsTutorial: false,
       width: 1280, height: 720, margin: 0.06,
       transition: "fade", center: true, plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
@@ -80,8 +94,42 @@
       const number = Math.max(1, slides.indexOf(current) + 1);
       counter.textContent = `${number} / ${slides.length}`;
     }
-    Reveal.on("slidechanged", updateCounter);
-    updateCounter();
+    // Toolbar personalizada. Reveal sigue gestionando las flechas del teclado.
+    const firstButton = document.getElementById("nav-first");
+    const prevButton = document.getElementById("nav-prev");
+    const nextButton = document.getElementById("nav-next");
+    const lastButton = document.getElementById("nav-last");
+    function goToLastSlide() {
+      const slides = Reveal.getSlides();
+      const target = slides[slides.length - 1];
+      if (!target) return;
+      const {h, v} = Reveal.getIndices(target);
+      Reveal.slide(h, v);
+    }
+    firstButton.addEventListener("click", () => Reveal.slide(0, 0));
+    prevButton.addEventListener("click", () => Reveal.prev());
+    nextButton.addEventListener("click", () => Reveal.next());
+    lastButton.addEventListener("click", goToLastSlide);
+    function updateNavigation() {
+      const slides = Reveal.getSlides();
+      const current = Reveal.getCurrentSlide();
+      const atFirst = current === slides[0];
+      const atLast = current === slides[slides.length - 1];
+      firstButton.disabled = prevButton.disabled = atFirst;
+      lastButton.disabled = nextButton.disabled = atLast;
+      updateCounter();
+    }
+    Reveal.on("slidechanged", updateNavigation);
+    Reveal.on("fragmentshown", updateNavigation);
+    Reveal.on("fragmenthidden", updateNavigation);
+    // Atajos adicionales para saltar al inicio o al final.
+    document.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey ||
+          event.target?.closest?.("input, textarea, select, [contenteditable]")) return;
+      if (event.key === "Home") { event.preventDefault(); Reveal.slide(0, 0); }
+      if (event.key === "End") { event.preventDefault(); goToLastSlide(); }
+    });
+    updateNavigation();
 
     // RevealHighlight puede eliminar/cambiar language-mermaid, de modo que NO
     // dependemos de las clases CSS. Detectamos además la sintaxis Mermaid.
