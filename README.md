@@ -7,12 +7,15 @@
   <div class="cover-separator"></div>
   <p class="cover-author">Jorge Jesús Quispe Villaverde</p>
   <p class="cover-role">AI Engineer · Applied AI Researcher · AI Mentor</p>
-  <nav class="cover-socials" aria-label="Contacto del expositor">
-    <a href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="GitHub: jorgektch"><img src="assets/icons/github.svg" alt="" width="20" height="20">github.com/jorgektch</a>
-    <a href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="Instagram: @jorgektch"><img src="assets/icons/instagram.svg" alt="" width="20" height="20">@jorgektch</a>
-    <a href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer" aria-label="TikTok: @jorgektch"><img src="assets/icons/tiktok.svg" alt="" width="20" height="20">@jorgektch</a>
-    <a href="mailto:jorgektch@gmail.com" aria-label="Correo electrónico: jorgektch@gmail.com"><img src="assets/icons/mail.svg" alt="" width="20" height="20">jorgektch@gmail.com</a>
-  </nav>
+  <div class="contact-row" aria-label="Contacto del expositor">
+    <a class="contact-email" href="mailto:jorgektch@gmail.com">jorgektch@gmail.com</a>
+    <div class="contact-socials" aria-label="Redes sociales de jorgektch">
+      <a class="social-icon" href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="GitHub: jorgektch" title="GitHub"><img src="assets/icons/github.svg" alt="" width="22" height="22"></a>
+      <a class="social-icon" href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="Instagram: @jorgektch" title="Instagram"><img src="assets/icons/instagram.svg" alt="" width="22" height="22"></a>
+      <a class="social-icon" href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer" aria-label="TikTok: @jorgektch" title="TikTok"><img src="assets/icons/tiktok.svg" alt="" width="22" height="22"></a>
+      <span class="social-handle">/jorgektch</span>
+    </div>
+  </div>
 </div>
 
 [▶ Ver las diapositivas](https://jorgektch.github.io/test/) · [Código del repositorio](https://github.com/jorgektch/test)
@@ -257,11 +260,14 @@ Si copias `index.html` y `assets/theme.css` a otro repositorio, podrás usar el 
   <h1>¡Gracias!</h1>
   <p class="cover-author">Jorge Jesús Quispe Villaverde</p>
   <p class="cover-role">AI Engineer · Applied AI Researcher · AI Mentor</p>
-  <nav class="cover-socials" aria-label="Contacto del expositor">
-    <a href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="GitHub: jorgektch"><img src="assets/icons/github.svg" alt="" width="20" height="20">github.com/jorgektch</a>
-    <a href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="Instagram: @jorgektch"><img src="assets/icons/instagram.svg" alt="" width="20" height="20">@jorgektch</a>
-    <a href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer" aria-label="TikTok: @jorgektch"><img src="assets/icons/tiktok.svg" alt="" width="20" height="20">@jorgektch</a>
-    <a href="mailto:jorgektch@gmail.com" aria-label="Correo electrónico: jorgektch@gmail.com"><img src="assets/icons/mail.svg" alt="" width="20" height="20">jorgektch@gmail.com</a>
-  </nav>
+  <div class="contact-row" aria-label="Contacto del expositor">
+    <a class="contact-email" href="mailto:jorgektch@gmail.com">jorgektch@gmail.com</a>
+    <div class="contact-socials" aria-label="Redes sociales de jorgektch">
+      <a class="social-icon" href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="GitHub: jorgektch" title="GitHub"><img src="assets/icons/github.svg" alt="" width="22" height="22"></a>
+      <a class="social-icon" href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="Instagram: @jorgektch" title="Instagram"><img src="assets/icons/instagram.svg" alt="" width="22" height="22"></a>
+      <a class="social-icon" href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer" aria-label="TikTok: @jorgektch" title="TikTok"><img src="assets/icons/tiktok.svg" alt="" width="22" height="22"></a>
+      <span class="social-handle">/jorgektch</span>
+    </div>
+  </div>
   <p class="closing-question">¿Preguntas?</p>
 </div>

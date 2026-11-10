@@ -42,10 +42,63 @@
 .reveal .cover-separator{height:1px;background:var(--line);margin:28px 0 25px}
 .reveal .cover-author{font-family:"Poppins",sans-serif;font-weight:600;color:var(--heading);font-size:23px;margin:0 0 14px}
 .reveal .cover-role{color:var(--body);font-size:19px;line-height:1.4;margin:0 0 26px}
-.reveal .cover-socials{display:flex;flex-wrap:wrap;align-items:center;gap:13px 23px;margin-top:16px}
-.reveal .cover-socials a{font-size:15px;display:inline-flex;gap:8px;align-items:center;white-space:nowrap;color:var(--heading);text-decoration:none}
-.reveal .cover-socials a:hover{color:var(--accent)}
-.reveal .cover-socials img{height:20px;width:20px;max-height:none;border:0;box-shadow:none;border-radius:0;margin:0;object-fit:contain}
+/* Contacto en caratula y cierre: email a la izquierda, tres iconos y un unico usuario a la derecha. */
+.reveal .contact-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  width: 100%;
+  margin-top: 20px;
+}
+.reveal .contact-email {
+  font: 500 16px "Lexend", sans-serif;
+  color: var(--heading);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.reveal .contact-email:hover { color: var(--accent); }
+.reveal .contact-socials {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 13px;
+  white-space: nowrap;
+}
+.reveal .contact-socials .social-icon {
+  display: inline-flex;
+  width: 28px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+.reveal .contact-socials .social-icon:hover { background: var(--panel-2); }
+.reveal .contact-socials img {
+  display: block;
+  height: 23px;
+  width: 23px;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0;
+  object-fit: contain;
+}
+.reveal .social-handle {
+  color: var(--heading);
+  font: 500 17px "Lexend", sans-serif;
+  margin-left: 2px;
+}
+@media screen and (max-width: 760px) {
+  .reveal .contact-row { align-items: flex-start; }
+  .reveal .contact-email { font-size: 15px; }
+  .reveal .social-handle { font-size: 16px; }
+}
+
 /* En la vista de slides se omite el enlace al propio visor debajo de la caratula. En GitHub sigue visible. */
 .reveal section.cover>.cover-card+p {display:none}
 .reveal section.closing .closing-card{max-width:1000px;border:1px solid var(--line);border-radius:24px;margin:auto;padding:48px 55px;background:var(--bg)}
@@ -59,7 +112,7 @@
 .reveal pre code,.reveal code{font-family:"JetBrains Mono",Consolas,monospace!important;font-variant-ligatures:none}
 .reveal pre code{display:block;color:#ECF5FA;background:#0A1320;font-size:.68em;line-height:1.35;border:1px solid var(--line);border-radius:10px;max-height:395px;padding:15px 18px}
 .reveal code:not(pre code){background:#1B283A;color:#ACEFE2;font-size:.84em;border-radius:5px;padding:.1em .22em}
-.reveal img:not(.cover-socials img){border:1px solid var(--line);border-radius:14px;max-width:100%;max-height:350px;object-fit:cover;box-shadow:0 13px 40px #0005}
+.reveal img:not(.contact-socials img){border:1px solid var(--line);border-radius:14px;max-width:100%;max-height:350px;object-fit:cover;box-shadow:0 13px 40px #0005}
 .reveal .image-text{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:center;gap:35px;width:100%}
 .reveal .image-text img{width:100%;height:315px;max-height:315px;object-fit:cover}.reveal .image-side small{display:block;text-align:right;margin-top:8px}.reveal .text-side h3{color:var(--accent)}
 .reveal .feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;margin:1em 0}
@@ -78,7 +131,7 @@
 .reveal .controls{right:20px!important;bottom:20px!important}
 @media print {.deck-counter{display:none!important}}
 .reveal .progress{color:var(--accent)}.reveal .progress span{background:var(--accent)}
-@media screen and (max-width:700px){:root{--r-main-font-size:24px}.reveal .cover-socials{gap:9px}.reveal section.cover .cover-card{padding:28px}.reveal section.cover .cover-title{font-size:42px}}
+@media screen and (max-width:700px){:root{--r-main-font-size:24px}.reveal section.cover .cover-card{padding:28px}.reveal section.cover .cover-title{font-size:42px}}
 
 /* Los diagramas son SVG reales, no el código resaltado por RevealHighlight. */
 .reveal .diagram-panel svg{max-width:100%!important;width:100%!important;height:auto!important;max-height:385px!important}
