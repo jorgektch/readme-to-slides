@@ -2,17 +2,24 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visor MD a Slides</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Presentaciones técnicas desde Markdown por Jorge Jesús.">
+  <title>Slides | Jorge Jesús</title>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Lexend:wght@300;400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/theme.css">
 </head>
 <body>
   <div class="reveal">
-    <div class="slides" id="slides-container">
-      <section data-markdown="README.md"
+    <div class="slides">
+      <section id="markdown-slides"
+               data-markdown="README.md"
                data-separator="^\r?\n---\r?\n$"
                data-separator-vertical="^\r?\n--\r?\n$"
                data-separator-notes="^Note:">
@@ -24,33 +31,104 @@
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    let mdUrl = params.get('url');
 
-    if (mdUrl) {
-      if (mdUrl.includes('github.com') && mdUrl.includes('/blob/')) {
-        mdUrl = mdUrl
-          .replace('https://github.com', 'https://raw.githubusercontent.com')
-          .replace('http://github.com', 'https://raw.githubusercontent.com')
-          .replace('/blob/', '/');
-      }
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
 
-      const container = document.getElementById('slides-container');
-      container.innerHTML = `
-        <section data-markdown="${mdUrl}"
-                 data-separator="^\r?\n---\r?\n$"
-                 data-separator-vertical="^\r?\n--\r?\n$"
-                 data-separator-notes="^Note:">
-        </section>
-      `;
+    const acronyms = new Set(["ia", "mcp", "llm", "rag", "api", "gcp", "sdk", "ai"]);
+    const connectors = new Set(["de", "del", "y", "en", "con", "desde", "para", "por", "a"]);
+    function titleFromSlug(slug) {
+      return slug.split(/[-_]+/).filter(Boolean).map((token, index) => {
+        const word = token.toLocaleLowerCase("es");
+        if (acronyms.has(word)) return word.toUpperCase();
+        if (index > 0 && connectors.has(word)) return word;
+        return index === 0 ? word[0].toLocaleUpperCase("es") + word.slice(1) : word;
+      }).join(" ");
     }
 
-    Reveal.initialize({
+    const query = new URLSearchParams(location.search);
+    const requested = query.get("url");
+    const localSlug = location.pathname.split("/").filter(Boolean)[0] || "test";
+    let slug = localSlug;
+    let markdownUrl = "README.md";
+
+    if (requested) {
+      try {
+        const url = new URL(requested);
+        if (url.protocol !== "https:") throw Error("Solo se permite HTTPS");
+        const parts = url.pathname.split("/").filter(Boolean);
+        if (url.hostname === "github.com") {
+          if (parts.length < 5 || parts[2] !== "blob") {
+            throw Error("Usa un enlace github.com/usuario/repositorio/blob/rama/README.md");
+          }
+          slug = parts[1];
+          markdownUrl = `https://raw.githubusercontent.com/${parts[0]}/${parts[1]}/${parts.slice(3).join("/")}`;
+        } else if (url.hostname === "raw.githubusercontent.com") {
+          if (parts.length < 4) throw Error("Ruta raw inválida");
+          slug = parts[1];
+          markdownUrl = url.toString();
+        } else {
+          throw Error("Solo se admiten archivos públicos de GitHub");
+        }
+        document.getElementById("markdown-slides").setAttribute("data-markdown", markdownUrl);
+      } catch (e) {
+        console.warn("Se mantiene README.md local:", e.message);
+      }
+    }
+
+    await Reveal.initialize({
       hash: true,
-      slideNumber: true,
-      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+      slideNumber: "c/t",
+      width: 1280,
+      height: 720,
+      margin: 0.07,
+      transition: "fade",
+      center: true,
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
     });
+
+    const title = titleFromSlug(slug);
+    document.title = `${title} · Jorge Jesús`;
+    const coverH1 = document.querySelector(".reveal .slides section.cover h1");
+    if (coverH1) coverH1.textContent = title;
+
+    // En GitHub los bloques mermaid se renderizan automáticamente.
+    // En Reveal.js el plugin Markdown los convierte primero en bloques <pre><code>.
+    const mermaidCodes = document.querySelectorAll(".reveal .slides pre code.language-mermaid");
+    for (const code of mermaidCodes) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "mermaid";
+      wrapper.textContent = code.textContent;
+      code.closest("pre").replaceWith(wrapper);
+    }
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: "base",
+      securityLevel: "strict",
+      themeVariables: {
+        background: "#0a1118",
+        primaryColor: "#172a33",
+        primaryTextColor: "#ecf3f4",
+        primaryBorderColor: "#36e0c4",
+        secondaryColor: "#20313b",
+        secondaryTextColor: "#ecf3f4",
+        secondaryBorderColor: "#66848a",
+        tertiaryColor: "#13252c",
+        tertiaryTextColor: "#ecf3f4",
+        lineColor: "#8aabb0",
+        textColor: "#e9f1f3",
+        fontFamily: "Lexend, sans-serif",
+        noteBkgColor: "#172a33",
+        noteTextColor: "#ecf3f4"
+      }
+    });
+    try {
+      await mermaid.run({querySelector: ".reveal .slides .mermaid"});
+      Reveal.layout();
+    } catch (e) {
+      console.error("No se pudo renderizar un diagrama Mermaid", e);
+    }
   </script>
 </body>
 </html>

@@ -1,0 +1,92 @@
+/* Sistema de diseño: oscuro azul petróleo + turquesa de acento.
+   Poppins: encabezados | Lexend: texto | JetBrains Mono: código. */
+:root {
+  --bg: #0a1118;
+  --bg-soft: #12212a;
+  --bg-card: #14232c;
+  --white: #f5f9fa;
+  --body: #c0d0d5;
+  --muted: #8ea5ae;
+  --teal: #36e0c4;
+  --line: #314b54;
+
+  --r-background-color: var(--bg);
+  --r-main-color: var(--body);
+  --r-heading-color: var(--white);
+  --r-link-color: var(--teal);
+  --r-link-color-hover: #91f5e3;
+  --r-selection-background-color: var(--teal);
+  --r-selection-color: #0a1118;
+
+  --r-main-font: "Lexend", Arial, sans-serif;
+  --r-heading-font: "Poppins", Arial, sans-serif;
+  --r-code-font: "JetBrains Mono", Consolas, monospace;
+  --r-main-font-size: 27px;
+  --r-heading-text-transform: none;
+  --r-heading-font-weight: 600;
+  --r-heading-letter-spacing: -0.025em;
+  --r-block-margin: 15px;
+}
+
+.reveal { font-weight: 300; background: radial-gradient(ellipse at 80% 15%, #133139 0, transparent 50%), var(--bg); }
+.reveal .slides section { text-align: left; }
+.reveal h1, .reveal h2, .reveal h3 { color: var(--white); line-height: 1.14; }
+.reveal h1 { font-size: 2.45em; }
+.reveal h2 { font-size: 1.63em; margin-bottom: 0.5em; }
+.reveal h3 { font-size: 1.10em; }
+.reveal strong { color: var(--white); font-weight: 600; }
+.reveal p, .reveal li { line-height: 1.46; }
+.reveal p { margin: 0.48em 0; }
+.reveal ul, .reveal ol { display: block; margin-left: 0.94em; }
+.reveal li { margin: 0.25em 0; }
+.reveal small { font-size: 0.5em; color: var(--muted); }
+.reveal a { color: var(--teal); text-decoration: underline; text-underline-offset: 5px; }
+.reveal blockquote { background: var(--bg-soft); border-left: 5px solid var(--teal); color: var(--body); padding: 16px 22px; width: 94%; box-shadow: none; border-radius: 0 8px 8px 0; }
+
+/* Portada: márgenes generosos y datos del ponente */
+.reveal .slides section.cover, .reveal .slides section.closing { text-align: center; }
+.reveal section.cover { padding: 0.4em 0; }
+.reveal section.cover .eyebrow { font-family: "Poppins", sans-serif; font-size: 0.47em; font-weight: 600; letter-spacing: 0.16em; color: var(--teal); text-transform: uppercase; }
+.reveal section.cover h1 { font-size: 2.60em; margin: 0.35em auto 0.10em; }
+.reveal section.cover h3 { color: var(--muted); font-size: 0.88em; font-weight: 400; }
+.reveal section.cover p { max-width: 1020px; margin: 0.6em auto; }
+.reveal section.cover p:nth-last-child(-n+2) { font-size: 0.78em; }
+.reveal section.cover strong { font-family: "Poppins", sans-serif; }
+.reveal section.closing h1 { font-size: 2.5em; }
+
+/* Tablas */
+.reveal table { width: 100%; font-family: "Lexend", sans-serif; font-size: 0.70em; border-collapse: separate; border-spacing: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; }
+.reveal table th { color: var(--teal); background: var(--bg-soft); border-bottom: 1px solid var(--line); font-weight: 600; padding: 12px 16px; }
+.reveal table td { color: var(--body); border-bottom: 1px solid var(--line); padding: 11px 16px; }
+.reveal table tbody tr:last-child td { border-bottom: none; }
+.reveal table tr:nth-child(even) { background: #101e27; }
+
+/* Código */
+.reveal pre { width: 100%; box-shadow: none; margin: 0.45em 0; }
+.reveal pre code, .reveal code { font-family: "JetBrains Mono", Consolas, monospace !important; font-variant-ligatures: none; }
+.reveal pre code { display: block; color: #e7f1f3; background: #0c171d; font-size: 0.72em; line-height: 1.34; border: 1px solid #2e505a; border-radius: 11px; max-height: 400px; padding: 16px 20px; }
+.reveal code:not(pre code) { background: #1d3239; color: #affceb; font-size: 0.85em; border-radius: 5px; padding: 0.12em 0.22em; }
+
+/* Imágenes */
+.reveal img { border: 1px solid var(--line); border-radius: 14px; max-width: 100%; max-height: 355px; object-fit: cover; box-shadow: 0 14px 45px #0005; }
+.reveal .image-text { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); align-items: center; gap: 42px; width: 100%; }
+.reveal .image-text img { width: 100%; height: 330px; max-height: 330px; object-fit: cover; }
+.reveal .image-side small { display: block; text-align: right; margin-top: 8px; }
+.reveal .text-side h3 { color: var(--teal); }
+
+/* Cards */
+.reveal .feature-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; margin: 1.2em 0; }
+.reveal .feature-card { background: linear-gradient(160deg, #18313a, #101c24); border: 1px solid #32515a; border-radius: 16px; padding: 23px 22px; min-height: 225px; }
+.reveal .feature-card h3 { font-size: 0.91em; color: var(--white); margin: 0.35em 0; }
+.reveal .feature-card p { font-size: 0.63em; line-height: 1.48; }
+.reveal .card-kicker { color: var(--teal); text-transform: uppercase; letter-spacing: 0.14em; font-family: "JetBrains Mono", monospace; font-size: 0.43em; }
+
+/* Mermaid: diagramas como SVG, no bloques de código */
+.reveal .mermaid { display: flex; align-items: center; justify-content: center; width: 100%; margin: 0.2em auto 0.7em; min-height: 280px; }
+.reveal .mermaid svg { width: 100% !important; max-width: 1100px !important; max-height: 435px; height: auto !important; }
+.reveal .mermaid text, .reveal .mermaid tspan { font-family: "Lexend", sans-serif !important; }
+
+.reveal .slide-number { background: #0a1118b0; color: var(--muted); font-family: "JetBrains Mono", monospace; border-radius: 6px; font-size: 15px; }
+.reveal .progress { color: var(--teal); }
+.reveal .progress span { background: var(--teal); }
+@media screen and (max-width: 700px) { :root { --r-main-font-size: 24px; } .reveal .feature-grid { gap: 8px; } }
