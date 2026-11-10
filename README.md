@@ -1,10 +1,9 @@
-# Mi Proyecto Increible
+# Mi Proyecto Increíble
 
-Presentacion generada automaticamente desde `README.md` en GitHub Pages.
+🎞️ [Ver presentación interactiva](https://jorgektch.github.io/test/)
 
-Usa las **flechas del teclado** para avanzar.
-
-Note: Estas son notas del orador. Presiona la tecla S para verlas en modo presentador.
+Presentación generada automáticamente desde `README.md`
+utilizando Reveal.js y GitHub Pages.
 
 ---
 
