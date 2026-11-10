@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visor MD a Slides</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides" id="slides-container">
+      <section data-markdown="README.md"
+               data-separator="^\r?\n---\r?\n$"
+               data-separator-vertical="^\r?\n--\r?\n$"
+               data-separator-notes="^Note:">
+      </section>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    let mdUrl = params.get('url');
+
+    if (mdUrl) {
+      if (mdUrl.includes('github.com') && mdUrl.includes('/blob/')) {
+        mdUrl = mdUrl
+          .replace('https://github.com', 'https://raw.githubusercontent.com')
+          .replace('http://github.com', 'https://raw.githubusercontent.com')
+          .replace('/blob/', '/');
+      }
+
+      const container = document.getElementById('slides-container');
+      container.innerHTML = `
+        <section data-markdown="${mdUrl}"
+                 data-separator="^\r?\n---\r?\n$"
+                 data-separator-vertical="^\r?\n--\r?\n$"
+                 data-separator-notes="^Note:">
+        </section>
+      `;
+    }
+
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+  </script>
+</body>
+</html>
