@@ -7,11 +7,11 @@
   <div class="cover-separator"></div>
   <p class="cover-author">Jorge Jesús Quispe Villaverde</p>
   <p class="cover-role">AI Engineer · Applied AI Researcher · AI Mentor</p>
-  <nav class="cover-socials" aria-label="Redes del expositor">
-    <a href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer"><img src="assets/icons/github.svg" alt="" width="20" height="20">github.com/jorgektch</a>
-    <a href="https://www.linkedin.com/in/jorgejesusquispevillaverde" target="_blank" rel="noopener noreferrer"><img src="assets/icons/linkedin.svg" alt="" width="20" height="20">LinkedIn</a>
-    <a href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer"><img src="assets/icons/instagram.svg" alt="" width="20" height="20">Instagram</a>
-    <a href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer"><img src="assets/icons/tiktok.svg" alt="" width="20" height="20">TikTok</a>
+  <nav class="cover-socials" aria-label="Contacto del expositor">
+    <a href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="GitHub: jorgektch"><img src="assets/icons/github.svg" alt="" width="20" height="20">github.com/jorgektch</a>
+    <a href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="Instagram: @jorgektch"><img src="assets/icons/instagram.svg" alt="" width="20" height="20">@jorgektch</a>
+    <a href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer" aria-label="TikTok: @jorgektch"><img src="assets/icons/tiktok.svg" alt="" width="20" height="20">@jorgektch</a>
+    <a href="mailto:jorgektch@gmail.com" aria-label="Correo electrónico: jorgektch@gmail.com"><img src="assets/icons/mail.svg" alt="" width="20" height="20">jorgektch@gmail.com</a>
   </nav>
 </div>
 
@@ -240,13 +240,13 @@ Si copias `index.html` y `assets/theme.css` a otro repositorio, podrás usar el 
 | :--- | :--- |
 | Título para GitHub | `# Test` en este README |
 | Título de la portada en slides | Se obtiene de la URL del repositorio |
-| Nombre y redes sociales | Primer y último bloque del README; iconos en `assets/icons/` |
+| Nombre, redes y correo | Primer y último bloque del README; iconos en `assets/icons/` |
 | Poppins, Lexend, JetBrains Mono | `assets/theme.css` e `index.html` |
 | Colores de la carátula | Variables CSS en `assets/theme.css`: `#0B1020`, `#F5F7FF`, `#36E0C4`, `#AAB9D0` |
 | Fotografías | URLs de imagen o `assets/images/` |
 | Diagramas | Bloques de código `mermaid` |
 
-**Nota:** las fotos remotas y las bibliotecas CDN requieren conexión a Internet. Los iconos de las redes se almacenan en este mismo repositorio. Los diagramas Mermaid se renderizan de forma independiente en el navegador y su fuente permanece en los bloques `mermaid` del README.
+**Nota:** las fotos remotas y las bibliotecas CDN requieren conexión a Internet. Los iconos de las redes se almacenan en este mismo repositorio. Los diagramas Mermaid se renderizan desde los bloques de código `mermaid` del README, sin necesidad de insertar SVG o capturas. El visor detecta estos bloques por su lenguaje **o** por la sintaxis del diagrama.
 
 ---
 
@@ -257,11 +257,11 @@ Si copias `index.html` y `assets/theme.css` a otro repositorio, podrás usar el 
   <h1>¡Gracias!</h1>
   <p class="cover-author">Jorge Jesús Quispe Villaverde</p>
   <p class="cover-role">AI Engineer · Applied AI Researcher · AI Mentor</p>
-  <nav class="cover-socials" aria-label="Redes del expositor">
-    <a href="https://github.com/jorgektch"><img src="assets/icons/github.svg" alt="" width="20" height="20">GitHub</a>
-    <a href="https://www.linkedin.com/in/jorgejesusquispevillaverde"><img src="assets/icons/linkedin.svg" alt="" width="20" height="20">LinkedIn</a>
-    <a href="https://www.instagram.com/jorgektch"><img src="assets/icons/instagram.svg" alt="" width="20" height="20">Instagram</a>
-    <a href="https://www.tiktok.com/@jorgektch"><img src="assets/icons/tiktok.svg" alt="" width="20" height="20">TikTok</a>
+  <nav class="cover-socials" aria-label="Contacto del expositor">
+    <a href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="GitHub: jorgektch"><img src="assets/icons/github.svg" alt="" width="20" height="20">github.com/jorgektch</a>
+    <a href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="Instagram: @jorgektch"><img src="assets/icons/instagram.svg" alt="" width="20" height="20">@jorgektch</a>
+    <a href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer" aria-label="TikTok: @jorgektch"><img src="assets/icons/tiktok.svg" alt="" width="20" height="20">@jorgektch</a>
+    <a href="mailto:jorgektch@gmail.com" aria-label="Correo electrónico: jorgektch@gmail.com"><img src="assets/icons/mail.svg" alt="" width="20" height="20">jorgektch@gmail.com</a>
   </nav>
   <p class="closing-question">¿Preguntas?</p>
 </div>

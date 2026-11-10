@@ -21,12 +21,12 @@
              data-separator-vertical="^\r?\n--\r?\n$"
              data-separator-notes="^Note:"></section>
   </div></div>
+  <div id="deck-counter" class="deck-counter" aria-label="Número de diapositiva" aria-live="off">1 / 1</div>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
   <script type="module">
-    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.esm.min.mjs";
 
     const acronyms = new Set(["ia", "mcp", "llm", "rag", "api", "gcp", "sdk", "ai"]);
     const connectors = new Set(["de", "del", "y", "en", "con", "desde", "para", "por", "a"]);
@@ -61,7 +61,9 @@
     }
 
     await Reveal.initialize({
-      hash: true, slideNumber: "c/t", width: 1280, height: 720, margin: 0.06,
+      hash: true, slideNumber: false, controls: true,
+      controlsLayout: "bottom-right", controlsTutorial: false,
+      width: 1280, height: 720, margin: 0.06,
       transition: "fade", center: true, plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
     });
 
@@ -70,49 +72,92 @@
     const coverTitle = document.querySelector(".reveal .slides section.cover [data-repo-title]");
     if (coverTitle) coverTitle.textContent = title;
 
-    // RevealMarkdown convierte los bloques ```mermaid a <pre><code>.
-    // El README es la unica fuente; cada diagrama se valida y renderiza individualmente.
-    mermaid.initialize({
-      startOnLoad: false, securityLevel: "strict", theme: "base",
-      themeVariables: {
-        background: "#0B1020", primaryColor: "#15243A", primaryTextColor: "#F5F7FF",
-        primaryBorderColor: "#36E0C4", secondaryColor: "#1D2A40",
-        secondaryTextColor: "#F5F7FF", secondaryBorderColor: "#8299B3",
-        tertiaryColor: "#0E1D32", tertiaryTextColor: "#F5F7FF",
-        lineColor: "#AAB9D0", textColor: "#F5F7FF",
-        fontFamily: "Lexend, Arial, sans-serif", noteBkgColor: "#162238",
-        noteTextColor: "#F5F7FF", pie1: "#36E0C4", pie2: "#8EA5BC", pie3: "#516E87"
-      },
-      flowchart: { htmlLabels: false, useMaxWidth: true }
-    });
+    // Mantener el contador lejos de los controles de Reveal.js.
+    const counter = document.getElementById("deck-counter");
+    function updateCounter() {
+      const slides = Reveal.getSlides();
+      const current = Reveal.getCurrentSlide();
+      const number = Math.max(1, slides.indexOf(current) + 1);
+      counter.textContent = `${number} / ${slides.length}`;
+    }
+    Reveal.on("slidechanged", updateCounter);
+    updateCounter();
 
-    const codeNodes = [...document.querySelectorAll(".reveal .slides pre code")]
-      .filter(node => [...node.classList].some(c => c === "language-mermaid" || c === "lang-mermaid"));
+    // RevealHighlight puede eliminar/cambiar language-mermaid, de modo que NO
+    // dependemos de las clases CSS. Detectamos además la sintaxis Mermaid.
+    const syntax = /^(?:flowchart\s|graph\s|sequenceDiagram\b|classDiagram\b|stateDiagram(?:-v2)?\b|erDiagram\b|gantt\b|pie\b|journey\b|mindmap\b|timeline\b|gitGraph\b|quadrantChart\b|xychart-beta\b|block-beta\b|sankey-beta\b|requirementDiagram\b|C4Context\b|C4Container\b|C4Component\b)/i;
+    const blocks = [...document.querySelectorAll(".reveal .slides pre")]
+      .map(pre => ({pre, code: pre.querySelector("code")}))
+      .filter(({code}) => !!code)
+      .map(({pre, code}) => {
+        const source = code.textContent.replace(/\u00a0/g, " ").replace(/^\uFEFF/, "").trim();
+        const names = `${code.className} ${pre.className}`.toLowerCase();
+        const isMermaid = /(?:language|lang)[-_]mermaid\b/.test(names) || syntax.test(source);
+        return {pre, source, isMermaid};
+      })
+      .filter(block => block.isMermaid);
 
-    for (const [index, code] of codeNodes.entries()) {
-      const source = code.textContent.replace(/\u00a0/g, " ").trim();
+    window.slideDiagnostics = {detected: blocks.length, rendered: 0, errors: []};
+    const panels = blocks.map(({pre, source}, index) => {
       const panel = document.createElement("div");
       panel.className = "diagram-panel";
-      code.closest("pre").replaceWith(panel);
+      panel.dataset.diagramIndex = String(index + 1);
+      panel.setAttribute("role", "img");
+      panel.setAttribute("aria-label", `Diagrama Mermaid ${index + 1}`);
+      pre.replaceWith(panel);
+      return {panel, source, index};
+    });
+
+    function showDiagramError(panel, source, index, error) {
+      const detail = error?.message || String(error);
+      console.error(`Diagrama Mermaid ${index + 1}:`, detail, "\nSOURCE:\n", source);
+      window.slideDiagnostics.errors.push({diagram: index + 1, message: detail});
+      panel.replaceChildren();
+      const card = document.createElement("div");
+      card.className = "diagram-error";
+      const h = document.createElement("h4");
+      h.textContent = `No se pudo renderizar el diagrama ${index + 1}`;
+      const p = document.createElement("p");
+      p.textContent = detail;
+      card.append(h, p);
+      panel.append(card);
+    }
+
+    if (panels.length > 0) {
       try {
-        // Validar antes evita el grafico de error de Mermaid incrustado en la diapositiva.
-        await mermaid.parse(source);
-        const {svg, bindFunctions} = await mermaid.render(`mcp-diagram-${index}-${Date.now()}`, source);
-        panel.innerHTML = svg;
-        if (bindFunctions) bindFunctions(panel);
+        // Importación diferida: las slides no dependen de que cargue Mermaid.
+        const {default: mermaid} = await import(
+          "https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.esm.min.mjs"
+        );
+        mermaid.initialize({
+          startOnLoad: false, securityLevel: "strict", theme: "base",
+          themeVariables: {
+            background: "#0B1020", primaryColor: "#15243A", primaryTextColor: "#F5F7FF",
+            primaryBorderColor: "#36E0C4", secondaryColor: "#1D2A40",
+            secondaryTextColor: "#F5F7FF", secondaryBorderColor: "#8299B3",
+            tertiaryColor: "#0E1D32", tertiaryTextColor: "#F5F7FF",
+            lineColor: "#AAB9D0", textColor: "#F5F7FF",
+            fontFamily: "Lexend, Arial, sans-serif", noteBkgColor: "#162238",
+            noteTextColor: "#F5F7FF", pie1: "#36E0C4", pie2: "#8EA5BC", pie3: "#516E87"
+          },
+          flowchart: {htmlLabels: false, useMaxWidth: true}
+        });
+        // Procesar cada figura independientemente; no abortar las demás al fallar una.
+        for (const {panel, source, index} of panels) {
+          try {
+            await mermaid.parse(source);
+            const {svg, bindFunctions} = await mermaid.render(`workshop-diagram-${index + 1}`, source);
+            if (!svg || !svg.includes("<svg")) throw Error("Mermaid no devolvió SVG");
+            panel.innerHTML = svg;
+            if (bindFunctions) bindFunctions(panel);
+            window.slideDiagnostics.rendered++;
+          } catch (error) { showDiagramError(panel, source, index, error); }
+        }
       } catch (error) {
-        console.error(`Error Mermaid diagrama ${index + 1}:`, error, "SOURCE:", source);
-        panel.innerHTML = "";
-        const box = document.createElement("div");
-        box.className = "diagram-error";
-        const heading = document.createElement("h4");
-        heading.textContent = `Diagrama ${index + 1}: revisar sintaxis Mermaid`;
-        const detail = document.createElement("p");
-        detail.textContent = error?.message || "No se pudo interpretar el diagrama";
-        const original = document.createElement("pre");
-        original.textContent = source;
-        box.append(heading, detail, original);
-        panel.append(box);
+        panels.forEach(({panel, source, index}) => showDiagramError(
+          panel, source, index,
+          new Error(`No se pudo cargar Mermaid desde el CDN: ${error?.message || error}`)
+        ));
       }
     }
     Reveal.layout();

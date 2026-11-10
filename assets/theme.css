@@ -42,8 +42,8 @@
 .reveal .cover-separator{height:1px;background:var(--line);margin:28px 0 25px}
 .reveal .cover-author{font-family:"Poppins",sans-serif;font-weight:600;color:var(--heading);font-size:23px;margin:0 0 14px}
 .reveal .cover-role{color:var(--body);font-size:19px;line-height:1.4;margin:0 0 26px}
-.reveal .cover-socials{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:12px}
-.reveal .cover-socials a{font-size:15px;display:inline-flex;gap:7px;align-items:center;white-space:nowrap;color:var(--heading);text-decoration:none}
+.reveal .cover-socials{display:flex;flex-wrap:wrap;align-items:center;gap:13px 23px;margin-top:16px}
+.reveal .cover-socials a{font-size:15px;display:inline-flex;gap:8px;align-items:center;white-space:nowrap;color:var(--heading);text-decoration:none}
 .reveal .cover-socials a:hover{color:var(--accent)}
 .reveal .cover-socials img{height:20px;width:20px;max-height:none;border:0;box-shadow:none;border-radius:0;margin:0;object-fit:contain}
 /* En la vista de slides se omite el enlace al propio visor debajo de la caratula. En GitHub sigue visible. */
@@ -72,6 +72,14 @@
 .reveal .diagram-panel svg .label,.reveal .diagram-panel svg text{font-family:"Lexend",sans-serif!important}
 .reveal .diagram-error{text-align:left;width:100%;font-size:16px;color:var(--body);max-height:380px;overflow:auto}
 .reveal .diagram-error h4{color:var(--accent);font-size:19px;margin:0 0 10px}.reveal .diagram-error pre{white-space:pre-wrap;font-size:13px;line-height:1.45}
-.reveal .slide-number{background:#0B1020bf;color:var(--body);font-family:"JetBrains Mono",monospace;border-radius:5px;font-size:15px}
+/* Desactivar el contador propio, que se superponía con las flechas. */
+.reveal .slide-number{display:none!important}
+.deck-counter{position:fixed;z-index:120;bottom:18px;left:26px;padding:5px 10px;border:1px solid #30435B;border-radius:8px;background:#0B1020d9;color:#AAB9D0;font:500 14px "JetBrains Mono",Consolas,monospace;pointer-events:none;user-select:none}
+.reveal .controls{right:20px!important;bottom:20px!important}
+@media print {.deck-counter{display:none!important}}
 .reveal .progress{color:var(--accent)}.reveal .progress span{background:var(--accent)}
 @media screen and (max-width:700px){:root{--r-main-font-size:24px}.reveal .cover-socials{gap:9px}.reveal section.cover .cover-card{padding:28px}.reveal section.cover .cover-title{font-size:42px}}
+
+/* Los diagramas son SVG reales, no el código resaltado por RevealHighlight. */
+.reveal .diagram-panel svg{max-width:100%!important;width:100%!important;height:auto!important;max-height:385px!important}
+.reveal .diagram-panel .diagram-error{font-size:16px}
