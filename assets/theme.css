@@ -44,6 +44,7 @@
 .reveal .cover-role{color:var(--body);font-size:19px;line-height:1.4;margin:0 0 26px}
 /* Contacto en caratula y cierre: email a la izquierda, tres iconos y un unico usuario a la derecha. */
 .reveal .contact-row {
+  --contact-text-size: 17px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -53,7 +54,7 @@
   margin-top: 20px;
 }
 .reveal .contact-email {
-  font: 500 16px "Lexend", sans-serif;
+  font: 500 var(--contact-text-size) "Lexend", sans-serif;
   color: var(--heading);
   text-decoration: none;
   white-space: nowrap;
@@ -90,13 +91,11 @@
 }
 .reveal .social-handle {
   color: var(--heading);
-  font: 500 17px "Lexend", sans-serif;
+  font: 500 var(--contact-text-size) "Lexend", sans-serif;
   margin-left: 2px;
 }
 @media screen and (max-width: 760px) {
-  .reveal .contact-row { align-items: flex-start; }
-  .reveal .contact-email { font-size: 15px; }
-  .reveal .social-handle { font-size: 16px; }
+  .reveal .contact-row { --contact-text-size: 15px; align-items: flex-start; }
 }
 
 /* En la vista de slides se omite el enlace al propio visor debajo de la caratula. En GitHub sigue visible. */
