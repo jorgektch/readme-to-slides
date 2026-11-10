@@ -1,8 +1,0 @@
-feat: turn README into a branded technical slide deck
-
-- Add a personalized cover slide with speaker details and social links.
-- Apply a dark teal design using Poppins, Lexend, and JetBrains Mono.
-- Render Mermaid architecture and sequence diagrams in Reveal.js.
-- Add slide patterns for images, tables, code, cards, and progressive reveals.
-- Preserve GitHub README rendering and deploy via GitHub Pages.
-- Keep support for presenting public README files through the ?url= parameter.
