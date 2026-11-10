@@ -1,19 +1,23 @@
-<!-- .slide: class="cover" data-background="#0A1118" -->
+<!-- .slide: class="cover" data-background-color="#0B1020" -->
 
-<p class="eyebrow">AI ENGINEERING · TALLER PRÁCTICO</p>
+<div class="cover-card">
+  <p class="cover-kicker">AI ENGINEERING WORKSHOP · 2026</p>
+  <h1 class="cover-title" data-repo-title>Test</h1>
+  <p class="cover-description">De un README a una presentación técnica interactiva</p>
+  <div class="cover-separator"></div>
+  <p class="cover-author">Jorge Jesús Quispe Villaverde</p>
+  <p class="cover-role">AI Engineer · Applied AI Researcher · AI Mentor</p>
+  <nav class="cover-socials" aria-label="Redes del expositor">
+    <a href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer"><img src="assets/icons/github.svg" alt="" width="20" height="20">github.com/jorgektch</a>
+    <a href="https://www.linkedin.com/in/jorgejesusquispevillaverde" target="_blank" rel="noopener noreferrer"><img src="assets/icons/linkedin.svg" alt="" width="20" height="20">LinkedIn</a>
+    <a href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer"><img src="assets/icons/instagram.svg" alt="" width="20" height="20">Instagram</a>
+    <a href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer"><img src="assets/icons/tiktok.svg" alt="" width="20" height="20">TikTok</a>
+  </nav>
+</div>
 
-# Test
+[▶ Ver las diapositivas](https://jorgektch.github.io/test/) · [Código del repositorio](https://github.com/jorgektch/test)
 
-### De un README a una presentación técnica interactiva
-
-**Jorge Jesús**  
-AI Engineer · Applied AI Research · AI Mentor
-
-[LinkedIn](https://www.linkedin.com/in/jorgejesusquispevillaverde) · [Instagram](https://www.instagram.com/jorgektch) · [TikTok](https://www.tiktok.com/@jorgektch)
-
-[▶ Ver las diapositivas](https://jorgektch.github.io/test/) · [Repositorio](https://github.com/jorgektch/test)
-
-Note: Presenta el título y comenta que, en este visor, el H1 de portada se actualiza con el nombre del repositorio. En GitHub, el README sigue siendo documentación legible.
+Note: Presenta el título de la charla, tu nombre completo y cómo el mismo README sirve como documentación y presentación. El título en Pages se ajusta automáticamente al nombre del repositorio.
 
 ---
 
@@ -58,11 +62,11 @@ Una fotografía ayuda a introducir un problema, humanizar una historia o separar
 
 ```mermaid
 flowchart LR
-    A[README.md] --> B[Reveal.js]
-    C[theme.css] --> B
-    D[Mermaid] --> B
-    B --> E[GitHub Pages]
-    E --> F[Audiencia]
+    A["README.md"] --> B["Reveal.js"]
+    C["theme.css"] --> B
+    D["Mermaid"] --> B
+    B --> E["GitHub Pages"]
+    E --> F["Audiencia"]
 ```
 
 **Idea clave:** Markdown almacena el contenido; CSS y JavaScript definen su presentación. GitHub también renderiza el diagrama Mermaid.
@@ -75,12 +79,12 @@ Note: Resalta que no se genera un PPTX. La presentación se muestra en el navega
 
 ```mermaid
 flowchart TD
-    A[Contenido Markdown] --> B{Tipo de bloque}
-    B -->|Texto / tablas| C[Reveal Markdown]
-    B -->|Código| D[Reveal Highlight]
-    B -->|Diagrama Mermaid| E[Mermaid.js]
-    B -->|Imágenes| F[Navegador]
-    C --> G[Diapositiva]
+    A["Contenido Markdown"] --> B{"Tipo de bloque"}
+    B -->|"Texto y tablas"| C["Reveal Markdown"]
+    B -->|"Código"| D["Reveal Highlight"]
+    B -->|"Diagrama Mermaid"| E["Mermaid.js"]
+    B -->|"Imágenes"| F["Navegador"]
+    C --> G["Diapositiva"]
     D --> G
     E --> G
     F --> G
@@ -98,7 +102,7 @@ sequenceDiagram
     participant U as Participante
     participant P as GitHub Pages
     participant R as Reveal.js
-    participant M as README.md
+    participant M as Archivo Markdown
     U->>P: Abre la URL pública
     P-->>U: Entrega index.html y theme.css
     R->>M: Solicita Markdown
@@ -236,24 +240,28 @@ Si copias `index.html` y `assets/theme.css` a otro repositorio, podrás usar el 
 | :--- | :--- |
 | Título para GitHub | `# Test` en este README |
 | Título de la portada en slides | Se obtiene de la URL del repositorio |
-| Nombre y redes sociales | Primer y último bloque del README |
+| Nombre y redes sociales | Primer y último bloque del README; iconos en `assets/icons/` |
 | Poppins, Lexend, JetBrains Mono | `assets/theme.css` e `index.html` |
-| Colores oscuro + turquesa | Variables CSS en `assets/theme.css` |
+| Colores de la carátula | Variables CSS en `assets/theme.css`: `#0B1020`, `#F5F7FF`, `#36E0C4`, `#AAB9D0` |
 | Fotografías | URLs de imagen o `assets/images/` |
 | Diagramas | Bloques de código `mermaid` |
 
-**Nota:** las fotos remotas y las bibliotecas CDN requieren conexión a Internet.
+**Nota:** las fotos remotas y las bibliotecas CDN requieren conexión a Internet. Los iconos de las redes se almacenan en este mismo repositorio. Los diagramas Mermaid se renderizan de forma independiente en el navegador y su fuente permanece en los bloques `mermaid` del README.
 
 ---
 
 <!-- .slide: class="closing" -->
 
-# ¡Gracias!
-
-**Jorge Jesús**
-
-AI Engineer · Applied AI Research · AI Mentor
-
-[LinkedIn](https://www.linkedin.com/in/jorgejesusquispevillaverde) · [Instagram](https://www.instagram.com/jorgektch) · [TikTok](https://www.tiktok.com/@jorgektch)
-
-**¿Preguntas?**
+<div class="closing-card">
+  <p class="cover-kicker">AI ENGINEERING WORKSHOP</p>
+  <h1>¡Gracias!</h1>
+  <p class="cover-author">Jorge Jesús Quispe Villaverde</p>
+  <p class="cover-role">AI Engineer · Applied AI Researcher · AI Mentor</p>
+  <nav class="cover-socials" aria-label="Redes del expositor">
+    <a href="https://github.com/jorgektch"><img src="assets/icons/github.svg" alt="" width="20" height="20">GitHub</a>
+    <a href="https://www.linkedin.com/in/jorgejesusquispevillaverde"><img src="assets/icons/linkedin.svg" alt="" width="20" height="20">LinkedIn</a>
+    <a href="https://www.instagram.com/jorgektch"><img src="assets/icons/instagram.svg" alt="" width="20" height="20">Instagram</a>
+    <a href="https://www.tiktok.com/@jorgektch"><img src="assets/icons/tiktok.svg" alt="" width="20" height="20">TikTok</a>
+  </nav>
+  <p class="closing-question">¿Preguntas?</p>
+</div>

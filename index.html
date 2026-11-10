@@ -2,10 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Presentaciones técnicas desde Markdown por Jorge Jesús.">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Presentaciones técnicas desde Markdown por Jorge Jesús Quispe Villaverde.">
   <title>Slides | Jorge Jesús</title>
-
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
@@ -16,33 +15,27 @@
   <link rel="stylesheet" href="assets/theme.css">
 </head>
 <body>
-  <div class="reveal">
-    <div class="slides">
-      <section id="markdown-slides"
-               data-markdown="README.md"
-               data-separator="^\r?\n---\r?\n$"
-               data-separator-vertical="^\r?\n--\r?\n$"
-               data-separator-notes="^Note:">
-      </section>
-    </div>
-  </div>
-
+  <div class="reveal"><div class="slides">
+    <section id="markdown-slides" data-markdown="README.md"
+             data-separator="^\r?\n---\r?\n$"
+             data-separator-vertical="^\r?\n--\r?\n$"
+             data-separator-notes="^Note:"></section>
+  </div></div>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
-
   <script type="module">
-    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.esm.min.mjs";
 
     const acronyms = new Set(["ia", "mcp", "llm", "rag", "api", "gcp", "sdk", "ai"]);
     const connectors = new Set(["de", "del", "y", "en", "con", "desde", "para", "por", "a"]);
     function titleFromSlug(slug) {
-      return slug.split(/[-_]+/).filter(Boolean).map((token, index) => {
+      return slug.split(/[-_]+/).filter(Boolean).map((token, i) => {
         const word = token.toLocaleLowerCase("es");
         if (acronyms.has(word)) return word.toUpperCase();
-        if (index > 0 && connectors.has(word)) return word;
-        return index === 0 ? word[0].toLocaleUpperCase("es") + word.slice(1) : word;
+        if (i > 0 && connectors.has(word)) return word;
+        return i === 0 ? word[0].toLocaleUpperCase("es") + word.slice(1) : word;
       }).join(" ");
     }
 
@@ -51,84 +44,79 @@
     const localSlug = location.pathname.split("/").filter(Boolean)[0] || "test";
     let slug = localSlug;
     let markdownUrl = "README.md";
-
     if (requested) {
       try {
         const url = new URL(requested);
-        if (url.protocol !== "https:") throw Error("Solo se permite HTTPS");
+        if (url.protocol !== "https:") throw new Error("Solo se permite HTTPS");
         const parts = url.pathname.split("/").filter(Boolean);
-        if (url.hostname === "github.com") {
-          if (parts.length < 5 || parts[2] !== "blob") {
-            throw Error("Usa un enlace github.com/usuario/repositorio/blob/rama/README.md");
-          }
+        if (url.hostname === "github.com" && parts[2] === "blob" && parts.length >= 5) {
           slug = parts[1];
           markdownUrl = `https://raw.githubusercontent.com/${parts[0]}/${parts[1]}/${parts.slice(3).join("/")}`;
-        } else if (url.hostname === "raw.githubusercontent.com") {
-          if (parts.length < 4) throw Error("Ruta raw inválida");
+        } else if (url.hostname === "raw.githubusercontent.com" && parts.length >= 4) {
           slug = parts[1];
-          markdownUrl = url.toString();
-        } else {
-          throw Error("Solo se admiten archivos públicos de GitHub");
-        }
+          markdownUrl = url.href;
+        } else throw new Error("Usa un README público de GitHub");
         document.getElementById("markdown-slides").setAttribute("data-markdown", markdownUrl);
-      } catch (e) {
-        console.warn("Se mantiene README.md local:", e.message);
-      }
+      } catch (err) { console.warn("Se usará el README local:", err.message); }
     }
 
     await Reveal.initialize({
-      hash: true,
-      slideNumber: "c/t",
-      width: 1280,
-      height: 720,
-      margin: 0.07,
-      transition: "fade",
-      center: true,
-      plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+      hash: true, slideNumber: "c/t", width: 1280, height: 720, margin: 0.06,
+      transition: "fade", center: true, plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
     });
 
     const title = titleFromSlug(slug);
     document.title = `${title} · Jorge Jesús`;
-    const coverH1 = document.querySelector(".reveal .slides section.cover h1");
-    if (coverH1) coverH1.textContent = title;
+    const coverTitle = document.querySelector(".reveal .slides section.cover [data-repo-title]");
+    if (coverTitle) coverTitle.textContent = title;
 
-    // En GitHub los bloques mermaid se renderizan automáticamente.
-    // En Reveal.js el plugin Markdown los convierte primero en bloques <pre><code>.
-    const mermaidCodes = document.querySelectorAll(".reveal .slides pre code.language-mermaid");
-    for (const code of mermaidCodes) {
-      const wrapper = document.createElement("div");
-      wrapper.className = "mermaid";
-      wrapper.textContent = code.textContent;
-      code.closest("pre").replaceWith(wrapper);
-    }
-
+    // RevealMarkdown convierte los bloques ```mermaid a <pre><code>.
+    // El README es la unica fuente; cada diagrama se valida y renderiza individualmente.
     mermaid.initialize({
-      startOnLoad: false,
-      theme: "base",
-      securityLevel: "strict",
+      startOnLoad: false, securityLevel: "strict", theme: "base",
       themeVariables: {
-        background: "#0a1118",
-        primaryColor: "#172a33",
-        primaryTextColor: "#ecf3f4",
-        primaryBorderColor: "#36e0c4",
-        secondaryColor: "#20313b",
-        secondaryTextColor: "#ecf3f4",
-        secondaryBorderColor: "#66848a",
-        tertiaryColor: "#13252c",
-        tertiaryTextColor: "#ecf3f4",
-        lineColor: "#8aabb0",
-        textColor: "#e9f1f3",
-        fontFamily: "Lexend, sans-serif",
-        noteBkgColor: "#172a33",
-        noteTextColor: "#ecf3f4"
-      }
+        background: "#0B1020", primaryColor: "#15243A", primaryTextColor: "#F5F7FF",
+        primaryBorderColor: "#36E0C4", secondaryColor: "#1D2A40",
+        secondaryTextColor: "#F5F7FF", secondaryBorderColor: "#8299B3",
+        tertiaryColor: "#0E1D32", tertiaryTextColor: "#F5F7FF",
+        lineColor: "#AAB9D0", textColor: "#F5F7FF",
+        fontFamily: "Lexend, Arial, sans-serif", noteBkgColor: "#162238",
+        noteTextColor: "#F5F7FF", pie1: "#36E0C4", pie2: "#8EA5BC", pie3: "#516E87"
+      },
+      flowchart: { htmlLabels: false, useMaxWidth: true }
     });
-    try {
-      await mermaid.run({querySelector: ".reveal .slides .mermaid"});
-      Reveal.layout();
-    } catch (e) {
-      console.error("No se pudo renderizar un diagrama Mermaid", e);
+
+    const codeNodes = [...document.querySelectorAll(".reveal .slides pre code")]
+      .filter(node => [...node.classList].some(c => c === "language-mermaid" || c === "lang-mermaid"));
+
+    for (const [index, code] of codeNodes.entries()) {
+      const source = code.textContent.replace(/\u00a0/g, " ").trim();
+      const panel = document.createElement("div");
+      panel.className = "diagram-panel";
+      code.closest("pre").replaceWith(panel);
+      try {
+        // Validar antes evita el grafico de error de Mermaid incrustado en la diapositiva.
+        await mermaid.parse(source);
+        const {svg, bindFunctions} = await mermaid.render(`mcp-diagram-${index}-${Date.now()}`, source);
+        panel.innerHTML = svg;
+        if (bindFunctions) bindFunctions(panel);
+      } catch (error) {
+        console.error(`Error Mermaid diagrama ${index + 1}:`, error, "SOURCE:", source);
+        panel.innerHTML = "";
+        const box = document.createElement("div");
+        box.className = "diagram-error";
+        const heading = document.createElement("h4");
+        heading.textContent = `Diagrama ${index + 1}: revisar sintaxis Mermaid`;
+        const detail = document.createElement("p");
+        detail.textContent = error?.message || "No se pudo interpretar el diagrama";
+        const original = document.createElement("pre");
+        original.textContent = source;
+        box.append(heading, detail, original);
+        panel.append(box);
+      }
     }
+    Reveal.layout();
+    window.addEventListener("resize", () => Reveal.layout());
   </script>
 </body>
 </html>
