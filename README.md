@@ -1,275 +1,349 @@
 <!-- .slide: class="cover" data-background-color="#0B1020" -->
 
 <div class="cover-card">
-  <p class="cover-kicker">OPEN SOURCE · MARKDOWN PRESENTATIONS</p>
-  <h1 class="cover-title" data-repo-title>README to Slides</h1>
-  <p class="cover-description">Documenta y presenta desde Markdown, sin Canva, PowerPoint ni Google Slides.</p>
+  <p class="cover-kicker" data-config="eyebrow">OPEN SOURCE · MARKDOWN PRESENTATIONS</p>
+  <h1 class="cover-title" data-config="title">README to Slides</h1>
+  <p class="cover-description" data-config="subtitle">Documenta una vez. Explica, demuestra y presenta directamente desde Markdown.</p>
   <div class="cover-separator"></div>
-  <p class="cover-author">Jorge Jesús Quispe Villaverde</p>
-  <p class="cover-role">AI Engineer · Applied AI Researcher · AI Mentor</p>
+  <p class="cover-author" data-config="name">Jorge Jesús Quispe Villaverde</p>
+  <p class="cover-role" data-config="role">AI Engineer · Applied AI Researcher · AI Mentor</p>
   <div class="contact-row" aria-label="Contacto del expositor">
-    <a class="contact-email" href="mailto:jorgektch@gmail.com">jorgektch@gmail.com</a>
-    <div class="contact-socials" aria-label="Redes sociales de jorgektch">
-      <a class="social-icon" href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="GitHub: jorgektch" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="social-label">GitHub</span></a>
-      <a class="social-icon" href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="Instagram: jorgektch" title="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i><span class="social-label">Instagram</span></a>
-      <a class="social-icon" href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer" aria-label="TikTok: jorgektch" title="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i><span class="social-label">TikTok</span></a>
-      <span class="social-handle">/jorgektch</span>
+    <a class="contact-email" data-config="email" href="mailto:jorgektch@gmail.com">jorgektch@gmail.com</a>
+    <div class="contact-socials" aria-label="Redes del expositor">
+      <a class="social-icon" data-social="github" href="https://github.com/jorgektch" aria-label="GitHub" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="social-label">GitHub</span></a>
+      <a class="social-icon" data-social="instagram" href="https://www.instagram.com/jorgektch" aria-label="Instagram" title="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i><span class="social-label">Instagram</span></a>
+      <a class="social-icon" data-social="tiktok" href="https://www.tiktok.com/@jorgektch" aria-label="TikTok" title="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i><span class="social-label">TikTok</span></a>
+      <span class="social-handle" data-config="handle">/jorgektch</span>
     </div>
   </div>
 </div>
 
-[▶ Ver las diapositivas](https://jorgektch.github.io/readme-to-slides/) · [Código del repositorio](https://github.com/jorgektch/readme-to-slides)
+<div class="readme-only">
+  <p><strong>Una sola fuente Markdown, dos experiencias:</strong> documentación en GitHub y presentación interactiva en el navegador.</p>
+  <p><a href="https://jorgektch.github.io/readme-to-slides/">▶ Live Demo</a> · <a href="https://github.com/new?template_name=readme-to-slides&amp;template_owner=jorgektch">Use this template</a> · <a href="https://github.com/jorgektch/readme-to-slides/blob/main/presentation.config.json">Configuration</a> · <a href="https://github.com/jorgektch/readme-to-slides/blob/main/LICENSE">MIT License</a></p>
+  <p><img src="assets/images/preview.png" alt="Vista previa ilustrativa del tema oscuro de README to Slides" width="860"></p>
+  <p><strong>Inicio rápido:</strong> selecciona <strong>Use this template</strong>, edita <code>presentation.config.json</code> y <code>README.md</code>, y activa <strong>Settings → Pages → Deploy from a branch → main / (root)</strong>. No necesitas PowerPoint, Canva ni un proceso de compilación.</p>
+</div>
 
-Note: Presenta README to Slides como una plantilla reutilizable. El mismo archivo sirve para documentación en GitHub y para exponer desde GitHub Pages. El visor toma el título de la ruta del repositorio.
-
----
-
-## ¿Qué es README to Slides?
-
-**Una plantilla para presentar desde el mismo `README.md` que documenta tu proyecto.** No convierte Markdown en un archivo `.pptx`: muestra diapositivas web interactivas con JavaScript.
-
-**En GitHub:** documentación navegable, diagramas Mermaid, código copiable, tablas e imágenes.
-
-**En GitHub Pages:** presentación con Reveal.js, navegación en dos dimensiones, diseño personalizable y notas del expositor.
-
-> Una sola fuente Markdown; dos maneras de compartir tus ideas. Sin Canva, PowerPoint ni Google Slides.
+Note: El mismo README puede verse como documento en GitHub y como una presentación Reveal.js en GitHub Pages. Los datos de autor son los valores predeterminados de la plantilla.
 
 ---
 
-## Qué puedes incluir en una presentación
+## El problema: documentar y presentar por separado
 
-| Bloque | Qué mostrarás | Formato |
+En un taller técnico solemos mantener **dos versiones de lo mismo**:
+
+- Un README con código, diagramas, enlaces y pasos reproducibles.
+- Una presentación que se desactualiza cuando cambia el proyecto.
+
+**README to Slides** evita duplicar ese trabajo: el contenido se escribe una vez en Markdown y se presenta directamente desde el repositorio.
+
+> Write once. Document and present anywhere.
+
+---
+
+## Quick Start: tu primera presentación
+
+1. Abre **[Use this template](https://github.com/new?template_name=readme-to-slides&template_owner=jorgektch)** y crea tu repositorio.
+2. Personaliza `presentation.config.json` y sustituye las secciones de este `README.md` por tu charla.
+3. Activa **GitHub Pages**: `Settings → Pages → main → /(root)` y abre la URL que genere GitHub.
+
+No necesitas una API key, ni Node.js, ni ejecutar un generador para **usar** la presentación. GitHub Pages sirve el HTML y Reveal.js interpreta el Markdown en el navegador.
+
+**Alternativa local:** `python -m http.server 8000` y abre `http://localhost:8000`.
+
+---
+
+## ¿Para quién sirve esta plantilla?
+
+<div class="feature-grid">
+  <div class="feature-card"><span class="card-kicker">01 · EDUCACIÓN</span><h3>Docentes y mentores</h3><p>Talleres reproducibles con teoría, ejemplos de código y ejercicios en el mismo repositorio.</p></div>
+  <div class="feature-card"><span class="card-kicker">02 · COMUNIDAD</span><h3>DevRel y speakers</h3><p>Charlas versionadas con Git: arquitectura, demos, tablas, diagramas y notas.</p></div>
+  <div class="feature-card"><span class="card-kicker">03 · PRODUCTO</span><h3>Equipos de ingeniería</h3><p>Compartir propuestas técnicas, decisiones de diseño y retrospectivas sin duplicar documentos.</p></div>
+</div>
+
+**No pretende reemplazar todas las herramientas de diseño visual.** Su fortaleza es el contenido técnico, reproducible y mantenido como código.
+
+---
+
+## Qué puedes incluir en los slides
+
+| Necesidad | Formato en README | En la presentación |
 | :--- | :--- | :--- |
-| 01 | Idea y contexto | Texto + imagen |
-| 02 | Cómo funciona | Arquitectura Mermaid |
-| 03 | Qué ocurre en cada paso | Diagrama de secuencia |
-| 04 | Alternativas | Tabla comparativa |
-| 05 | Implementación | Código con resaltado |
-| 06 | Práctica | Retos + notas del expositor |
+| Explicar un sistema | Diagrama `mermaid` | SVG navegable |
+| Comparar alternativas | Tabla Markdown | Tabla estilizada |
+| Mostrar una implementación | Bloque `js`, `python`, etc. | Código resaltado |
+| Ilustrar una idea | Imagen Markdown / HTML | Fotografía o captura |
+| Guiar una demostración | Lista + fragments | Aparición progresiva |
+| Profundizar sin saturar | Separador `--` | Diapositiva vertical |
+| Recordar qué decir | Línea `Note:` | Notas del expositor (`S`) |
 
-**Navegación:** `←` `→` cambia de tema; `↑` `↓` abre o cierra detalles verticales; `Esc` u `O` activa la vista general; `S` muestra notas. El visor incluye un botón **Repo**.
-
----
-
-## Primero, el contexto visual
-
-![Espacio de trabajo de desarrollo con un portátil y código](https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80)
-
-Una fotografía ayuda a introducir un problema, humanizar una historia o separar bloques conceptuales.
-
-<small>Imagen de ejemplo: [Unsplash](https://unsplash.com/). Puedes reemplazar la URL por una foto propia o por una imagen alojada en `assets/images/`.</small>
+**Todo ese contenido vive en este archivo.**
 
 ---
 
-## Arquitectura: README → slides
+## Arquitectura de README to Slides
 
 ```mermaid
 flowchart LR
-    A["README.md"] --> B["Reveal.js"]
-    C["theme.css"] --> B
-    D["Mermaid"] --> B
-    B --> E["GitHub Pages"]
-    E --> F["Audiencia"]
+    A["README.md"] --> B["Reveal Markdown"]
+    C["presentation.config.json"] --> D["app.mjs"]
+    E["theme.css"] --> D
+    B --> F["Slides interactivas"]
+    D --> F
+    G["Mermaid"] --> F
+    F --> H["GitHub Pages"]
 ```
 
-**Idea clave:** Markdown almacena el contenido; CSS y JavaScript definen su presentación. GitHub también renderiza el diagrama Mermaid.
+**Idea clave:** Markdown es la fuente del contenido; JavaScript organiza la experiencia y CSS define el diseño. No se genera un archivo `.pptx`.
 
-Note: Resalta que no se genera un PPTX. La presentación se muestra en el navegador y el contenido vive en el repositorio.
+Note: Distinguir el contenido (README), la configuración (JSON), la aplicación (JS) y el estilo (CSS).
 
 --
 
-### Una vista más detallada
+### Arquitectura interna: responsabilidades
 
 ```mermaid
 flowchart TD
-    A["Contenido Markdown"] --> B{"Tipo de bloque"}
-    B -->|"Texto y tablas"| C["Reveal Markdown"]
-    B -->|"Código"| D["Reveal Highlight"]
-    B -->|"Diagrama Mermaid"| E["Mermaid.js"]
-    B -->|"Imágenes"| F["Navegador"]
-    C --> G["Diapositiva"]
-    D --> G
-    E --> G
-    F --> G
+    A["GitHub Pages"] --> B["index.html"]
+    B --> C["assets/js/app.mjs"]
+    C --> D["assets/js/config.mjs"]
+    C --> E["Reveal.js"]
+    E --> F["README.md"]
+    C --> G["Mermaid"]
+    C --> H["presentation.config.json"]
+    C --> I["theme.css"]
 ```
 
-**Prueba:** en esta diapositiva vertical utiliza `↓` para profundizar y `↑` para volver.
+**Desglose:** `config.mjs` valida opciones y URLs; `app.mjs` inicializa Reveal.js, navegación, contenido y diagramas.
 
 ---
 
-## ¿Qué ocurre al abrir la presentación?
+## Una presentación también puede incluir fotografías
+
+![Equipo trabajando en un portátil con código](https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1300&q=80)
+
+Una fotografía bien elegida introduce un caso, explica el contexto y hace más humana una charla técnica.
+
+<small>Imagen externa ilustrativa: [Unsplash](https://unsplash.com/). Puedes utilizar tus propias imágenes dentro de `assets/images/` para mejorar la reproducibilidad.</small>
+
+---
+
+## Vista previa del estilo de la plantilla
+
+![Vista previa ilustrativa de README to Slides, con portada oscura y turquesa](assets/images/preview.png)
+
+La plantilla incluye una **vista previa ilustrativa del tema** en el repositorio. Puedes sustituirla por capturas reales de tu propia charla.
+
+**Consejo:** evita capturas de código si puedes usar bloques Markdown: el texto será más legible, seleccionable y actualizable.
+
+---
+
+## Estructura del Markdown: horizontal y vertical
+
+| Escribe en el README | Resultado en Reveal.js |
+| :--- | :--- |
+| `---` en una línea | Siguiente tema horizontal `→` |
+| `--` en una línea | Detalle vertical `↓` |
+| `Note: Explica este paso` | Nota del presentador (`S`) |
+| `<!-- .element: class="fragment" -->` | Revelar progresivamente |
+
+**Navegación:** las flechas `← →` cambian de tema y las `↑ ↓` navegan detalles. `Esc` abre la vista general. Nuestra barra añade **Inicio**, **Final** y **Repo**.
+
+En la diapositiva anterior existe una subdiapositiva vertical: prueba el botón `↓` cuando esté disponible.
+
+---
+
+## Configuración: una sola fuente para personalizar
+
+```json
+{
+  "presentation": {
+    "title": "README to Slides",
+    "titleFromRepository": false
+  },
+  "slides": {
+    "width": 1280,
+    "height": 720,
+    "transition": "fade",
+    "autoSlideMs": 0
+  }
+}
+```
+
+Esto es un **extracto** de `presentation.config.json`: allí puedes ajustar portada, autor, contactos, apariencia y navegación sin modificar JavaScript.
+
+---
+
+## Qué valores puedes parametrizar
+
+| Grupo JSON | Parámetros principales |
+| :--- | :--- |
+| `presentation` | Título, subtítulo, encabezado y título automático |
+| `presenter` | Nombre, rol, email, usuario y redes |
+| `theme.colors` | Fondo, texto, acento, panel y bordes |
+| `theme.fonts` | Fuente de títulos, cuerpo y código |
+| `slides` | Tamaño, margen, transición, velocidad y centrado |
+| `slides.autoSlideMs` | Duración automática por slide en ms (`0` = manual) |
+| `slides.autoSlideStoppable` | Detener avance automático al interactuar |
+| `slides` | Contador, controles, botón Repo, origen Markdown |
+| `slides` | Permitir o bloquear `?url=` de otro repositorio |
+
+Los valores se validan antes de aplicarse. `transitionSpeed` admite `default`, `fast` o `slow`; `autoSlideMs` configura el tiempo de avance automático. Las fuentes se cargan desde Google Fonts y requieren Internet.
+
+---
+
+## Código real: inicialización de Reveal.js
+
+```javascript
+await Reveal.initialize({
+  hash: true,
+  width: config.slides.width,
+  height: config.slides.height,
+  transition: config.slides.transition,
+  center: config.slides.center,
+  navigationMode: "default",
+  plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+});
+```
+
+Este ejemplo resume la inicialización que hace `assets/js/app.mjs`. Reveal.js crea las diapositivas desde `README.md`; Mermaid renderiza los diagramas posteriormente.
+
+---
+
+## Diagramas de secuencia para explicar procesos
 
 ```mermaid
 sequenceDiagram
     autonumber
-    participant U as Participante
+    participant U as Usuario
     participant P as GitHub Pages
     participant R as Reveal.js
-    participant M as Archivo Markdown
-    U->>P: Abre la URL pública
-    P-->>U: Entrega index.html y theme.css
+    participant M as README.md
+    U->>P: Abre la URL
+    P-->>U: Devuelve HTML, JS y CSS
     R->>M: Solicita Markdown
-    M-->>R: Devuelve el contenido
-    R->>R: Separa y compone diapositivas
-    R-->>U: Muestra la presentación
+    M-->>R: Entrega el contenido
+    R-->>U: Muestra las diapositivas
 ```
 
-Estos diagramas son **código Mermaid editable** dentro del propio README.
+En GitHub este bloque se muestra como diagrama; en GitHub Pages se convierte a SVG con la paleta de tu presentación.
 
 ---
 
-## Gráficos de datos sin capturas de pantalla
+## Gráficos: números sin archivos adicionales
 
 ```mermaid
 pie showData
-    title Distribución de tiempo (ejemplo ilustrativo)
-    "Conceptos" : 20
-    "Demostración" : 25
-    "Práctica guiada" : 55
+    title Uso ilustrativo del taller
+    "Conceptos" : 25
+    "Demostración" : 30
+    "Práctica" : 45
 ```
 
-Un gráfico Mermaid permite explicar proporciones sin crear una imagen adicional. **Estos valores son ficticios y únicamente ilustrativos.**
+Este gráfico muestra una **distribución ficticia e ilustrativa**, no estadísticas de usuarios de la plantilla. Su fuente es un bloque Mermaid editable dentro de este README.
 
 ---
 
-## Comparativa de formatos
+## Comparación: ¿cuándo usar cada formato?
 
-| Necesidad | README en GitHub | Reveal.js en Pages | PPTX |
-| :--- | :---: | :---: | :---: |
-| Documentación y enlaces | ✅ | ✅ | ⚠️ |
-| Código copiable | ✅ | ✅ | ⚠️ |
-| Presentar con teclado | ❌ | ✅ | ✅ |
-| Notas del ponente | ❌ | ✅ | ✅ |
-| Contenido versionado con Git | ✅ | ✅ | ⚠️ |
-| Edición visual tradicional | ❌ | ❌ | ✅ |
+| Caso de uso | README to Slides | PowerPoint / Canva |
+| :--- | :---: | :---: |
+| Documentación y slides desde una fuente | ✅ | Requiere coordinación |
+| Código y diagramas versionados con Git | ✅ | Menos directo |
+| Publicación como web en GitHub Pages | ✅ | Flujo de exportación |
+| Edición visual libre y pixel-perfect | Limitada | ✅ |
+| Trabajo sin Internet tras cargar la web | Depende de CDN | Depende de herramienta |
+| Incorporar cambios mediante pull requests | ✅ | Menos directo |
 
-**Conclusión:** elige Reveal.js para mantener el contenido técnico versionado y presentarlo sin duplicar archivos.
-
----
-
-## Patrones visuales: tres ideas
-
-<div class="feature-grid">
-  <div class="feature-card"><span class="card-kicker">01 · EXPLICAR</span><h3>Diagramas</h3><p>Comunican componentes, relaciones y procesos complejos con menos texto.</p></div>
-  <div class="feature-card"><span class="card-kicker">02 · COMPARAR</span><h3>Tablas</h3><p>Sirven para contrastar decisiones, criterios, alternativas y resultados.</p></div>
-  <div class="feature-card"><span class="card-kicker">03 · DEMOSTRAR</span><h3>Código</h3><p>Convierte una idea en un ejemplo ejecutable y verificable.</p></div>
-</div>
-
-El HTML ligero es compatible con Markdown y permite layouts especiales sin crear otro archivo de contenido.
+La herramienta **no genera PPTX**; su objetivo es presentar contenido técnico como página web.
 
 ---
 
-## Código Python con resaltado
+## Dos formas de reutilizar el proyecto
 
-```python
-def obtener_stock(nombre: str) -> dict:
-    """Ejemplo simple de una herramienta de negocio."""
-    inventario = {
-        "bicicleta": {"stock": 3, "precio": 850},
-        "casco": {"stock": 0, "precio": 120},
-    }
-    return inventario.get(
-        nombre.strip().lower(),
-        {"error": "Producto no encontrado"},
-    )
+**A · Crear tu repositorio desde la plantilla:** pulsa **Use this template**, edita `presentation.config.json`, reemplaza el contenido de `README.md` y activa Pages. Personaliza o conserva los datos de ejemplo del autor según tu objetivo.
 
-print(obtener_stock("bicicleta"))
-```
-
-**Fuente de código:** JetBrains Mono. **Resaltado:** Reveal Highlight.
-
----
-
-## Una imagen, una historia
-
-<div class="image-text">
-  <div class="image-side">
-    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80" alt="Personas colaborando en un proyecto junto a computadoras" loading="lazy">
-    <small>Fotografía: <a href="https://unsplash.com/">Unsplash</a></small>
-  </div>
-  <div class="text-side">
-    <h3>Construir en equipo</h3>
-    <p>Una imagen puede acompañar la explicación de un caso real sin competir con el contenido técnico.</p>
-    <p><strong>Recomendación:</strong> una idea, una imagen y una conclusión breve.</p>
-  </div>
-</div>
-
----
-
-## Una explicación paso a paso
-
-1. Identifica un problema real. <!-- .element: class="fragment" -->
-2. Diseña una solución pequeña. <!-- .element: class="fragment" -->
-3. Construye y valida un primer prototipo. <!-- .element: class="fragment" -->
-4. Mide resultados e itera. <!-- .element: class="fragment" -->
-
-> Los fragmentos aparecen progresivamente en Reveal.js, aunque en GitHub se ven todos.
-
-Note: Muestra cada punto uno por uno. Explica que HTML comments con .element y class fragment son instrucciones de Reveal.js, no contenido adicional que mantener.
-
----
-
-## Ejercicio práctico
-
-**Reto:** transforma un README técnico en una presentación de ocho diapositivas.
-
-- Incluye una portada personalizada.
-- Agrega un diagrama de arquitectura en Mermaid.
-- Usa una tabla para comparar dos alternativas.
-- Inserta al menos una imagen y un bloque de código.
-- Añade notas del expositor en una diapositiva.
-
-**Extra:** crea una diapositiva vertical con `--`.
-
----
-
-## Dos maneras de utilizar esta plantilla
-
-**Opción A · Tu propia presentación:** utiliza **Use this template** (cuando el repositorio esté marcado como plantilla), crea tu repositorio, modifica `README.md` y publica GitHub Pages desde `main` y `/(root)`. El título del visor se adapta al nombre de tu repositorio.
-
-**Opción B · Visor para otro README público:** abre [la demostración](https://jorgektch.github.io/readme-to-slides/) y añade `?url=` con un archivo de GitHub:
+**B · Visualizar un README público:** agrega `?url=` al visor e indica el enlace de GitHub:
 
 ```text
 https://jorgektch.github.io/readme-to-slides/?url=https://github.com/USUARIO/REPO/blob/main/README.md
 ```
 
-**Importante:** en el modo `?url=`, las imágenes con rutas relativas y los archivos locales del otro repositorio pueden necesitar URL absolutas. Los archivos Markdown deben ser públicos.
-
-El diseño se controla con `assets/theme.css` e `index.html`. Los iconos de redes utilizan clases de Font Awesome, sin archivos SVG propios. No se requiere compilación de PowerPoint.
+En el modo remoto solo se admiten READMEs públicos en GitHub. El HTML remoto se muestra como texto por precaución y algunas imágenes con rutas relativas pueden necesitar URLs absolutas.
 
 ---
 
-## Personalización rápida
+## Publicación y pruebas
 
-| Elemento | Dónde cambiarlo |
-| :--- | :--- |
-| Título visible en GitHub | `<h1 class="cover-title">` de la carátula en `README.md` |
-| Título de la portada en slides | Se obtiene del nombre del repositorio mediante `index.html` |
-| Nombre, redes y correo | Primer y último bloque del README; iconos con Font Awesome vía CSS en el visor |
-| Poppins, Lexend, JetBrains Mono | `assets/theme.css` e `index.html` |
-| Colores de la carátula | Variables CSS en `assets/theme.css`: `#0B1020`, `#F5F7FF`, `#36E0C4`, `#AAB9D0` |
-| Fotografías | URLs de imagen o `assets/images/` |
-| Diagramas | Bloques de código `mermaid` |
+**Publicación:** `Settings → Pages → Deploy from a branch → main → /(root)`.
 
-**Notas:** las fotos remotas, las fuentes y las bibliotecas CDN requieren conexión a Internet. Font Awesome dibuja los iconos en Pages, mientras que GitHub muestra los enlaces de texto. Mermaid se renderiza desde los bloques `mermaid` del README. Al reutilizar la plantilla, reemplaza también el nombre, correo y enlaces del expositor en portada y cierre.
+**Pruebas de configuración y Markdown:**
+
+```bash
+node --test tests/*.test.mjs
+python tests/check_deck.py
+```
+
+**Pruebas de navegador (opcional):** instala las dependencias (`npm install`), el navegador (`npx playwright install chromium`), inicia `python -m http.server 8765` y ejecuta `npm run test:e2e`.
+
+El repositorio incluye un workflow de GitHub Actions para ejecutar estas comprobaciones cuando publiques cambios.
+
+---
+
+## Límites y decisiones de seguridad
+
+- La presentación utiliza bibliotecas, fuentes e imágenes externas: necesita conexión para cargarlas.
+- Las credenciales o datos privados no deben incluirse en un README público.
+- La plantilla admite HTML local para layouts especiales; **no ejecutes HTML de terceros como si fuera seguro**.
+- El modo `?url=` escapa HTML remoto, pero **no sustituye una política de seguridad completa** para servicios multiusuario.
+- El visor no reemplaza una aplicación de diseño gráfico ni produce archivos `.pptx`.
+
+Consulta [SECURITY.md](SECURITY.md) y la guía [CUSTOMIZATION.md](docs/CUSTOMIZATION.md) para recomendaciones adicionales, y [CONTRIBUTING.md](CONTRIBUTING.md) para colaborar.
+
+---
+
+## Ejercicio: úsalo en tu próximo taller
+
+1. Crea un repositorio desde esta plantilla.
+2. Cambia el título, autor y color de acento en el JSON.
+3. Sustituye este contenido por una charla real.
+4. Añade un diagrama Mermaid, una tabla y un bloque de código.
+5. Publica GitHub Pages y comparte la URL.
+
+**Extra:** añade una diapositiva vertical con `--` y notas con `Note:`.
+
+Note: Haz la demostración con otro repositorio para comprobar que el proceso no depende del creador de la plantilla.
+
+---
+
+## Open source y próximos pasos
+
+**Licencia:** MIT. Puedes utilizar, modificar, redistribuir e incorporar el proyecto en otras herramientas respetando sus condiciones.
+
+**Contribuciones:** reportes de bugs, mejoras de accesibilidad, plantillas de diseño, pruebas adicionales y soporte para más componentes Markdown son bienvenidos.
+
+**Prioridad del proyecto:** mantener la solución ligera, accesible y útil para docentes, comunidades técnicas y equipos de ingeniería.
+
+[Ver LICENSE](LICENSE) · [Cómo contribuir](CONTRIBUTING.md) · [Abrir un issue](https://github.com/jorgektch/readme-to-slides/issues)
 
 ---
 
 <!-- .slide: class="closing" -->
 
 <div class="closing-card">
-  <p class="cover-kicker">README TO SLIDES · OPEN SOURCE</p>
+  <p class="cover-kicker" data-config="eyebrow">OPEN SOURCE · MARKDOWN PRESENTATIONS</p>
   <h1>¡Gracias!</h1>
-  <p class="cover-author">Jorge Jesús Quispe Villaverde</p>
-  <p class="cover-role">AI Engineer · Applied AI Researcher · AI Mentor</p>
-  <p class="closing-question">¿Preguntas?</p>
+  <p class="cover-author" data-config="name">Jorge Jesús Quispe Villaverde</p>
+  <p class="cover-role" data-config="role">AI Engineer · Applied AI Researcher · AI Mentor</p>
+  <p class="closing-question">¿Preguntas? ¿Qué construirás con esta plantilla?</p>
   <div class="contact-row" aria-label="Contacto del expositor">
-    <a class="contact-email" href="mailto:jorgektch@gmail.com">jorgektch@gmail.com</a>
-    <div class="contact-socials" aria-label="Redes sociales de jorgektch">
-      <a class="social-icon" href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="GitHub: jorgektch" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="social-label">GitHub</span></a>
-      <a class="social-icon" href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="Instagram: jorgektch" title="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i><span class="social-label">Instagram</span></a>
-      <a class="social-icon" href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer" aria-label="TikTok: jorgektch" title="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i><span class="social-label">TikTok</span></a>
-      <span class="social-handle">/jorgektch</span>
+    <a class="contact-email" data-config="email" href="mailto:jorgektch@gmail.com">jorgektch@gmail.com</a>
+    <div class="contact-socials" aria-label="Redes del expositor">
+      <a class="social-icon" data-social="github" href="https://github.com/jorgektch" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="social-label">GitHub</span></a>
+      <a class="social-icon" data-social="instagram" href="https://www.instagram.com/jorgektch" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i><span class="social-label">Instagram</span></a>
+      <a class="social-icon" data-social="tiktok" href="https://www.tiktok.com/@jorgektch" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i><span class="social-label">TikTok</span></a>
+      <span class="social-handle" data-config="handle">/jorgektch</span>
     </div>
   </div>
 </div>

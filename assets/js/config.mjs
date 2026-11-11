@@ -1,0 +1,135 @@
+/** Pure configuration and URL helpers; also exercised with Node's built-in test runner. */
+export const DEFAULTS = Object.freeze({
+  presentation: {
+    title: 'README to Slides', subtitle: 'Write once. Document and present.',
+    eyebrow: 'OPEN SOURCE · MARKDOWN PRESENTATIONS', titleFromRepository: false
+  },
+  presenter: {
+    name: 'Jorge Jesús Quispe Villaverde',
+    role: 'AI Engineer · Applied AI Researcher · AI Mentor',
+    email: 'jorgektch@gmail.com', handle: '/jorgektch',
+    social: { github: 'https://github.com/jorgektch',
+      instagram: 'https://www.instagram.com/jorgektch',
+      tiktok: 'https://www.tiktok.com/@jorgektch' }
+  },
+  theme: { colors: {
+    background: '#0B1020', panel: '#10182A', heading: '#F5F7FF',
+    accent: '#36E0C4', text: '#AAB9D0', muted: '#8799B2', border: '#30435B'
+  }, fonts: { heading: 'Poppins', body: 'Lexend', code: 'JetBrains Mono' } },
+  slides: { markdown: 'README.md', width: 1280, height: 720, margin: 0.06,
+    transition: 'fade', transitionSpeed: 'default', autoSlideMs: 0,
+    autoSlideStoppable: true, loop: false, center: true, showCounter: true,
+    showNavigation: true, showRepositoryLink: true, allowRemoteReadme: true }
+});
+
+const HEX = /^#[\da-fA-F]{6}$/;
+const FONT = /^[a-zA-Z][\w ]{1,45}$/;
+const ACRONYMS = new Set(['ia','mcp','llm','rag','api','gcp','sdk','ai','readme','js','css','html']);
+const CONNECTORS = new Set(['de','del','y','en','con','desde','para','por','a','to']);
+
+export function titleFromSlug(slug) {
+  return String(slug ?? '').split(/[-_]+/).filter(Boolean).map((token, i) => {
+    const word = token.toLocaleLowerCase('es');
+    if (ACRONYMS.has(word)) return word.toUpperCase();
+    if (i > 0 && CONNECTORS.has(word)) return word;
+    return i === 0 ? word[0].toLocaleUpperCase('es') + word.slice(1) : word;
+  }).join(' ');
+}
+
+export function safeHttpUrl(value) {
+  try {
+    const url = new URL(value);
+    return ['https:', 'http:'].includes(url.protocol) ? url.href : null;
+  } catch { return null; }
+}
+
+/** Converts GitHub links to raw content and provides the corresponding repository. */
+export function resolveRemoteReadme(value) {
+  const url = new URL(value);
+  if (url.protocol !== 'https:') throw new Error('Remote README must use HTTPS');
+  const parts = url.pathname.split('/').filter(Boolean);
+  if (url.hostname === 'github.com' && parts[2] === 'blob' && parts.length >= 5) {
+    return {
+      slug: parts[1],
+      repository: `https://github.com/${parts[0]}/${parts[1]}`,
+      rawUrl: `https://raw.githubusercontent.com/${parts[0]}/${parts[1]}/${parts.slice(3).join('/')}`
+    };
+  }
+  if (url.hostname === 'raw.githubusercontent.com' && parts.length >= 4) {
+    return {slug: parts[1], repository: `https://github.com/${parts[0]}/${parts[1]}`, rawUrl: url.href};
+  }
+  throw new Error('Use a public GitHub README URL with /blob/<branch>/<file>');
+}
+
+export function resolveLocalRepository(locationLike) {
+  const path = locationLike.pathname.split('/').filter(Boolean);
+  const slug = path[0] || 'readme-to-slides';
+  const hostname = String(locationLike.hostname);
+  const owner = hostname.toLowerCase().endsWith('.github.io')
+    ? hostname.slice(0, -'.github.io'.length) : 'jorgektch';
+  return { slug, repository: `https://github.com/${owner}/${slug}` };
+}
+
+export function normalizeConfig(user = {}) {
+  const merged = {
+    presentation: {...DEFAULTS.presentation, ...(user.presentation ?? {})},
+    presenter: {...DEFAULTS.presenter, ...(user.presenter ?? {}),
+      social: {...DEFAULTS.presenter.social, ...(user.presenter?.social ?? {})}},
+    theme: { colors: {...DEFAULTS.theme.colors, ...(user.theme?.colors ?? {})},
+      fonts: {...DEFAULTS.theme.fonts, ...(user.theme?.fonts ?? {})}},
+    slides: {...DEFAULTS.slides, ...(user.slides ?? {})}
+  };
+  for (const [key, color] of Object.entries(merged.theme.colors)) {
+    if (!HEX.test(color)) merged.theme.colors[key] = DEFAULTS.theme.colors[key];
+  }
+  for (const [key, font] of Object.entries(merged.theme.fonts)) {
+    if (!FONT.test(font)) merged.theme.fonts[key] = DEFAULTS.theme.fonts[key];
+  }
+  for (const [name, url] of Object.entries(merged.presenter.social)) {
+    merged.presenter.social[name] = safeHttpUrl(url) || DEFAULTS.presenter.social[name];
+  }
+  const numeric = (value, min, max, fallback) =>
+    Number.isFinite(Number(value)) && Number(value) >= min && Number(value) <= max
+      ? Number(value) : fallback;
+  merged.slides.width = numeric(merged.slides.width, 640, 2560, DEFAULTS.slides.width);
+  merged.slides.height = numeric(merged.slides.height, 360, 1440, DEFAULTS.slides.height);
+  merged.slides.margin = numeric(merged.slides.margin, 0, 0.25, DEFAULTS.slides.margin);
+  if (!['none', 'fade', 'slide', 'convex', 'concave', 'zoom'].includes(merged.slides.transition)) {
+    merged.slides.transition = DEFAULTS.slides.transition;
+  }
+  if (!['default', 'fast', 'slow'].includes(merged.slides.transitionSpeed)) {
+    merged.slides.transitionSpeed = DEFAULTS.slides.transitionSpeed;
+  }
+  merged.slides.autoSlideMs = numeric(merged.slides.autoSlideMs, 0, 600000, 0);
+  merged.slides.loop = merged.slides.loop === true;
+  merged.slides.autoSlideStoppable = merged.slides.autoSlideStoppable !== false;
+  if (!/^[\w./-]+\.md$/i.test(merged.slides.markdown) || merged.slides.markdown.includes('..')) {
+    merged.slides.markdown = DEFAULTS.slides.markdown;
+  }
+  for (const key of ['center', 'showCounter', 'showNavigation', 'showRepositoryLink', 'allowRemoteReadme']) {
+    merged.slides[key] = merged.slides[key] !== false;
+  }
+  merged.presentation.titleFromRepository = merged.presentation.titleFromRepository === true;
+  return merged;
+}
+
+/**
+ * Escape raw HTML in a remote Markdown file before handing it to RevealMarkdown.
+ * Fenced code is kept untouched. This is defense in depth, not a full sanitizer.
+ */
+export function prepareRemoteMarkdown(markdown) {
+  let inFence = false;
+  let fenceMarker = '';
+  return markdown.split(/\r?\n/).map(line => {
+    const marker = line.match(/^\s*(`{3,}|~{3,})/);
+    if (marker) {
+      const current = marker[1][0];
+      if (!inFence) { inFence = true; fenceMarker = current; }
+      else if (current === fenceMarker) inFence = false;
+      return line;
+    }
+    if (inFence) return line;
+    return line.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/\]\(\s*(?:javascript|data|vbscript):[^)]*\)/gi, '](#)');
+  }).join('\n');
+}

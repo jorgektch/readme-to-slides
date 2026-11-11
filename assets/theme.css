@@ -270,3 +270,37 @@
   .deck-navigation .deck-repo-link { min-width: 27px; padding: 0 4px; }
   .deck-counter { left: 6px; min-width: 68px; padding: 0 7px; font-size: 11px; }
 }
+
+/* v1.1: user-editable theme tokens, loaded from presentation.config.json. */
+.reveal .slides .readme-only {display:none!important}
+[hidden] {display:none!important}
+.reveal .slides section.cover .cover-card,
+.reveal .slides section.closing .closing-card {
+  background:var(--bg);
+  border-color:var(--line);
+}
+.reveal .cover-title,.reveal section.cover .cover-title,
+.reveal .cover-author,.reveal .cover-kicker,
+.reveal h1,.reveal h2,.reveal h3 {
+  font-family:var(--r-heading-font);
+}
+.reveal,.reveal .cover-description,.reveal .cover-role,
+.reveal .contact-email,.reveal .social-handle,
+.reveal .contact-row,.reveal table,.reveal .diagram-panel svg text {
+  font-family:var(--r-main-font);
+}
+.reveal pre code,.reveal code,.deck-counter {
+  font-family:var(--r-code-font)!important;
+}
+.reveal .feature-card,
+.reveal .diagram-panel {border-color:var(--line)}
+.reveal .feature-card {background:var(--panel)}
+.reveal .deck-navigation,.deck-navigation,.deck-counter {
+  background:var(--bg);
+  border-color:var(--line);
+}
+.reveal .cover-separator {background:var(--line)}
+.reveal .contact-socials .social-icon i {color:var(--accent)}
+/* Protect the footer from competing slide content in narrow viewports. */
+.reveal .slide-content-compact table {font-size:.61em}
+.reveal .slide-content-compact img {max-height:290px}

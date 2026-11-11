@@ -1,0 +1,231 @@
+import {
+  normalizeConfig, resolveLocalRepository, resolveRemoteReadme,
+  prepareRemoteMarkdown, titleFromSlug, safeHttpUrl
+} from './config.mjs';
+
+const config = await (async () => {
+  try {
+    const response = await fetch('./presentation.config.json', {cache: 'no-store'});
+    if (!response.ok) throw Error(`HTTP ${response.status}`);
+    return normalizeConfig(await response.json());
+  } catch (error) {
+    console.warn('Config missing or invalid; using defaults', error);
+    return normalizeConfig();
+  }
+})();
+
+// Theme tokens for all layout variants.
+const colorTokens = {
+  background: '--bg', panel: '--panel', heading: '--heading',
+  accent: '--accent', text: '--body', muted: '--muted', border: '--line'
+};
+for (const [key, cssVar] of Object.entries(colorTokens)) {
+  document.documentElement.style.setProperty(cssVar, config.theme.colors[key]);
+}
+const fonts = config.theme.fonts;
+for (const [key, font] of Object.entries(fonts)) {
+  document.documentElement.style.setProperty(
+    {heading: '--r-heading-font', body: '--r-main-font', code: '--r-code-font'}[key],
+    `"${font}", ${key === 'code' ? 'monospace' : 'sans-serif'}`
+  );
+}
+// Add fonts specified by configuration, rather than requiring a CSS edit.
+const fontParams = Object.values(fonts).map(name =>
+  `family=${name.trim().replace(/\s+/g, '+')}:wght@400;500;600;700`
+).join('&');
+const fontStylesheet = document.createElement('link');
+fontStylesheet.rel = 'stylesheet';
+fontStylesheet.href = `https://fonts.googleapis.com/css2?${fontParams}&display=swap`;
+document.head.append(fontStylesheet);
+
+const local = resolveLocalRepository(window.location);
+let slug = local.slug;
+let repoUrl = local.repository;
+let markdownSource = config.slides.markdown;
+const remoteLink = new URLSearchParams(window.location.search).get('url');
+let remoteMarkdownObjectUrl = null;
+if (remoteLink && config.slides.allowRemoteReadme) {
+  try {
+    const remote = resolveRemoteReadme(remoteLink);
+    const response = await fetch(remote.rawUrl);
+    if (!response.ok) throw Error(`Remote README HTTP ${response.status}`);
+    const markdown = prepareRemoteMarkdown(await response.text());
+    remoteMarkdownObjectUrl = URL.createObjectURL(new Blob([markdown], {type:'text/markdown'}));
+    markdownSource = remoteMarkdownObjectUrl;
+    slug = remote.slug;
+    repoUrl = remote.repository;
+  } catch (error) {
+    console.warn('Could not load external README; keeping local source', error);
+  }
+}
+document.getElementById('markdown-slides').setAttribute('data-markdown', markdownSource);
+
+await Reveal.initialize({
+  hash: true,
+  slideNumber: false,
+  controls: false,
+  navigationMode: 'default',
+  controlsTutorial: false,
+  width: config.slides.width,
+  height: config.slides.height,
+  margin: config.slides.margin,
+  center: config.slides.center,
+  transition: config.slides.transition,
+  transitionSpeed: config.slides.transitionSpeed,
+  autoSlide: config.slides.autoSlideMs,
+  autoSlideStoppable: config.slides.autoSlideStoppable,
+  loop: config.slides.loop,
+  plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+});
+
+const isExternal = remoteMarkdownObjectUrl !== null;
+const displayTitle = isExternal || config.presentation.titleFromRepository
+  ? titleFromSlug(slug) : config.presentation.title;
+document.title = `${displayTitle} · Presentation`;
+const repoLink = document.getElementById('nav-repository');
+repoLink.href = repoUrl;
+repoLink.hidden = !config.slides.showRepositoryLink;
+const isUrlSafe = url => safeHttpUrl(url) !== null;
+
+// All template personal information is stored in JSON. The README contains
+// readable fallbacks for GitHub; the browser replaces those values in slides.
+if (!isExternal) {
+  const data = {
+    title: displayTitle,
+    subtitle: config.presentation.subtitle,
+    eyebrow: config.presentation.eyebrow,
+    name: config.presenter.name,
+    role: config.presenter.role,
+    email: config.presenter.email,
+    handle: config.presenter.handle
+  };
+  for (const [key, value] of Object.entries(data)) {
+    document.querySelectorAll(`[data-config="${key}"]`).forEach(el => {
+      el.textContent = value;
+      if (key === 'email' && el.tagName === 'A') {
+        el.href = `mailto:${encodeURIComponent(value).replace(/%40/g, '@')}`;
+      }
+    });
+  }
+  for (const [name, url] of Object.entries(config.presenter.social)) {
+    if (!isUrlSafe(url)) continue;
+    document.querySelectorAll(`[data-social="${name}"]`).forEach(el => el.href = url);
+  }
+}
+
+const counter = document.getElementById('deck-counter');
+const nav = document.getElementById('deck-navigation');
+counter.hidden = !config.slides.showCounter;
+nav.hidden = !config.slides.showNavigation;
+const buttons = Object.fromEntries(
+  ['first','prev','up','down','next','last','overview'].map(k => [k, document.getElementById(`nav-${k}`)])
+);
+const allSlides = () => Reveal.getSlides();
+const lastSlide = () => {
+  const target = allSlides().at(-1);
+  if (target) {
+    const {h,v} = Reveal.getIndices(target);
+    Reveal.slide(h,v);
+  }
+};
+buttons.first.addEventListener('click', () => Reveal.slide(0,0));
+buttons.prev.addEventListener('click', () => Reveal.left());
+buttons.up.addEventListener('click', () => Reveal.up());
+buttons.down.addEventListener('click', () => Reveal.down());
+buttons.next.addEventListener('click', () => Reveal.right());
+buttons.last.addEventListener('click', lastSlide);
+buttons.overview.addEventListener('click', () => Reveal.toggleOverview());
+
+function updateNavigation() {
+  const slides = allSlides();
+  const current = Reveal.getCurrentSlide();
+  const index = Math.max(0,slides.indexOf(current));
+  counter.textContent = `${index+1} / ${slides.length}`;
+  const routes = Reveal.availableRoutes();
+  buttons.first.disabled = index === 0;
+  buttons.last.disabled = index === slides.length-1;
+  buttons.prev.disabled = !routes.left;
+  buttons.next.disabled = !routes.right;
+  buttons.up.disabled = !routes.up;
+  buttons.down.disabled = !routes.down;
+  const isOverview = Reveal.isOverview();
+  buttons.overview.setAttribute('aria-pressed', String(isOverview));
+  buttons.overview.classList.toggle('is-active', isOverview);
+}
+['slidechanged', 'fragmentshown', 'fragmenthidden', 'overviewshown', 'overviewhidden']
+  .forEach(event => Reveal.on(event, updateNavigation));
+document.addEventListener('keydown', event => {
+  if (event.altKey || event.ctrlKey || event.metaKey ||
+      event.target?.closest?.('input,textarea,select,[contenteditable]')) return;
+  if (event.key === 'Home') { event.preventDefault(); Reveal.slide(0,0); }
+  if (event.key === 'End') { event.preventDefault(); lastSlide(); }
+});
+updateNavigation();
+
+// Mermaid code fence detection is independent of syntax highlighting classes.
+const syntax = /^(?:flowchart\s|graph\s|sequenceDiagram\b|classDiagram\b|stateDiagram(?:-v2)?\b|erDiagram\b|gantt\b|pie\b|journey\b|mindmap\b|timeline\b|gitGraph\b|quadrantChart\b|xychart-beta\b|block-beta\b|sankey-beta\b|requirementDiagram\b|C4Context\b|C4Container\b|C4Component\b)/i;
+const blocks = [...document.querySelectorAll('.reveal .slides pre')]
+  .map(pre => ({pre, code: pre.querySelector('code')}))
+  .filter(({code}) => code !== null)
+  .map(({pre, code}) => {
+    const source = code.textContent.replace(/\u00a0/g,' ').replace(/^\uFEFF/,'').trim();
+    const names = `${code.className} ${pre.className}`.toLowerCase();
+    return {pre, source, isMermaid: /(?:language|lang)[-_]mermaid\b/.test(names) || syntax.test(source)};
+  }).filter(b => b.isMermaid);
+
+window.slideDiagnostics = {detected:blocks.length, rendered:0, errors:[]};
+const panels = blocks.map(({pre,source},index) => {
+  const panel = document.createElement('div');
+  panel.className = 'diagram-panel';
+  panel.setAttribute('role','img');
+  panel.setAttribute('aria-label',`Mermaid diagram ${index+1}`);
+  pre.replaceWith(panel);
+  return {panel,source,index};
+});
+function reportDiagramError({panel, source, index}, error) {
+  const detail = error?.message || String(error);
+  window.slideDiagnostics.errors.push({diagram:index+1, message:detail});
+  console.error(`Mermaid diagram ${index+1}:`,detail,source);
+  panel.replaceChildren();
+  const box = document.createElement('div'); box.className='diagram-error';
+  const heading = document.createElement('h4'); heading.textContent=`Diagram ${index+1} unavailable`;
+  const description = document.createElement('p'); description.textContent=detail;
+  box.append(heading,description);
+  panel.append(box);
+}
+if (panels.length) {
+  try {
+    const {default:mermaid} = await import('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.esm.min.mjs');
+    mermaid.initialize({
+      startOnLoad:false, securityLevel:'strict', theme:'base',
+      themeVariables:{
+        background:config.theme.colors.background,
+        primaryColor:config.theme.colors.panel,
+        primaryBorderColor:config.theme.colors.accent,
+        primaryTextColor:config.theme.colors.heading,
+        secondaryColor:config.theme.colors.panel,
+        secondaryTextColor:config.theme.colors.heading,
+        secondaryBorderColor:config.theme.colors.border,
+        tertiaryColor:config.theme.colors.background,
+        tertiaryTextColor:config.theme.colors.heading,
+        lineColor:config.theme.colors.text, textColor:config.theme.colors.heading,
+        fontFamily:`${fonts.body}, sans-serif`,
+        pie1:config.theme.colors.accent, pie2:config.theme.colors.text, pie3:config.theme.colors.muted
+      },
+      flowchart: {htmlLabels:false, useMaxWidth:true}
+    });
+    for (const info of panels) {
+      try {
+        await mermaid.parse(info.source);
+        const {svg,bindFunctions} = await mermaid.render(`deck-diagram-${info.index}`,info.source);
+        if (!svg.includes('<svg')) throw Error('Mermaid did not return SVG');
+        info.panel.innerHTML=svg;
+        if (bindFunctions) bindFunctions(info.panel);
+        window.slideDiagnostics.rendered++;
+      } catch(error) {reportDiagramError(info,error);}
+    }
+  } catch(error) {panels.forEach(p => reportDiagramError(p,error));}
+}
+Reveal.layout();
+window.addEventListener('resize',()=>Reveal.layout());
+window.slideReady = true;

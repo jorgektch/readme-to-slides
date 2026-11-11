@@ -1,0 +1,96 @@
+# Customizing README to Slides
+
+The **slide content** lives in [`README.md`](../README.md). The **presentation configuration** lives in [`presentation.config.json`](../presentation.config.json). The **visual rules** live in [`assets/theme.css`](../assets/theme.css).
+
+## 1. Quick start
+
+1. Click **Use this template** on GitHub and create your repository.
+2. Edit `presentation.config.json` to set your talk title, presenter, contact details, theme, and timing.
+3. Replace the explanatory Markdown slides in `README.md` with your own talk. Keep `---` between horizontal slides and `--` for a vertical detail slide.
+4. In the repository, go to **Settings → Pages**, choose **Deploy from a branch**, **main**, **/(root)**.
+5. Wait for the Pages deployment, then open the URL shown in Settings.
+
+Run locally using `python -m http.server 8000` and open `http://localhost:8000/`. Do not open `index.html` using `file://` because the Markdown and JSON are fetched via HTTP.
+
+## 2. Author information
+
+The repository deliberately includes the original creator's public information, so the template can be demonstrated immediately. Edit `presenter.name`, `presenter.role`, `presenter.email`, `presenter.handle`, and the three `social` URLs in JSON to update the **browser presentation**.
+
+**Important distinction:** GitHub renders the literal HTML from `README.md` without executing the presentation JavaScript. If you want to change the visible presenter details in the **GitHub README page**, also replace the fallback text and links in the first and last README sections. These are intentionally left as the original author's defaults in this repository.
+
+## 3. Presentation and layout settings
+
+| Field | Type | Description |
+|---|---|---|
+| `presentation.title` | string | Static title shown on cover |
+| `presentation.titleFromRepository` | boolean | If true, derive title from repository slug |
+| `presentation.subtitle` / `eyebrow` | string | Cover copy |
+| `slides.markdown` | local `.md` path | Markdown file to display (default `README.md`) |
+| `slides.width`, `height` | number | Virtual resolution, e.g., 1280 × 720 |
+| `slides.margin` | 0–0.25 | Relative margin around slides |
+| `slides.transition` | `none`, `fade`, `slide`, `convex`, `concave`, `zoom` | Reveal.js slide transition |
+| `slides.transitionSpeed` | `default`, `fast`, `slow` | Transition speed |
+| `slides.autoSlideMs` | 0–600000 | Automatic advance in milliseconds (0 disables) |
+| `slides.autoSlideStoppable` | boolean | Stop auto-advance on interaction |
+| `slides.loop` | boolean | Loop after last slide |
+| `slides.center` | boolean | Vertically center slide contents |
+| `slides.showCounter` | boolean | Toggle slide counter |
+| `slides.showNavigation` | boolean | Toggle custom toolbar |
+| `slides.showRepositoryLink` | boolean | Toggle toolbar Repo button |
+| `slides.allowRemoteReadme` | boolean | Allow `?url=` to load a public GitHub README |
+
+For per-slide durations, Reveal.js also supports a Markdown directive such as:
+
+```markdown
+<!-- .slide: data-autoslide="12000" -->
+
+## A slide with a twelve-second automatic interval
+```
+
+The per-slide directive is useful if most slides should advance automatically but a diagram needs more reading time. Test timing on your actual device before a live talk.
+
+## 4. Colors and fonts
+
+Change color hex values in `theme.colors`; supported keys are `background`, `panel`, `heading`, `accent`, `text`, `muted`, and `border`. For example:
+
+```json
+"theme": {
+  "colors": {
+    "background": "#0B1020",
+    "panel": "#10182A",
+    "heading": "#F5F7FF",
+    "accent": "#36E0C4",
+    "text": "#AAB9D0",
+    "muted": "#8799B2",
+    "border": "#30435B"
+  },
+  "fonts": {
+    "heading": "Poppins",
+    "body": "Lexend",
+    "code": "JetBrains Mono"
+  }
+}
+```
+
+Fonts are requested from Google Fonts; their availability and exact weight support depend on the chosen family. The template covers the main theme tokens; minor special-purpose decorations may still use fixed complementary shades in CSS.
+
+## 5. Creating diagrams, images, tables and code
+
+- A Mermaid diagram starts with a fenced `mermaid` block. The same source renders on GitHub and in Slides.
+- A table uses normal GitHub Flavored Markdown.
+- Use `![Alt text](assets/images/photo.png)` for local images. External images are supported but depend on connectivity.
+- Use fenced `python`, `javascript`, `bash`, or another recognized code language for syntax highlighting.
+- Notes start with `Note:`. Press `S` in the presentation to open speaker notes.
+- Use `<!-- .element: class="fragment" -->` for progressive list items.
+
+## 6. Reusing as a viewer for another README
+
+Example:
+
+```text
+https://jorgektch.github.io/readme-to-slides/?url=https://github.com/OWNER/REPO/blob/main/README.md
+```
+
+Only public GitHub Markdown is supported. Embedded raw HTML in remote Markdown is escaped as a precaution, so custom HTML layouts from a remote source do not render as layouts. Relative asset URLs may not resolve correctly across repositories; prefer absolute links for remote slides.
+
+The repo link in the toolbar follows the source repository. This mode is intended for publicly shared content you trust, not a production-grade HTML sandbox for arbitrary user submissions.

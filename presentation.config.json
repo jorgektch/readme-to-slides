@@ -1,0 +1,51 @@
+{
+  "presentation": {
+    "title": "README to Slides",
+    "subtitle": "Documenta una vez. Explica, demuestra y presenta directamente desde Markdown.",
+    "eyebrow": "OPEN SOURCE · MARKDOWN PRESENTATIONS",
+    "titleFromRepository": false
+  },
+  "presenter": {
+    "name": "Jorge Jesús Quispe Villaverde",
+    "role": "AI Engineer · Applied AI Researcher · AI Mentor",
+    "email": "jorgektch@gmail.com",
+    "handle": "/jorgektch",
+    "social": {
+      "github": "https://github.com/jorgektch",
+      "instagram": "https://www.instagram.com/jorgektch",
+      "tiktok": "https://www.tiktok.com/@jorgektch"
+    }
+  },
+  "theme": {
+    "colors": {
+      "background": "#0B1020",
+      "panel": "#10182A",
+      "heading": "#F5F7FF",
+      "accent": "#36E0C4",
+      "text": "#AAB9D0",
+      "muted": "#8799B2",
+      "border": "#30435B"
+    },
+    "fonts": {
+      "heading": "Poppins",
+      "body": "Lexend",
+      "code": "JetBrains Mono"
+    }
+  },
+  "slides": {
+    "markdown": "README.md",
+    "width": 1280,
+    "height": 720,
+    "margin": 0.06,
+    "transition": "fade",
+    "transitionSpeed": "default",
+    "autoSlideMs": 0,
+    "autoSlideStoppable": true,
+    "loop": false,
+    "center": true,
+    "showCounter": true,
+    "showNavigation": true,
+    "showRepositoryLink": true,
+    "allowRemoteReadme": true
+  }
+}
