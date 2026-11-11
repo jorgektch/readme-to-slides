@@ -25,6 +25,7 @@ test('horizontal and vertical toolbar navigation works',async ({page}) => {
     return {h,v};
   });
   await expect(page.locator('#nav-down')).toBeEnabled();
+  await page.mouse.move(1200, 690); // reveal the hidden-by-default toolbar
   await page.locator('#nav-down').click();
   expect(await page.evaluate(() => Reveal.getIndices().v)).toBe(1);
   await page.locator('#nav-up').click();
@@ -38,6 +39,7 @@ test('theme toggle cycles dark, light and auto; updates colors and diagrams',asy
   await page.goto('/',{waitUntil:'domcontentloaded'});
   await page.waitForFunction(() => window.slideReady === true, null, {timeout:45000});
   const toggle=page.locator('#nav-theme');
+  await page.mouse.move(1200, 690); // reveal the hidden-by-default toolbar
   await expect(toggle).toBeVisible();
   await expect(page.locator('html')).toHaveAttribute('data-deck-theme','dark');
   await toggle.click();
@@ -65,4 +67,46 @@ test('video URL becomes native video player on the relevant slide',async ({page}
   await expect(video).toHaveAttribute('controls','');
   await expect(video).toHaveAttribute('src',/flower\.mp4/);
   await expect(page.locator('.slide-video figcaption a')).toHaveAttribute('href',/flower\.mp4/);
+});
+
+test('automatic navigation hides while slide counter stays visible and reveals on proximity',async ({page}) => {
+  await page.goto('/',{waitUntil:'domcontentloaded'});
+  await page.waitForFunction(() => window.slideReady === true, null, {timeout:45000});
+  const navigation=page.locator('#deck-navigation');
+  const counter=page.locator('#deck-counter');
+  await page.mouse.move(80,100);
+  await expect(navigation).not.toHaveClass(/is-visible/, {timeout:6500});
+  await expect(counter).toBeVisible();
+  const size=page.viewportSize();
+  await page.mouse.move(size.width-55,size.height-30);
+  await expect(navigation).toHaveClass(/is-visible/);
+  await expect(counter).toBeVisible();
+  await page.locator('#nav-next').focus();
+  await page.mouse.move(80,100);
+  await expect(navigation).toHaveClass(/is-visible/);
+  // Mouse clicks must not leave buttons focused and prevent auto-hide forever.
+  await page.locator('#nav-next').click();
+  await page.mouse.move(80,100);
+  await expect(navigation).not.toHaveClass(/is-visible/, {timeout:6500});
+});
+
+test('touch devices can reveal and dismiss toolbar without hiding counter',async ({browser}) => {
+  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+  const page=await context.newPage();
+  try {
+    await page.goto('/',{waitUntil:'domcontentloaded'});
+    await page.waitForFunction(() => window.slideReady === true, null, {timeout:45000});
+    const trigger=page.locator('#nav-reveal-trigger');
+    const nav=page.locator('#deck-navigation');
+    const counter=page.locator('#deck-counter');
+    await expect(trigger).toBeVisible();
+    await expect(counter).toBeVisible();
+    await page.waitForTimeout(3100);
+    await trigger.tap();
+    await expect(nav).toHaveClass(/is-visible/);
+    await expect(trigger).toHaveAttribute('aria-expanded','true');
+    await trigger.tap();
+    await expect(nav).not.toHaveClass(/is-visible/);
+    await expect(counter).toBeVisible();
+  } finally {await context.close();}
 });

@@ -178,7 +178,9 @@ La plantilla incluye una **vista previa ilustrativa del tema** en el repositorio
 | `Note: Explica este paso` | Nota del presentador (`S`) |
 | `<!-- .element: class="fragment" -->` | Revelar progresivamente |
 
-**Navegación:** las flechas `← →` cambian de tema y las `↑ ↓` navegan detalles. `Esc` abre la vista general. Nuestra barra añade **Inicio**, **Final** y **Repo**.
+**Navegación:** las flechas `← →` cambian de tema y las `↑ ↓` navegan detalles. `Esc` abre la vista general. La barra incluye **Inicio**, **Final**, **Tema** y **Repo**.
+
+**Interfaz para exponer:** el contador permanece visible en la esquina inferior izquierda. Los controles aparecen al inicio y se ocultan tras 3 segundos sin interacción. Acerca el mouse a la esquina inferior derecha o utiliza `Tab` para recuperarlos; en un dispositivo táctil, toca el botón `···`. Se puede desactivar esta ocultación desde el JSON.
 
 En la diapositiva anterior existe una subdiapositiva vertical: prueba el botón `↓` cuando esté disponible.
 
@@ -217,6 +219,9 @@ Esto es un **extracto** de `presentation.config.json`: allí puedes ajustar port
 | `slides.autoSlideMs` | Duración automática por slide en ms (`0` = manual) |
 | `slides.autoSlideStoppable` | Detener avance automático al interactuar |
 | `slides` | Contador, controles, botón Repo, origen Markdown |
+| `slides.navigationVisibility` | `auto` (contextual), `always` o `hidden` |
+| `slides.navigationHideDelayMs` | Retraso de ocultación (500–15000 ms) |
+| `slides.navigationRevealZonePx` | Altura de la región de detección del mouse (50–240 px) |
 | `slides` | Permitir o bloquear `?url=` de otro repositorio |
 | `theme.mode` | `dark`, `light` o `auto` (preferencia del sistema) |
 | `theme.lightColors` | Paleta independiente para el modo claro |
@@ -292,7 +297,7 @@ Este gráfico muestra una **distribución ficticia e ilustrativa**, no estadíst
 
 La herramienta **no genera PPTX**; su objetivo es presentar contenido técnico como página web.
 
-**Extra v1.2:** videos sin escribir `iframe` y temas oscuros/claros configurables desde JSON.
+**Extras:** videos sin escribir `iframe`, temas oscuros/claros configurables y controles contextuales que dejan más espacio visual al contenido.
 
 ---
 

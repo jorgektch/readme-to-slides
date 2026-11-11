@@ -36,6 +36,9 @@ The repository deliberately includes the original creator's public information, 
 | `slides.center` | boolean | Vertically center slide contents |
 | `slides.showCounter` | boolean | Toggle slide counter |
 | `slides.showNavigation` | boolean | Toggle custom toolbar |
+| `slides.navigationVisibility` | `auto`, `always`, `hidden` | Controls visibility behavior (default `auto`) |
+| `slides.navigationHideDelayMs` | 500–15000 milliseconds | Idle delay before hiding toolbar (default 3000) |
+| `slides.navigationRevealZonePx` | 50–240 pixels | Bottom-right mouse reveal zone height (default 90) |
 | `slides.showRepositoryLink` | boolean | Toggle toolbar Repo button |
 | `slides.allowRemoteReadme` | boolean | Allow `?url=` to load a public GitHub README |
 | `theme.mode` | `dark`, `light`, `auto` | Initial color scheme |
@@ -106,3 +109,32 @@ https://jorgektch.github.io/readme-to-slides/?url=https://github.com/OWNER/REPO/
 Only public GitHub Markdown is supported. Embedded raw HTML in remote Markdown is escaped as a precaution, so custom HTML layouts from a remote source do not render as layouts. Relative asset URLs may not resolve correctly across repositories; prefer absolute links for remote slides.
 
 The repo link in the toolbar follows the source repository. This mode is intended for publicly shared content you trust, not a production-grade HTML sandbox for arbitrary user submissions.
+
+## Context-aware navigation (v1.3)
+
+The slide counter remains in the bottom-left corner. The toolbar is independent
+and uses these settings:
+
+```json
+"slides": {
+  "showCounter": true,
+  "showNavigation": true,
+  "navigationVisibility": "auto",
+  "navigationHideDelayMs": 3000,
+  "navigationRevealZonePx": 90
+}
+```
+
+- **auto:** show on initial load, hide after inactivity, reveal on mouse proximity
+  to the bottom-right area or keyboard focus (`Tab`), and keep visible during
+  interaction. Touch screens get a compact ellipsis button for opening and
+  closing the toolbar. The counter is always visible if `showCounter` is true.
+- **always:** keep the complete toolbar visible, as in v1.2.
+- **hidden:** never show the toolbar. Reveal.js keyboard shortcuts and swipe
+  gestures remain available. This option is best for experienced presenters.
+- **showNavigation=false:** disables navigation controls even if the visibility
+  mode is `always` or `auto`.
+
+The toolbar uses a 200 ms fade, disabled when the visitor prefers reduced motion.
+Touch controls open above the footer to avoid overlapping the page counter.
+See [Navigation and accessibility](NAVIGATION.md) for more details.

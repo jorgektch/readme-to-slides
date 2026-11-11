@@ -35,3 +35,20 @@ This is a **differential package** built against `jorgektch/readme-to-slides` ma
 - The HTML from remote README mode is still escaped; video links themselves are converted only for recognized formats and hosts.
 - Browser remembers a visitor's manually selected theme in localStorage; remove the localStorage key `readme-to-slides.theme-choice.v1` to honor the repository's configured default again.
 - If you use a hardcoded `data-background-color` on custom slides, it intentionally overrides the theme for that slide.
+
+## v1.3 — Contextual navigation
+
+Replace the updated files preserving their relative paths. Add
+`assets/js/navigation.mjs`, `docs/NAVIGATION.md` and
+`tests/navigation.test.mjs`. New options are placed in
+`presentation.config.json` under `slides`:
+
+- `navigationVisibility: "auto"` (or `"always"` for the old v1.2 behavior)
+- `navigationHideDelayMs: 3000`
+- `navigationRevealZonePx: 90`
+
+The bottom-left counter remains fixed, independent of the toolbar. In `auto`
+mode, desktop users reveal controls by moving to the bottom-right corner, and
+mobile users use a compact ellipsis button. Do not delete your existing contact
+or theme settings when updating a customized configuration; merge these three
+new fields instead.

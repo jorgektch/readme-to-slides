@@ -22,7 +22,9 @@ export const DEFAULTS = Object.freeze({
   slides: { markdown: 'README.md', width: 1280, height: 720, margin: 0.06,
     transition: 'fade', transitionSpeed: 'default', autoSlideMs: 0,
     autoSlideStoppable: true, loop: false, center: true, showCounter: true,
-    showNavigation: true, showRepositoryLink: true, allowRemoteReadme: true }
+    showNavigation: true, navigationVisibility: 'auto',
+    navigationHideDelayMs: 3000, navigationRevealZonePx: 90,
+    showRepositoryLink: true, allowRemoteReadme: true }
 });
 
 const HEX = /^#[\da-fA-F]{6}$/;
@@ -116,6 +118,15 @@ export function normalizeConfig(user = {}) {
     merged.slides.transitionSpeed = DEFAULTS.slides.transitionSpeed;
   }
   merged.slides.autoSlideMs = numeric(merged.slides.autoSlideMs, 0, 600000, 0);
+  if (!['auto', 'always', 'hidden'].includes(merged.slides.navigationVisibility)) {
+    merged.slides.navigationVisibility = DEFAULTS.slides.navigationVisibility;
+  }
+  merged.slides.navigationHideDelayMs = numeric(
+    merged.slides.navigationHideDelayMs, 500, 15000, DEFAULTS.slides.navigationHideDelayMs
+  );
+  merged.slides.navigationRevealZonePx = numeric(
+    merged.slides.navigationRevealZonePx, 50, 240, DEFAULTS.slides.navigationRevealZonePx
+  );
   merged.slides.loop = merged.slides.loop === true;
   merged.slides.autoSlideStoppable = merged.slides.autoSlideStoppable !== false;
   if (!/^[\w./-]+\.md$/i.test(merged.slides.markdown) || merged.slides.markdown.includes('..')) {

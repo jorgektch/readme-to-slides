@@ -7,6 +7,7 @@ import {
   cssThemeTokens, mermaidThemeVariables
 } from './theme.mjs';
 import {parseVideoUrl, videoEmbedUrl, videoLabel} from './media.mjs';
+import {setupNavigationVisibility} from './navigation.mjs';
 
 const config = await (async () => {
   try {
@@ -234,7 +235,14 @@ const onSystemThemeChanged = () => { if (themeChoice === 'auto') changeTheme('au
 if (systemTheme.addEventListener) systemTheme.addEventListener('change',onSystemThemeChanged);
 else systemTheme.addListener(onSystemThemeChanged);
 counter.hidden = !config.slides.showCounter;
-nav.hidden = !config.slides.showNavigation;
+setupNavigationVisibility({
+  nav,
+  trigger: document.getElementById('nav-reveal-trigger'),
+  enabled: config.slides.showNavigation,
+  mode: config.slides.navigationVisibility,
+  hideDelayMs: config.slides.navigationHideDelayMs,
+  revealZonePx: config.slides.navigationRevealZonePx
+});
 const buttons = Object.fromEntries(
   ['first','prev','up','down','next','last','overview'].map(k => [k, document.getElementById(`nav-${k}`)])
 );

@@ -53,6 +53,12 @@
       <i class="fa-brands fa-github" aria-hidden="true"></i><span>Repo</span>
     </a>
   </nav>
+  <!-- On touch devices, this compact button reveals the otherwise hidden toolbar. -->
+  <button type="button" id="nav-reveal-trigger" class="nav-reveal-trigger" hidden
+          aria-controls="deck-navigation" aria-expanded="false"
+          aria-label="Mostrar controles de navegación" title="Mostrar controles de navegación">
+    <span aria-hidden="true">⋯</span>
+  </button>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>

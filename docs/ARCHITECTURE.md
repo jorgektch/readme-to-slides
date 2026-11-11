@@ -30,3 +30,11 @@ The local cover is populated with `presentation.config.json` at runtime. GitHub 
 - `assets/js/media.mjs` parses approved video URL formats into safe YouTube/Vimeo iframe URLs or direct media files. `app.mjs` embeds recognized Markdown links and loads/pauses the player when a slide becomes visible/hidden.
 - `presentation.config.json` now includes `theme.mode`, `theme.lightColors`, `theme.showToggle` and `media` settings.
 - The README remains meaningful in GitHub, since its video references remain Markdown hyperlinks.
+
+## Context-aware navigation
+
+`assets/js/navigation.mjs` owns navigation **visibility** (auto-hide, pointer
+proximity, focus and touch reveal button). Directional actions stay in
+`assets/js/app.mjs` using Reveal.js APIs. This separates toolbar accessibility
+from the slide content and presentation theme. The counter is independent of
+both components.

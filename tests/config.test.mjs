@@ -56,3 +56,23 @@ test('remote Markdown escapes HTML outside code fences', () => {
   assert.match(sanitized, /<b>code<\/b>/);
   assert.doesNotMatch(sanitized,/\]\(javascript:/);
 });
+
+test('navigation visibility configuration is validated and defaults to auto', () => {
+  const defaults = normalizeConfig();
+  assert.equal(defaults.slides.navigationVisibility, 'auto');
+  assert.equal(defaults.slides.navigationHideDelayMs, 3000);
+  assert.equal(defaults.slides.navigationRevealZonePx, 90);
+  const custom = normalizeConfig({slides:{
+    navigationVisibility:'always',navigationHideDelayMs:5000,navigationRevealZonePx:110
+  }});
+  assert.equal(custom.slides.navigationVisibility,'always');
+  assert.equal(custom.slides.navigationHideDelayMs,5000);
+  assert.equal(custom.slides.navigationRevealZonePx,110);
+  const invalid = normalizeConfig({slides:{
+    navigationVisibility:'hover', navigationHideDelayMs:1,
+    navigationRevealZonePx:900
+  }});
+  assert.equal(invalid.slides.navigationVisibility,'auto');
+  assert.equal(invalid.slides.navigationHideDelayMs,3000);
+  assert.equal(invalid.slides.navigationRevealZonePx,90);
+});
