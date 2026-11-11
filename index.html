@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Presentaciones técnicas desde Markdown por Jorge Jesús Quispe Villaverde.">
-  <title>Slides | Jorge Jesús</title>
+  <meta name="description" content="Plantilla para convertir un README de GitHub en diapositivas web interactivas con Reveal.js, Mermaid y GitHub Pages.">
+  <title>README to Slides | Jorge Jesús</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
@@ -46,7 +46,7 @@
     <button type="button" id="nav-overview" title="Mostrar/ocultar vista general (Esc u O)" aria-label="Alternar vista general" aria-pressed="false">
       <i class="fa-solid fa-table-cells-large" aria-hidden="true"></i>
     </button>
-    <a id="nav-repository" class="deck-repo-link" href="https://github.com/jorgektch/test" target="_blank" rel="noopener noreferrer" title="Abrir el repositorio en GitHub" aria-label="Abrir repositorio de GitHub">
+    <a id="nav-repository" class="deck-repo-link" href="https://github.com/jorgektch/readme-to-slides" target="_blank" rel="noopener noreferrer" title="Abrir el repositorio en GitHub" aria-label="Abrir repositorio de GitHub">
       <i class="fa-brands fa-github" aria-hidden="true"></i><span>Repo</span>
     </a>
   </nav>
@@ -69,10 +69,15 @@
 
     const query = new URLSearchParams(location.search);
     const requested = query.get("url");
-    const localSlug = location.pathname.split("/").filter(Boolean)[0] || "test";
+    const localSlug = location.pathname.split("/").filter(Boolean)[0] || "readme-to-slides";
     let slug = localSlug;
     let markdownUrl = "README.md";
-    let repositoryUrl = `https://github.com/jorgektch/${encodeURIComponent(localSlug)}`;
+    // Permite reutilizar el visor en GitHub Pages de cualquier usuario,
+    // sin dejar el enlace Repo apuntando al repositorio original.
+    const localOwner = location.hostname.endsWith(".github.io")
+      ? location.hostname.slice(0, -".github.io".length)
+      : "jorgektch"; // respaldo para previsualización local
+    let repositoryUrl = `https://github.com/${encodeURIComponent(localOwner)}/${encodeURIComponent(localSlug)}`;
     if (requested) {
       try {
         const url = new URL(requested);
@@ -98,7 +103,10 @@
       transition: "fade", center: true, plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
     });
 
-    const title = titleFromSlug(slug);
+    // Nombre público de la plantilla; otros repositorios conservan la regla genérica.
+    const title = slug.toLowerCase() === "readme-to-slides"
+      ? "README to Slides"
+      : titleFromSlug(slug);
     document.getElementById("nav-repository").href = repositoryUrl;
     document.title = `${title} · Jorge Jesús`;
     const coverTitle = document.querySelector(".reveal .slides section.cover [data-repo-title]");

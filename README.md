@@ -1,9 +1,9 @@
 <!-- .slide: class="cover" data-background-color="#0B1020" -->
 
 <div class="cover-card">
-  <p class="cover-kicker">AI ENGINEERING WORKSHOP · 2026</p>
-  <h1 class="cover-title" data-repo-title>Test</h1>
-  <p class="cover-description">De un README a una presentación técnica interactiva</p>
+  <p class="cover-kicker">OPEN SOURCE · MARKDOWN PRESENTATIONS</p>
+  <h1 class="cover-title" data-repo-title>README to Slides</h1>
+  <p class="cover-description">Documenta y presenta desde Markdown, sin Canva, PowerPoint ni Google Slides.</p>
   <div class="cover-separator"></div>
   <p class="cover-author">Jorge Jesús Quispe Villaverde</p>
   <p class="cover-role">AI Engineer · Applied AI Researcher · AI Mentor</p>
@@ -18,25 +18,25 @@
   </div>
 </div>
 
-[▶ Ver las diapositivas](https://jorgektch.github.io/test/) · [Código del repositorio](https://github.com/jorgektch/test)
+[▶ Ver las diapositivas](https://jorgektch.github.io/readme-to-slides/) · [Código del repositorio](https://github.com/jorgektch/readme-to-slides)
 
-Note: Presenta el título de la charla, tu nombre completo y cómo el mismo README sirve como documentación y presentación. El título en Pages se ajusta automáticamente al nombre del repositorio.
-
----
-
-## Una sola fuente, dos experiencias
-
-**GitHub:** documentación navegable, código copiable, tablas e imágenes.
-
-**GitHub Pages:** diapositivas Reveal.js con fuentes personalizadas, navegación y notas.
-
-> La documentación no tiene por qué quedar separada del material de exposición.
-
-**Objetivo:** enseñar los patrones visuales más comunes de una charla técnica usando solamente contenido del `README.md`.
+Note: Presenta README to Slides como una plantilla reutilizable. El mismo archivo sirve para documentación en GitHub y para exponer desde GitHub Pages. El visor toma el título de la ruta del repositorio.
 
 ---
 
-## El recorrido del taller
+## ¿Qué es README to Slides?
+
+**Una plantilla para presentar desde el mismo `README.md` que documenta tu proyecto.** No convierte Markdown en un archivo `.pptx`: muestra diapositivas web interactivas con JavaScript.
+
+**En GitHub:** documentación navegable, diagramas Mermaid, código copiable, tablas e imágenes.
+
+**En GitHub Pages:** presentación con Reveal.js, navegación en dos dimensiones, diseño personalizable y notas del expositor.
+
+> Una sola fuente Markdown; dos maneras de compartir tus ideas. Sin Canva, PowerPoint ni Google Slides.
+
+---
+
+## Qué puedes incluir en una presentación
 
 | Bloque | Qué mostrarás | Formato |
 | :--- | :--- | :--- |
@@ -47,7 +47,7 @@ Note: Presenta el título de la charla, tu nombre completo y cómo el mismo READ
 | 05 | Implementación | Código con resaltado |
 | 06 | Práctica | Retos + notas del expositor |
 
-**Pista:** usa `←` `→` para navegar, `↑` `↓` para las diapositivas verticales, `Esc` o `O` para la vista general y **S** para las notas. El visor incluye también un botón **Repositorio**.
+**Navegación:** `←` `→` cambia de tema; `↑` `↓` abre o cierra detalles verticales; `Esc` u `O` activa la vista general; `S` muestra notas. El visor incluye un botón **Repo**.
 
 ---
 
@@ -223,17 +223,19 @@ Note: Muestra cada punto uno por uno. Explica que HTML comments con .element y c
 
 ---
 
-## Cómo usar este visor con otro repositorio
+## Dos maneras de utilizar esta plantilla
 
-1. Publica este repositorio mediante **GitHub Pages → main → / (root)**.
-2. Abre [la presentación](https://jorgektch.github.io/test/).
-3. Para cargar otro README **público**, usa `?url=` con la dirección de GitHub:
+**Opción A · Tu propia presentación:** utiliza **Use this template** (cuando el repositorio esté marcado como plantilla), crea tu repositorio, modifica `README.md` y publica GitHub Pages desde `main` y `/(root)`. El título del visor se adapta al nombre de tu repositorio.
+
+**Opción B · Visor para otro README público:** abre [la demostración](https://jorgektch.github.io/readme-to-slides/) y añade `?url=` con un archivo de GitHub:
 
 ```text
-https://jorgektch.github.io/test/?url=https://github.com/USUARIO/REPO/blob/main/README.md
+https://jorgektch.github.io/readme-to-slides/?url=https://github.com/USUARIO/REPO/blob/main/README.md
 ```
 
-Si copias `index.html` y `assets/theme.css` a otro repositorio, podrás usar el mismo tema. Los iconos de las redes se especifican con etiquetas `<i>` y Font Awesome (sin archivos SVG propios). Su **nombre de repositorio** se convertirá automáticamente en el título de la carátula en la presentación.
+**Importante:** en el modo `?url=`, las imágenes con rutas relativas y los archivos locales del otro repositorio pueden necesitar URL absolutas. Los archivos Markdown deben ser públicos.
+
+El diseño se controla con `assets/theme.css` e `index.html`. Los iconos de redes utilizan clases de Font Awesome, sin archivos SVG propios. No se requiere compilación de PowerPoint.
 
 ---
 
@@ -241,22 +243,22 @@ Si copias `index.html` y `assets/theme.css` a otro repositorio, podrás usar el 
 
 | Elemento | Dónde cambiarlo |
 | :--- | :--- |
-| Título para GitHub | `# Test` en este README |
-| Título de la portada en slides | Se obtiene de la URL del repositorio |
+| Título visible en GitHub | `<h1 class="cover-title">` de la carátula en `README.md` |
+| Título de la portada en slides | Se obtiene del nombre del repositorio mediante `index.html` |
 | Nombre, redes y correo | Primer y último bloque del README; iconos con Font Awesome vía CSS en el visor |
 | Poppins, Lexend, JetBrains Mono | `assets/theme.css` e `index.html` |
 | Colores de la carátula | Variables CSS en `assets/theme.css`: `#0B1020`, `#F5F7FF`, `#36E0C4`, `#AAB9D0` |
 | Fotografías | URLs de imagen o `assets/images/` |
 | Diagramas | Bloques de código `mermaid` |
 
-**Nota:** las fotos remotas y las bibliotecas CDN requieren conexión a Internet. Los iconos se generan desde clases HTML de Font Awesome en GitHub Pages; GitHub muestra los nombres enlazados como alternativa accesible. Los diagramas Mermaid se renderizan desde los bloques de código `mermaid` del README, sin necesidad de insertar SVG o capturas. El visor detecta estos bloques por su lenguaje **o** por la sintaxis del diagrama.
+**Notas:** las fotos remotas, las fuentes y las bibliotecas CDN requieren conexión a Internet. Font Awesome dibuja los iconos en Pages, mientras que GitHub muestra los enlaces de texto. Mermaid se renderiza desde los bloques `mermaid` del README. Al reutilizar la plantilla, reemplaza también el nombre, correo y enlaces del expositor en portada y cierre.
 
 ---
 
 <!-- .slide: class="closing" -->
 
 <div class="closing-card">
-  <p class="cover-kicker">AI ENGINEERING WORKSHOP</p>
+  <p class="cover-kicker">README TO SLIDES · OPEN SOURCE</p>
   <h1>¡Gracias!</h1>
   <p class="cover-author">Jorge Jesús Quispe Villaverde</p>
   <p class="cover-role">AI Engineer · Applied AI Researcher · AI Mentor</p>
