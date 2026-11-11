@@ -38,6 +38,12 @@ The repository deliberately includes the original creator's public information, 
 | `slides.showNavigation` | boolean | Toggle custom toolbar |
 | `slides.showRepositoryLink` | boolean | Toggle toolbar Repo button |
 | `slides.allowRemoteReadme` | boolean | Allow `?url=` to load a public GitHub README |
+| `theme.mode` | `dark`, `light`, `auto` | Initial color scheme |
+| `theme.showToggle` | boolean | Show/hide the bottom toolbar theme button |
+| `theme.lightColors` | hex color object | Light palette; `theme.colors` controls dark |
+| `media.embedVideoLinks` | boolean | Embed recognized YouTube/Vimeo/direct video links |
+| `media.autoplay` | boolean | Ask players to start on the active slide (browser-dependent) |
+| `media.lazyLoad` | boolean | Defer media loading until slide navigation |
 
 For per-slide durations, Reveal.js also supports a Markdown directive such as:
 
@@ -49,7 +55,9 @@ For per-slide durations, Reveal.js also supports a Markdown directive such as:
 
 The per-slide directive is useful if most slides should advance automatically but a diagram needs more reading time. Test timing on your actual device before a live talk.
 
-## 4. Colors and fonts
+## 4. Colors, themes and fonts
+
+Choose `theme.mode` (`dark`, `light`, or `auto`) in `presentation.config.json`. Use `theme.showToggle` to show or hide the theme button. The visitor can cycle dark → light → auto without changing the repository; the choice is remembered locally. The light preset is configured in `theme.lightColors`, while the existing `theme.colors` remains the dark preset. Mermaid diagrams are redrawn when the theme changes. See [MEDIA_AND_THEMES.md](MEDIA_AND_THEMES.md) for examples and details.
 
 Change color hex values in `theme.colors`; supported keys are `background`, `panel`, `heading`, `accent`, `text`, `muted`, and `border`. For example:
 
@@ -83,7 +91,11 @@ Fonts are requested from Google Fonts; their availability and exact weight suppo
 - Notes start with `Note:`. Press `S` in the presentation to open speaker notes.
 - Use `<!-- .element: class="fragment" -->` for progressive list items.
 
-## 6. Reusing as a viewer for another README
+## 6. Videos in slides
+
+Write `[▶ Video: Demo](https://www.youtube.com/watch?v=VIDEO_ID)` or point to a direct `.mp4`, `.webm` or `.ogg` URL. In GitHub you see the original link; in Reveal.js the video becomes a player. You can also write `[▶ Video: Local demo](assets/videos/demo.mp4)` after adding your own file. Use HTTPS for remote videos. See [MEDIA_AND_THEMES.md](MEDIA_AND_THEMES.md) for Vimeo, loading, autoplay, and safety details.
+
+## 7. Reusing as a viewer for another README
 
 Example:
 

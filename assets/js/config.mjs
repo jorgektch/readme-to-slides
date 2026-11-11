@@ -12,10 +12,13 @@ export const DEFAULTS = Object.freeze({
       instagram: 'https://www.instagram.com/jorgektch',
       tiktok: 'https://www.tiktok.com/@jorgektch' }
   },
-  theme: { colors: {
+  theme: { mode:'dark', showToggle:true, colors: {
     background: '#0B1020', panel: '#10182A', heading: '#F5F7FF',
     accent: '#36E0C4', text: '#AAB9D0', muted: '#8799B2', border: '#30435B'
-  }, fonts: { heading: 'Poppins', body: 'Lexend', code: 'JetBrains Mono' } },
+  }, lightColors: { background:'#F7FAFC', panel:'#FFFFFF', heading:'#172334',
+    accent:'#007C70', text:'#344054', muted:'#667085', border:'#CBD5E1' },
+    fonts: { heading: 'Poppins', body: 'Lexend', code: 'JetBrains Mono' } },
+  media: { embedVideoLinks:true, autoplay:false, lazyLoad:true },
   slides: { markdown: 'README.md', width: 1280, height: 720, margin: 0.06,
     transition: 'fade', transitionSpeed: 'default', autoSlideMs: 0,
     autoSlideStoppable: true, loop: false, center: true, showCounter: true,
@@ -75,13 +78,25 @@ export function normalizeConfig(user = {}) {
     presentation: {...DEFAULTS.presentation, ...(user.presentation ?? {})},
     presenter: {...DEFAULTS.presenter, ...(user.presenter ?? {}),
       social: {...DEFAULTS.presenter.social, ...(user.presenter?.social ?? {})}},
-    theme: { colors: {...DEFAULTS.theme.colors, ...(user.theme?.colors ?? {})},
+    theme: { mode:user.theme?.mode ?? DEFAULTS.theme.mode,
+      showToggle:user.theme?.showToggle ?? DEFAULTS.theme.showToggle,
+      colors: {...DEFAULTS.theme.colors, ...(user.theme?.colors ?? {})},
+      lightColors: {...DEFAULTS.theme.lightColors, ...(user.theme?.lightColors ?? {})},
       fonts: {...DEFAULTS.theme.fonts, ...(user.theme?.fonts ?? {})}},
+    media: {...DEFAULTS.media, ...(user.media ?? {})},
     slides: {...DEFAULTS.slides, ...(user.slides ?? {})}
   };
   for (const [key, color] of Object.entries(merged.theme.colors)) {
     if (!HEX.test(color)) merged.theme.colors[key] = DEFAULTS.theme.colors[key];
   }
+  for (const [key, color] of Object.entries(merged.theme.lightColors)) {
+    if (!HEX.test(color)) merged.theme.lightColors[key] = DEFAULTS.theme.lightColors[key];
+  }
+  if (!['dark','light','auto'].includes(merged.theme.mode)) merged.theme.mode = 'dark';
+  merged.theme.showToggle = merged.theme.showToggle !== false;
+  merged.media.embedVideoLinks = merged.media.embedVideoLinks !== false;
+  merged.media.autoplay = merged.media.autoplay === true;
+  merged.media.lazyLoad = merged.media.lazyLoad !== false;
   for (const [key, font] of Object.entries(merged.theme.fonts)) {
     if (!FONT.test(font)) merged.theme.fonts[key] = DEFAULTS.theme.fonts[key];
   }

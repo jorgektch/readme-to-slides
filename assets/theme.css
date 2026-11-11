@@ -304,3 +304,103 @@
 /* Protect the footer from competing slide content in narrow viewports. */
 .reveal .slide-content-compact table {font-size:.61em}
 .reveal .slide-content-compact img {max-height:290px}
+
+/* v1.2 — Both presets are fully themed. All slide surfaces follow the active
+   data-deck-theme; a light palette is not merely a light page background. */
+.reveal {
+  background:radial-gradient(ellipse at 88% 12%,var(--surface-glow) 0,transparent 46%),var(--bg);
+  color:var(--body);
+}
+.reveal .slides section.cover .cover-card,
+.reveal .slides section.closing .closing-card {
+  background:var(--bg);
+  border-color:var(--line);
+  box-shadow:0 20px 70px var(--shadow-tint);
+}
+.reveal .feature-card {
+  background:var(--panel);
+  border-color:var(--line);
+}
+.reveal .diagram-panel {
+  background:var(--diagram-bg);
+  border-color:var(--line);
+}
+.reveal blockquote {background:var(--panel);border-left-color:var(--accent)}
+.reveal table, .reveal table th, .reveal table td {border-color:var(--line)}
+.reveal table th {background:var(--panel-2);color:var(--accent)}
+.reveal table tr:nth-child(even) {background:var(--table-stripe)}
+.reveal pre code {
+  background:var(--code-bg);
+  color:var(--code-fg);
+  border-color:var(--line);
+}
+.reveal code:not(pre code) {background:var(--inline-code-bg);color:var(--inline-code-fg)}
+.reveal .contact-socials .social-icon:hover,
+.deck-navigation button:hover:not(:disabled),
+.deck-navigation .deck-repo-link:hover,
+.deck-navigation button.is-active {
+  background:var(--hover-bg);
+  color:var(--hover-fg);
+}
+.deck-navigation,.deck-counter {
+  color:var(--body);
+  background:var(--bg);
+  border-color:var(--line);
+  box-shadow:0 8px 20px var(--shadow-tint);
+}
+.deck-navigation button,.deck-navigation .deck-repo-link {color:var(--accent)}
+.deck-navigation .deck-repo-link {border-color:var(--line);color:var(--heading)}
+.deck-navigation .deck-nav-divider {background:var(--line)}
+.deck-navigation button:disabled {opacity:.30;color:var(--muted)}
+.deck-navigation #nav-theme {color:var(--accent)}
+.reveal .slides img {border-color:var(--line);box-shadow:0 12px 30px var(--shadow-tint)}
+/* Original dark theme imposes some fixed syntax colors; use the palette on
+   the code surface while retaining the language token highlights. */
+:root[data-deck-theme="light"] .reveal pre code {
+  background:var(--code-bg)!important;
+  color:var(--code-fg)!important;
+}
+:root[data-deck-theme="light"] .reveal .hljs {color:var(--code-fg)}
+:root[data-deck-theme="light"] .reveal .hljs-comment,
+:root[data-deck-theme="light"] .reveal .hljs-quote {color:#667085}
+:root[data-deck-theme="light"] .reveal .hljs-keyword,
+:root[data-deck-theme="light"] .reveal .hljs-selector-tag {color:#8754AE}
+:root[data-deck-theme="light"] .reveal .hljs-string,
+:root[data-deck-theme="light"] .reveal .hljs-title {color:#006F63}
+
+/* Video links in Markdown become players only inside the presentation.
+   The README continues to display the original readable URL links. */
+.reveal .slide-video {
+  margin:14px auto 6px;
+  width:min(900px,94%);
+  max-width:100%;
+  text-align:center;
+}
+.reveal .slide-video__frame {
+  aspect-ratio:16 / 9;
+  width:100%;
+  background:var(--media-bg);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 12px 30px var(--shadow-tint);
+}
+.reveal .slide-video__frame iframe,
+.reveal .slide-video__frame video {
+  display:block;
+  width:100%;
+  height:100%;
+  border:0;
+  border-radius:0;
+  background:#000;
+  object-fit:contain;
+}
+.reveal .slide-video figcaption {margin-top:6px;font-size:15px;color:var(--muted)}
+.reveal .slide-video figcaption a {color:var(--accent)}
+@media (max-width:780px) {
+  .reveal .slide-video {width:96%;margin:9px auto 4px}
+  .reveal .slide-video figcaption {font-size:12px}
+}
+@media (prefers-reduced-motion:reduce) {
+  .deck-navigation button {transition:none}
+}

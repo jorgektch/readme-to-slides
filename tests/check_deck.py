@@ -27,3 +27,16 @@ assert 'routes.up' in app and 'routes.down' in app
 for path in re.findall(r'(?:src|href)="(assets/[^"?#]+)"', readme + index):
     assert (ROOT / path).exists(), f'Missing local asset: {path}'
 print('OK: configuration, README slide patterns, diagrams, links and local assets')
+
+# v1.2: video examples, theme settings, docs and pure modules.
+assert config['theme']['mode'] in ('dark','light','auto')
+assert config['theme']['lightColors']['background'].startswith('#')
+assert config['media']['embedVideoLinks'] is True
+assert 'Video: clip MP4' in readme
+assert 'Tres maneras de elegir el tema' in readme
+assert 'id="nav-theme"' in index
+assert 'parseVideoUrl' in app and 'activeThemeName' in app
+assert (ROOT / 'assets/js/media.mjs').exists()
+assert (ROOT / 'assets/js/theme.mjs').exists()
+assert (ROOT / 'docs/MEDIA_AND_THEMES.md').exists()
+print('OK: v1.2 light/dark/auto themes and video embed guide')

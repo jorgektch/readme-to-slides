@@ -1,27 +1,37 @@
-# Upgrade notes — README to Slides v1.1
+# Upgrade notes — README to Slides v1.2: Multimedia & Themes
 
-This package is intended to replace and extend the files in `jorgektch/readme-to-slides`.
+This is a **differential package** built against `jorgektch/readme-to-slides` main at the v1.1 revision (README blob `3333c2b1`).
 
-## Upload steps
+## Apply
 
-1. Download and extract the ZIP.
-2. Copy the files **with their folder structure** into your repository root. Replace existing `README.md`, `index.html`, and `assets/theme.css`; add the new files and directories.
-3. **Optional cleanup:** remove the old `assets/icons/` directory (`github.svg`, `instagram.svg`, `linkedin.svg`, `mail.svg`, `tiktok.svg`), because the viewer now uses Font Awesome via CDN. These SVGs are not in the ZIP and are not required.
-4. Commit the changes; allow GitHub Actions and GitHub Pages to complete.
-5. Open `https://jorgektch.github.io/readme-to-slides/` and confirm the cover, at least one Mermaid diagram, navigation, and Repo link.
+1. Extract the ZIP.
+2. Copy files and folders **preserving their paths** to the repository root; replace existing files where prompted.
+3. Commit and push. No dependency installation or build step is needed for GitHub Pages.
+4. Open `https://jorgektch.github.io/readme-to-slides/` and verify: a dark cover, video example, theme button cycling dark / light / auto, and readable Mermaid diagrams in both themes.
+5. Inspect Actions to confirm the checks pass.
 
-## What changed
+## Replaced files
 
-- New MIT `LICENSE`, `SECURITY.md`, `CONTRIBUTING.md`, and setup documentation.
-- New `presentation.config.json` for talk metadata, presenter's public contact details, theme, fonts, dimensions, automatic durations and controls.
-- Split the application into `assets/js/app.mjs` and pure helpers in `assets/js/config.mjs`.
-- Rewritten `README.md` into a coherent presentation of the tool itself with Quick Start, intended audiences, architecture, tables, code, photos, diagrams, constraints, and exercises.
-- New illustrative design preview at `assets/images/preview.png`.
-- Automated checks in `.github/workflows/quality.yml`, Node unit tests, static checks, and optional Playwright browser tests.
+- `README.md` — multimedia and theme demonstration slides and instructions
+- `index.html` — theme toggle button
+- `presentation.config.json` — theme presets and media settings
+- `assets/js/config.mjs` — new config validation and defaults
+- `assets/js/app.mjs` — theme state, video embedding, paused/unloaded players, Mermaid re-theming
+- `assets/theme.css` — fully themed slide surfaces and responsive player
+- `docs/CUSTOMIZATION.md`, `docs/ARCHITECTURE.md`, `UPGRADE_NOTES.md`
+- `package.json`, `tests/check_deck.py`, `tests/deck.spec.mjs`
 
-## Compatibility
+## New files
 
-- GitHub Pages still publishes from `main` / `/(root)`; no build step is required for the live presentation.
-- The author information remains Jorge Jesús Quispe Villaverde by default, as requested.
-- CDN-hosted runtime libraries and fonts require internet access. CI browser tests also depend on those CDN assets.
-- JSON personalization updates the rendered presentation; visible fallback author information in the GitHub README needs editing there as well if someone forks the project.
+- `assets/js/theme.mjs`
+- `assets/js/media.mjs`
+- `docs/MEDIA_AND_THEMES.md`
+- `tests/theme-media.test.mjs`
+
+## Defaults and intentional limits
+
+- Dark Mode remains default; original creator name, email, handle and social media stay unchanged.
+- No video is set to autoplay by default. Video providers must allow embedding.
+- The HTML from remote README mode is still escaped; video links themselves are converted only for recognized formats and hosts.
+- Browser remembers a visitor's manually selected theme in localStorage; remove the localStorage key `readme-to-slides.theme-choice.v1` to honor the repository's configured default again.
+- If you use a hardcoded `data-background-color` on custom slides, it intentionally overrides the theme for that slide.

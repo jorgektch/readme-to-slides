@@ -32,3 +32,37 @@ test('horizontal and vertical toolbar navigation works',async ({page}) => {
   await page.locator('#nav-next').click();
   expect(await page.evaluate(() => Reveal.getIndices().h)).toBe(indices.h+1);
 });
+
+
+test('theme toggle cycles dark, light and auto; updates colors and diagrams',async ({page}) => {
+  await page.goto('/',{waitUntil:'domcontentloaded'});
+  await page.waitForFunction(() => window.slideReady === true, null, {timeout:45000});
+  const toggle=page.locator('#nav-theme');
+  await expect(toggle).toBeVisible();
+  await expect(page.locator('html')).toHaveAttribute('data-deck-theme','dark');
+  await toggle.click();
+  await expect(page.locator('html')).toHaveAttribute('data-deck-theme','light');
+  await expect(page.locator('.cover-card')).toHaveCSS('background-color','rgb(247, 250, 252)');
+  await page.waitForFunction(() => window.slideDiagnostics.rendered === window.slideDiagnostics.detected,null,{timeout:45000});
+  await toggle.click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme-choice','auto');
+  await toggle.click();
+  await expect(page.locator('html')).toHaveAttribute('data-deck-theme','dark');
+});
+
+test('video URL becomes native video player on the relevant slide',async ({page}) => {
+  await page.goto('/',{waitUntil:'domcontentloaded'});
+  await page.waitForFunction(() => window.slideReady === true, null, {timeout:45000});
+  const indices = await page.evaluate(() => {
+    const slide=Reveal.getSlides().find(s => s.textContent.includes('Videos: un enlace Markdown, un reproductor'));
+    if (!slide) throw new Error('Video slide is missing');
+    const {h,v}=Reveal.getIndices(slide);
+    Reveal.slide(h,v);
+    return {h,v};
+  });
+  expect(indices.h).toBeGreaterThan(0);
+  const video=page.locator('.slide-video video').first();
+  await expect(video).toHaveAttribute('controls','');
+  await expect(video).toHaveAttribute('src',/flower\.mp4/);
+  await expect(page.locator('.slide-video figcaption a')).toHaveAttribute('href',/flower\.mp4/);
+});

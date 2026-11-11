@@ -1,4 +1,4 @@
-<!-- .slide: class="cover" data-background-color="#0B1020" -->
+<!-- .slide: class="cover" -->
 
 <div class="cover-card">
   <p class="cover-kicker" data-config="eyebrow">OPEN SOURCE · MARKDOWN PRESENTATIONS</p>
@@ -52,6 +52,8 @@ No necesitas una API key, ni Node.js, ni ejecutar un generador para **usar** la 
 
 **Alternativa local:** `python -m http.server 8000` y abre `http://localhost:8000`.
 
+**Temas y multimedia:** puedes elegir `theme.mode` (`dark`, `light`, `auto`) y pegar enlaces a YouTube, Vimeo o MP4. En Slides se convierten en reproductores; en GitHub siguen siendo enlaces.
+
 ---
 
 ## ¿Para quién sirve esta plantilla?
@@ -77,8 +79,36 @@ No necesitas una API key, ni Node.js, ni ejecutar un generador para **usar** la 
 | Guiar una demostración | Lista + fragments | Aparición progresiva |
 | Profundizar sin saturar | Separador `--` | Diapositiva vertical |
 | Recordar qué decir | Línea `Note:` | Notas del expositor (`S`) |
+| Incorporar multimedia | Enlace a YouTube, Vimeo o MP4 | Reproductor incrustado |
+| Elegir un estilo | `theme.mode` en JSON | Dark / Light / Auto |
 
 **Todo ese contenido vive en este archivo.**
+
+---
+
+## Videos: un enlace Markdown, un reproductor
+
+La plantilla reconoce enlaces a **YouTube, Vimeo y videos MP4/WebM/Ogg** y crea un reproductor en la presentación. En GitHub, el mismo contenido sigue siendo un enlace.
+
+[▶ Video: clip MP4 de demostración (MDN)](https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4)
+
+**Cómo probarlo:** en la presentación web aparecerá el video con controles; en GitHub verás el enlace. La reproducción automática está desactivada por defecto. El video es un recurso de demostración alojado por [MDN](https://developer.mozilla.org/).
+
+Note: Este video no explica la plantilla, sino que muestra que un enlace Markdown se convierte en un reproductor sin necesitar HTML. Reemplázalo por la grabación de una demo propia.
+
+---
+
+## Tres maneras de elegir el tema
+
+| Modo | Configuración | Resultado |
+| :--- | :--- | :--- |
+| Oscuro | `"mode": "dark"` | Fondo azul profundo y turquesa; diseño original |
+| Claro | `"mode": "light"` | Fondo claro y acento verde azulado accesible |
+| Automático | `"mode": "auto"` | Sigue la preferencia de tema del dispositivo |
+
+El botón de **luna / sol / modo automático** en el panel inferior permite alternar sin editar el README. El tema también actualiza **diagramas Mermaid, tablas, código y portada**.
+
+Para personalizar colores, usa `theme.colors` (oscuro) y `theme.lightColors` (claro) en el JSON. La elección manual del visitante se recuerda en ese navegador.
 
 ---
 
@@ -188,6 +218,10 @@ Esto es un **extracto** de `presentation.config.json`: allí puedes ajustar port
 | `slides.autoSlideStoppable` | Detener avance automático al interactuar |
 | `slides` | Contador, controles, botón Repo, origen Markdown |
 | `slides` | Permitir o bloquear `?url=` de otro repositorio |
+| `theme.mode` | `dark`, `light` o `auto` (preferencia del sistema) |
+| `theme.lightColors` | Paleta independiente para el modo claro |
+| `theme.showToggle` | Mostrar u ocultar selector de tema |
+| `media` | Enlaces de video, reproducción automática y carga diferida |
 
 Los valores se validan antes de aplicarse. `transitionSpeed` admite `default`, `fast` o `slow`; `autoSlideMs` configura el tiempo de avance automático. Las fuentes se cargan desde Google Fonts y requieren Internet.
 
@@ -258,6 +292,8 @@ Este gráfico muestra una **distribución ficticia e ilustrativa**, no estadíst
 
 La herramienta **no genera PPTX**; su objetivo es presentar contenido técnico como página web.
 
+**Extra v1.2:** videos sin escribir `iframe` y temas oscuros/claros configurables desde JSON.
+
 ---
 
 ## Dos formas de reutilizar el proyecto
@@ -294,12 +330,14 @@ El repositorio incluye un workflow de GitHub Actions para ejecutar estas comprob
 ## Límites y decisiones de seguridad
 
 - La presentación utiliza bibliotecas, fuentes e imágenes externas: necesita conexión para cargarlas.
+- Los videos de YouTube y Vimeo solo funcionan si el propietario permite incrustarlos; pueden aparecer restricciones de cookies o de red.
+- Los enlaces multimedia se convierten únicamente para proveedores reconocidos o archivos de video compatibles; no se ejecuta HTML externo.
 - Las credenciales o datos privados no deben incluirse en un README público.
 - La plantilla admite HTML local para layouts especiales; **no ejecutes HTML de terceros como si fuera seguro**.
 - El modo `?url=` escapa HTML remoto, pero **no sustituye una política de seguridad completa** para servicios multiusuario.
 - El visor no reemplaza una aplicación de diseño gráfico ni produce archivos `.pptx`.
 
-Consulta [SECURITY.md](SECURITY.md) y la guía [CUSTOMIZATION.md](docs/CUSTOMIZATION.md) para recomendaciones adicionales, y [CONTRIBUTING.md](CONTRIBUTING.md) para colaborar.
+Consulta [la guía de temas y videos](docs/MEDIA_AND_THEMES.md), [SECURITY.md](SECURITY.md) y la guía [CUSTOMIZATION.md](docs/CUSTOMIZATION.md) para recomendaciones adicionales, y [CONTRIBUTING.md](CONTRIBUTING.md) para colaborar.
 
 ---
 

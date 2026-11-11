@@ -17,6 +17,8 @@
     }
   },
   "theme": {
+    "mode": "dark",
+    "showToggle": true,
     "colors": {
       "background": "#0B1020",
       "panel": "#10182A",
@@ -25,6 +27,15 @@
       "text": "#AAB9D0",
       "muted": "#8799B2",
       "border": "#30435B"
+    },
+    "lightColors": {
+      "background": "#F7FAFC",
+      "panel": "#FFFFFF",
+      "heading": "#172334",
+      "accent": "#007C70",
+      "text": "#344054",
+      "muted": "#667085",
+      "border": "#CBD5E1"
     },
     "fonts": {
       "heading": "Poppins",
@@ -47,5 +58,10 @@
     "showNavigation": true,
     "showRepositoryLink": true,
     "allowRemoteReadme": true
+  },
+  "media": {
+    "embedVideoLinks": true,
+    "autoplay": false,
+    "lazyLoad": true
   }
 }
