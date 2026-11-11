@@ -34,6 +34,8 @@ The repository deliberately includes the original creator's public information, 
 | `slides.autoSlideStoppable` | boolean | Stop auto-advance on interaction |
 | `slides.loop` | boolean | Loop after last slide |
 | `slides.center` | boolean | Vertically center slide contents |
+| `slides.autoFitContent` | boolean | Try moderate font/padding adjustments on overflowing slides (default true) |
+| `slides.fitSafeGapPx` | 0–100 virtual px | Keep a little clear space above slide bottom; default 18 |
 | `slides.showCounter` | boolean | Toggle slide counter |
 | `slides.showNavigation` | boolean | Toggle custom toolbar |
 | `slides.navigationVisibility` | `auto`, `always`, `hidden` | Controls visibility behavior (default `auto`) |
@@ -47,6 +49,8 @@ The repository deliberately includes the original creator's public information, 
 | `media.embedVideoLinks` | boolean | Embed recognized YouTube/Vimeo/direct video links |
 | `media.autoplay` | boolean | Ask players to start on the active slide (browser-dependent) |
 | `media.lazyLoad` | boolean | Defer media loading until slide navigation |
+| `media.videoMaxWidthPx` | 320–1000 px | Max video width inside the virtual slide (default 640) |
+| `media.videoMaxHeightPx` | 180–540 px | Max video height inside the virtual slide (default 350) |
 
 For per-slide durations, Reveal.js also supports a Markdown directive such as:
 
@@ -138,3 +142,14 @@ and uses these settings:
 The toolbar uses a 200 ms fade, disabled when the visitor prefers reduced motion.
 Touch controls open above the footer to avoid overlapping the page counter.
 See [Navigation and accessibility](NAVIGATION.md) for more details.
+
+
+## 8. Slide fitting, large media and reload position (v1.4)
+
+- `README.md` is still the only content source. Each `---` starts a horizontal slide; `--` creates a vertical detail slide.
+- The slide viewer now uses numeric Reveal.js URL hashes, e.g. `#/5/1`, so **F5 reloads the same horizontal/vertical slide**. Old `#/markdown-slides` links pointed ambiguously to many generated slides; replace those bookmarks with a freshly copied URL.
+- Videos have a presentation-safe maximum width and height; their original links remain available. For a large demonstration, make it a slide on its own.
+- `slides.autoFitContent` tests only the active slide. When content is a little too tall, it applies compact or tight typography with reduced spacing. It **does not clip content** or automatically split arbitrary Markdown.
+- Use `window.slideFitDiagnostics` in the browser console to see any overflow warnings. If the warning persists, split long tables or paragraphs into new slides; do not simply decrease the global font size until it becomes unreadable.
+- `slides.fitSafeGapPx` is measured in the virtual slide dimensions, not viewport pixels. It does not reserve space for overlay controls; those remain independent.
+- Theme mode `auto` remains part of the three-state toolbar and follows the operating system's color preference.

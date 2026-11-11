@@ -60,11 +60,15 @@
     "navigationHideDelayMs": 3000,
     "navigationRevealZonePx": 90,
     "showRepositoryLink": true,
-    "allowRemoteReadme": true
+    "allowRemoteReadme": true,
+    "autoFitContent": true,
+    "fitSafeGapPx": 18
   },
   "media": {
     "embedVideoLinks": true,
     "autoplay": false,
-    "lazyLoad": true
+    "lazyLoad": true,
+    "videoMaxWidthPx": 640,
+    "videoMaxHeightPx": 350
   }
 }

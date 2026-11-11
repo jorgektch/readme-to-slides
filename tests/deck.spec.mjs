@@ -110,3 +110,42 @@ test('touch devices can reveal and dismiss toolbar without hiding counter',async
     await expect(counter).toBeVisible();
   } finally {await context.close();}
 });
+
+
+test('slide URL is numeric and F5 restores horizontal and vertical position',async ({page}) => {
+  await page.goto('/',{waitUntil:'domcontentloaded'});
+  await page.waitForFunction(() => window.slideReady === true, null, {timeout:45000});
+  const indices=await page.evaluate(() => {
+    const stack=document.querySelector('.reveal .slides section.stack');
+    if (!stack) throw Error('Missing vertical stack');
+    const {h}=Reveal.getIndices(stack);
+    Reveal.slide(h,1);
+    return Reveal.getIndices();
+  });
+  await expect.poll(() => page.evaluate(() => location.hash)).toMatch(/^#\/\d+\/1$/);
+  const previous=await page.evaluate(() => location.hash);
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.waitForFunction(() => window.slideReady === true, null, {timeout:45000});
+  expect(await page.evaluate(() => Reveal.getIndices().h)).toBe(indices.h);
+  expect(await page.evaluate(() => Reveal.getIndices().v)).toBe(1);
+  expect(await page.evaluate(() => location.hash)).toBe(previous);
+});
+
+test('video and table content stay within virtual slide bounds',async ({page}) => {
+  await page.goto('/',{waitUntil:'domcontentloaded'});
+  await page.waitForFunction(() => window.slideReady === true, null, {timeout:45000});
+  const cases=['Videos: un enlace Markdown, un reproductor','Configuración esencial','Configuración avanzada'];
+  for (const label of cases) {
+    const result=await page.evaluate(label => {
+      const slide=Reveal.getSlides().find(s => s.textContent.includes(label));
+      if(!slide) throw Error(`Missing slide: ${label}`);
+      const {h,v}=Reveal.getIndices(slide);
+      Reveal.slide(h,v);
+      window.slideFitController.run();
+      return {actual:slide.scrollHeight,limit:Reveal.getConfig().height,
+        mode:window.slideFitDiagnostics.last.mode};
+    },label);
+    expect(result.actual).toBeLessThanOrEqual(result.limit);
+    expect(result.mode).not.toBe('overflow');
+  }
+});

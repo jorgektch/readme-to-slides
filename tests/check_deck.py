@@ -40,3 +40,15 @@ assert (ROOT / 'assets/js/media.mjs').exists()
 assert (ROOT / 'assets/js/theme.mjs').exists()
 assert (ROOT / 'docs/MEDIA_AND_THEMES.md').exists()
 print('OK: v1.2 light/dark/auto themes and video embed guide')
+
+
+# v1.4 — shareable URL hash, safe video sizing and table readability.
+assert 'id="markdown-slides"' not in index, 'Duplicate Markdown loader ID breaks Reveal URL hashes'
+assert 'data-deck-source="readme"' in index
+assert 'data-deck-source=' in app and "hash: true" in app
+assert config['slides']['autoFitContent'] is True
+assert (ROOT / 'assets/js/fit.mjs').exists()
+assert 'Configuración esencial' in readme and 'Configuración avanzada' in readme
+assert 'Qué valores puedes parametrizar' not in readme, 'Oversized table must be split'
+assert 'theme.mode' in readme and 'auto' in readme
+print('OK: v1.4 hash recovery, slide fitting and split configuration tables')

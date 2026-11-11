@@ -52,3 +52,23 @@ mode, desktop users reveal controls by moving to the bottom-right corner, and
 mobile users use a compact ellipsis button. Do not delete your existing contact
 or theme settings when updating a customized configuration; merge these three
 new fields instead.
+
+
+## v1.4 — Slide Fit & Reload Recovery
+
+This incremental ZIP is based on the current v1.3 `main` repository (file blobs verified). **Only the changed files are included**. Extract it into the repository root, preserving directories, and commit.
+
+- Remove the shared `id="markdown-slides"` from the Markdown loader. Reveal.js 5.1 forwards this ID to every generated slide, creating duplicate URL hashes. The loader is now found by `data-deck-source="readme"` before Markdown parses. New slide hashes use indices; F5 should restore the current slide.
+- Limit the size of video players to retain sufficient space for headings and explanations.
+- Split the dense configuration table into two logically separate slides.
+- Add a lightweight active-slide fitter with optional compact and tight modes; report overly dense slides in the console rather than cutting content.
+- Add `slides.autoFitContent`, `slides.fitSafeGapPx`, `media.videoMaxWidthPx` and `media.videoMaxHeightPx` in `presentation.config.json`.
+- Keep the original theme switcher **dark → light → auto → dark**, including the OS theme preference and saved visitor setting. No visual identity or contact changes.
+
+### Quick verification after publishing
+
+1. Navigate to the video slide and a later table slide; verify all headings, captions and rows remain visible.
+2. Navigate to a horizontal and vertical slide and press F5. Confirm you stay on the same slide.
+3. Toggle theme dark → light → auto, and verify the original controls and Mermaid diagrams remain functional.
+4. Open the browser console: `window.slideFitDiagnostics`. If any slide is still too tall, split the content. The fitter is intentionally conservative.
+5. Check GitHub Actions and the Pages deployment.

@@ -18,12 +18,13 @@ export const DEFAULTS = Object.freeze({
   }, lightColors: { background:'#F7FAFC', panel:'#FFFFFF', heading:'#172334',
     accent:'#007C70', text:'#344054', muted:'#667085', border:'#CBD5E1' },
     fonts: { heading: 'Poppins', body: 'Lexend', code: 'JetBrains Mono' } },
-  media: { embedVideoLinks:true, autoplay:false, lazyLoad:true },
+  media: { embedVideoLinks:true, autoplay:false, lazyLoad:true,
+    videoMaxWidthPx:640, videoMaxHeightPx:350 },
   slides: { markdown: 'README.md', width: 1280, height: 720, margin: 0.06,
     transition: 'fade', transitionSpeed: 'default', autoSlideMs: 0,
     autoSlideStoppable: true, loop: false, center: true, showCounter: true,
     showNavigation: true, navigationVisibility: 'auto',
-    navigationHideDelayMs: 3000, navigationRevealZonePx: 90,
+    navigationHideDelayMs: 3000, navigationRevealZonePx: 90, autoFitContent: true, fitSafeGapPx: 18,
     showRepositoryLink: true, allowRemoteReadme: true }
 });
 
@@ -99,6 +100,15 @@ export function normalizeConfig(user = {}) {
   merged.media.embedVideoLinks = merged.media.embedVideoLinks !== false;
   merged.media.autoplay = merged.media.autoplay === true;
   merged.media.lazyLoad = merged.media.lazyLoad !== false;
+  const maxValue = (value,min,max,fallback) =>
+    Number.isFinite(Number(value)) && Number(value)>=min && Number(value)<=max
+      ? Number(value) : fallback;
+  merged.media.videoMaxWidthPx = maxValue(
+    merged.media.videoMaxWidthPx, 320, 1000, DEFAULTS.media.videoMaxWidthPx
+  );
+  merged.media.videoMaxHeightPx = maxValue(
+    merged.media.videoMaxHeightPx, 180, 540, DEFAULTS.media.videoMaxHeightPx
+  );
   for (const [key, font] of Object.entries(merged.theme.fonts)) {
     if (!FONT.test(font)) merged.theme.fonts[key] = DEFAULTS.theme.fonts[key];
   }
@@ -126,6 +136,10 @@ export function normalizeConfig(user = {}) {
   );
   merged.slides.navigationRevealZonePx = numeric(
     merged.slides.navigationRevealZonePx, 50, 240, DEFAULTS.slides.navigationRevealZonePx
+  );
+  merged.slides.autoFitContent = merged.slides.autoFitContent !== false;
+  merged.slides.fitSafeGapPx = numeric(
+    merged.slides.fitSafeGapPx, 0, 100, DEFAULTS.slides.fitSafeGapPx
   );
   merged.slides.loop = merged.slides.loop === true;
   merged.slides.autoSlideStoppable = merged.slides.autoSlideStoppable !== false;

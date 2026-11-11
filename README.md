@@ -84,6 +84,8 @@ No necesitas una API key, ni Node.js, ni ejecutar un generador para **usar** la 
 
 **Todo ese contenido vive en este archivo.**
 
+**Enlaces compartibles:** la URL refleja cada diapositiva. Al recargar con `F5`, Reveal.js conserva la posición horizontal o vertical.
+
 ---
 
 ## Videos: un enlace Markdown, un reproductor
@@ -92,9 +94,9 @@ La plantilla reconoce enlaces a **YouTube, Vimeo y videos MP4/WebM/Ogg** y crea 
 
 [▶ Video: clip MP4 de demostración (MDN)](https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4)
 
-**Cómo probarlo:** en la presentación web aparecerá el video con controles; en GitHub verás el enlace. La reproducción automática está desactivada por defecto. El video es un recurso de demostración alojado por [MDN](https://developer.mozilla.org/).
+**En los slides:** reproductor integrado. **En GitHub:** enlace normal. Reproducción automática desactivada.
 
-Note: Este video no explica la plantilla, sino que muestra que un enlace Markdown se convierte en un reproductor sin necesitar HTML. Reemplázalo por la grabación de una demo propia.
+Note: Es un video de demostración alojado por MDN. No explica la plantilla, sino que demuestra la transformación de un enlace Markdown en reproductor; reemplázalo por tu grabación propia cuando personalices el repositorio.
 
 ---
 
@@ -207,7 +209,7 @@ Esto es un **extracto** de `presentation.config.json`: allí puedes ajustar port
 
 ---
 
-## Qué valores puedes parametrizar
+## Configuración esencial: qué puedes parametrizar
 
 | Grupo JSON | Parámetros principales |
 | :--- | :--- |
@@ -216,20 +218,29 @@ Esto es un **extracto** de `presentation.config.json`: allí puedes ajustar port
 | `theme.colors` | Fondo, texto, acento, panel y bordes |
 | `theme.fonts` | Fuente de títulos, cuerpo y código |
 | `slides` | Tamaño, margen, transición, velocidad y centrado |
-| `slides.autoSlideMs` | Duración automática por slide en ms (`0` = manual) |
-| `slides.autoSlideStoppable` | Detener avance automático al interactuar |
-| `slides` | Contador, controles, botón Repo, origen Markdown |
+| `slides.autoSlideMs` | Avance automático por diapositiva en milisegundos (`0` = manual) |
+| `slides.autoSlideStoppable` | Detener el avance automático al interactuar |
+
+**El JSON reúne la configuración habitual de una charla sin editar el visor.**
+
+---
+
+## Configuración avanzada: navegación y multimedia
+
+| Grupo JSON | Parámetros principales |
+| :--- | :--- |
 | `slides.navigationVisibility` | `auto` (contextual), `always` o `hidden` |
 | `slides.navigationHideDelayMs` | Retraso de ocultación (500–15000 ms) |
-| `slides.navigationRevealZonePx` | Altura de la región de detección del mouse (50–240 px) |
-| `slides` | Permitir o bloquear `?url=` de otro repositorio |
+| `slides.navigationRevealZonePx` | Área que revela el menú al acercar el mouse |
+| `slides.autoFitContent` | Ajustar moderadamente los slides con exceso de contenido |
+| `slides.fitSafeGapPx` | Espacio libre mínimo dentro del lienzo (0–100 px) |
+| `slides` | Contador, botón Repo y carga de otro README mediante `?url=` |
 | `theme.mode` | `dark`, `light` o `auto` (preferencia del sistema) |
-| `theme.lightColors` | Paleta independiente para el modo claro |
-| `theme.showToggle` | Mostrar u ocultar selector de tema |
-| `media` | Enlaces de video, reproducción automática y carga diferida |
+| `theme.lightColors` | Colores independientes para modo claro |
+| `theme.showToggle` | Selector de tema: oscuro, claro y automático |
+| `media` | Enlaces de video, reproducción automática, carga diferida y tamaño máximo |
 
-Los valores se validan antes de aplicarse. `transitionSpeed` admite `default`, `fast` o `slow`; `autoSlideMs` configura el tiempo de avance automático. Las fuentes se cargan desde Google Fonts y requieren Internet.
-
+**Nota:** si el contenido no cabe ni tras un ajuste ligero, divide el slide con `---` o `--`. No se ocultan textos ni celdas de tabla.
 ---
 
 ## Código real: inicialización de Reveal.js

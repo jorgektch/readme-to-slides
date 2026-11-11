@@ -8,6 +8,7 @@ import {
 } from './theme.mjs';
 import {parseVideoUrl, videoEmbedUrl, videoLabel} from './media.mjs';
 import {setupNavigationVisibility} from './navigation.mjs';
+import {setupSlideFit} from './fit.mjs';
 
 const config = await (async () => {
   try {
@@ -19,6 +20,11 @@ const config = await (async () => {
     return normalizeConfig();
   }
 })();
+
+// Limit media within the Reveal.js virtual slide, but allow template users to
+// adjust the safe maximum dimensions without rewriting CSS.
+document.documentElement.style.setProperty('--deck-video-max-width', `${config.media.videoMaxWidthPx}px`);
+document.documentElement.style.setProperty('--deck-video-max-height', `${config.media.videoMaxHeightPx}px`);
 
 // Mode: dark (default), light or OS preference. A visitor's manual choice is
 // remembered locally, without changing presentation.config.json or the README.
@@ -76,7 +82,7 @@ if (remoteLink && config.slides.allowRemoteReadme) {
     console.warn('Could not load external README; keeping local source', error);
   }
 }
-document.getElementById('markdown-slides').setAttribute('data-markdown', markdownSource);
+document.querySelector('.reveal .slides > section[data-deck-source="readme"]').setAttribute('data-markdown', markdownSource);
 
 await Reveal.initialize({
   hash: true,
@@ -227,7 +233,7 @@ function changeTheme(choice, remember=true) {
   if (remember) {
     try { window.localStorage.setItem(THEME_STORAGE_KEY,choice); } catch { /* storage optional */ }
   }
-  requestDiagramRender();
+  requestDiagramRender().then(() => window.slideFitDiagnostics && window.slideFitController?.schedule());
   Reveal.layout();
 }
 themeButton.addEventListener('click',()=>changeTheme(nextThemeChoice(themeChoice)));
@@ -361,6 +367,10 @@ if (panels.length) {
     panels.forEach(p => reportDiagramError(p,error));
   }
 }
+// Reflow after Mermaid SVGs and the selected theme are rendered.
+const slideFit = setupSlideFit({reveal:Reveal,enabled:config.slides.autoFitContent,
+  safeGap:config.slides.fitSafeGapPx});
+window.slideFitController = slideFit;
 Reveal.layout();
-window.addEventListener('resize',()=>Reveal.layout());
+slideFit.schedule();
 window.slideReady = true;

@@ -483,3 +483,49 @@
   }
   .deck-navigation.nav-auto .deck-nav-divider {display: none;}
 }
+
+
+/* v1.4 — slide-safe layout. Never hide overflowing instructional content. */
+:root { --deck-video-max-width: 640px; --deck-video-max-height: 350px; }
+.reveal .slide-video {
+  width: min(var(--deck-video-max-width), 92%);
+  max-width: 100%;
+  margin: 8px auto 4px;
+}
+.reveal .slide-video__frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: var(--deck-video-max-height);
+  margin: auto;
+}
+.reveal .slide-video figcaption { margin-top: 4px; font-size: 13px; }
+/* The JS fit pass only applies these to slides that exceed the virtual stage. */
+.reveal .slides section.slide-content-compact {
+  font-size: .93em;
+}
+.reveal .slides section.slide-content-compact p,
+.reveal .slides section.slide-content-compact li { line-height: 1.33; }
+.reveal .slides section.slide-content-compact h2 { margin-bottom: .30em; }
+.reveal .slides section.slide-content-compact table { font-size: .62em; }
+.reveal .slides section.slide-content-compact table th,
+.reveal .slides section.slide-content-compact table td { padding: 6px 11px; }
+.reveal .slides section.slide-content-compact pre code { max-height: 310px; }
+.reveal .slides section.slide-content-compact .diagram-panel { min-height: 205px; padding: 10px 12px; }
+.reveal .slides section.slide-content-compact .diagram-panel svg { max-height: 290px!important; }
+.reveal .slides section.slide-content-compact img { max-height: 260px; }
+.reveal .slides section.slide-content-compact .slide-video {
+  width: min(580px, 90%);
+}
+.reveal .slides section.slide-content-compact .slide-video__frame {max-height: 320px;}
+.reveal .slides section.slide-content-tight { font-size: .86em; }
+.reveal .slides section.slide-content-tight p,
+.reveal .slides section.slide-content-tight li { line-height: 1.25; margin: .25em 0; }
+.reveal .slides section.slide-content-tight h2 { margin-bottom: .20em; }
+.reveal .slides section.slide-content-tight table { font-size: .55em; }
+.reveal .slides section.slide-content-tight table th,
+.reveal .slides section.slide-content-tight table td { padding: 4px 9px; }
+.reveal .slides section.slide-content-tight .slide-video { width: min(525px, 88%); }
+.reveal .slides section.slide-content-tight .slide-video__frame { max-height: 295px; }
+.reveal .slides section.slide-content-tight .diagram-panel { min-height: 180px; padding: 8px 10px; }
+.reveal .slides section.slide-content-tight .diagram-panel svg { max-height: 265px!important; }
+.reveal .slides section.slide-content-tight img { max-height: 225px; }
