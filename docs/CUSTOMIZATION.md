@@ -6,7 +6,7 @@ The **slide content** lives in [`README.md`](../README.md). The **presentation c
 
 1. Click **Use this template** on GitHub and create your repository.
 2. Edit `presentation.config.json` to set your talk title, **`presentation.repositoryUrl` for your new GitHub repository**, presenter, contact details, theme, and timing.
-3. Replace the explanatory Markdown slides in `README.md` with your own talk. Keep `---` between horizontal slides and `--` for a vertical detail slide.
+3. Replace the explanatory Markdown slides in `README.md` with your own talk. Keep `---` between horizontal slides and `--` for a vertical detail slide. Always put a **blank line before and after** each slide separator (`---` or `--`), including when the preceding content is a fenced code block. Without these blank lines, Markdown may interpret `---` as a heading underline instead of a new slide.
 4. In the repository, go to **Settings → Pages**, choose **Deploy from a branch**, **main**, **/(root)**.
 5. Wait for the Pages deployment, then open the URL shown in Settings.
 

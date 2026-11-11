@@ -119,14 +119,23 @@ test('touch device can toggle toolbar while counter remains visible',async ({bro
   const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   const page=await context.newPage();
   try {
-    await fixture(page,'compact-deck.md',{navigationVisibility:'auto',navigationHideDelayMs:550});
+    await fixture(page,'compact-deck.md',{navigationVisibility:'auto',navigationHideDelayMs:15000});
     await ready(page);
     const trigger=page.locator('#nav-reveal-trigger');
     await expect(trigger).toBeVisible();
+    // The toolbar starts visible for a brief hint; depending on loading time,
+    // it may already be hidden when we reach this line. A touch toggle should
+    // invert whichever state is current, rather than always "open".
+    // Use the maximum hide delay to prevent a timer racing with either tap.
+    const initial=await trigger.getAttribute('aria-expanded');
     await trigger.tap();
-    await expect(trigger).toHaveAttribute('aria-expanded','true');
+    await expect(trigger).toHaveAttribute('aria-expanded',initial==='true'?'false':'true');
+    if(initial==='true') await expect(page.locator('#deck-navigation')).not.toHaveClass(/is-visible/);
+    else await expect(page.locator('#deck-navigation')).toHaveClass(/is-visible/);
     await trigger.tap();
-    await expect(trigger).toHaveAttribute('aria-expanded','false');
+    await expect(trigger).toHaveAttribute('aria-expanded',initial);
+    if(initial==='true') await expect(page.locator('#deck-navigation')).toHaveClass(/is-visible/);
+    else await expect(page.locator('#deck-navigation')).not.toHaveClass(/is-visible/);
     await expect(page.locator('#deck-counter')).toBeVisible();
   } finally {await context.close();}
 });
@@ -159,15 +168,23 @@ test('remote README relative images, videos, nested links and anchors resolve ag
     status:200,contentType:'text/plain',
     body:[
       '# Remote workshop',
+      '',
       '![Diagram](images/diagram.png)',
+      '',
       '[Local video](../media/demo.mp4)',
+      '',
       '[Documentation](../GUIDE.md#setup)',
+      '',
       '[External](https://example.com)',
+      '',
       '[Jump](#overview)',
+      '',
       '```markdown',
       '[do not rewrite](../../../../secret)',
       '```',
+      '',
       '---',
+      '',
       '## Overview'
     ].join('\n')
   }));
@@ -180,6 +197,10 @@ test('remote README relative images, videos, nested links and anchors resolve ag
     'https://github.com/example-user/remote-deck/blob/main/GUIDE.md#setup');
   await expect(page.locator('.reveal .slides a').filter({hasText:'Jump'})).toHaveAttribute('href','#overview');
   await expect(page.locator('#nav-repository')).toHaveAttribute('href','https://github.com/example-user/remote-deck');
-  const text=await page.locator('.reveal .slides pre').allTextContents();
-  expect(text.join(' ')).toContain('../../../../secret');
+  // With correctly separated slides, fenced Markdown must remain a code block,
+  // not be interpreted as a live link or rewritten into a repository URL.
+  expect(await page.evaluate(()=>Reveal.getSlides().length)).toBe(2);
+  const code=page.locator('.reveal .slides pre code').filter({hasText:'[do not rewrite]'});
+  await expect(code).toContainText('[do not rewrite](../../../../secret)');
+  expect(await page.locator('.reveal .slides a[href*="secret"]').count()).toBe(0);
 });
