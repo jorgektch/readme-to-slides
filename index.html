@@ -129,10 +129,10 @@
       Reveal.slide(h, v);
     }
     firstButton.addEventListener("click", () => Reveal.slide(0, 0));
-    prevButton.addEventListener("click", () => Reveal.prev());
+    prevButton.addEventListener("click", () => Reveal.left());
     upButton.addEventListener("click", () => Reveal.up());
     downButton.addEventListener("click", () => Reveal.down());
-    nextButton.addEventListener("click", () => Reveal.next());
+    nextButton.addEventListener("click", () => Reveal.right());
     lastButton.addEventListener("click", goToLastSlide);
     overviewButton.addEventListener("click", () => Reveal.toggleOverview());
 
@@ -147,8 +147,8 @@
       lastButton.disabled = atLast;
       prevButton.disabled = atFirst && !fragments.prev;
       nextButton.disabled = atLast && !fragments.next;
-      upButton.disabled = !routes.top;
-      downButton.disabled = !routes.bottom;
+      upButton.disabled = !routes.up;
+      downButton.disabled = !routes.down;
       const overviewOpen = Reveal.isOverview();
       overviewButton.setAttribute("aria-pressed", String(overviewOpen));
       overviewButton.classList.toggle("is-active", overviewOpen);
