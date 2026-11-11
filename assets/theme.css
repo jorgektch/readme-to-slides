@@ -216,3 +216,57 @@
 @media print {
   .deck-navigation, .deck-counter {display:none!important;}
 }
+
+/* v8: Unificar dimensión, espaciado, bordes y alineación del contador
+   y de la barra de controles. Únicamente estética; sin cambios de JS. */
+:root {
+  --deck-footer-bottom: 15px;
+  --deck-footer-height: 51px;
+  --deck-footer-background: rgba(11, 16, 32, .93);
+  --deck-footer-border: #30435B;
+  --deck-footer-radius: 12px;
+}
+.deck-navigation {
+  bottom: var(--deck-footer-bottom);
+  min-height: var(--deck-footer-height);
+  box-sizing: border-box;
+  background: var(--deck-footer-background);
+  border-color: var(--deck-footer-border);
+  border-radius: var(--deck-footer-radius);
+}
+.deck-counter {
+  left: 22px;
+  bottom: var(--deck-footer-bottom);
+  height: var(--deck-footer-height);
+  min-width: 94px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background: var(--deck-footer-background);
+  border: 1px solid var(--deck-footer-border);
+  border-radius: var(--deck-footer-radius);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .2);
+  font: 500 14px "JetBrains Mono", Consolas, monospace;
+  line-height: 1;
+  white-space: nowrap;
+}
+@media (max-width: 780px) {
+  :root {
+    --deck-footer-bottom: 10px;
+    --deck-footer-height: 42px;
+  }
+  .deck-counter {
+    left: 8px;
+    min-width: 76px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 420px) {
+  .deck-navigation { right: 6px; padding: 2px; }
+  .deck-navigation button,
+  .deck-navigation .deck-repo-link { min-width: 27px; padding: 0 4px; }
+  .deck-counter { left: 6px; min-width: 68px; padding: 0 7px; font-size: 11px; }
+}
