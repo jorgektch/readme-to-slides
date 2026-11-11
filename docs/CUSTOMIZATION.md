@@ -5,7 +5,7 @@ The **slide content** lives in [`README.md`](../README.md). The **presentation c
 ## 1. Quick start
 
 1. Click **Use this template** on GitHub and create your repository.
-2. Edit `presentation.config.json` to set your talk title, **`presentation.repositoryUrl` for your new GitHub repository**, presenter, contact details, theme, and timing.
+2. Edit `presentation.config.json` to set your talk title, presenter, contact details, theme, and timing. **`presentation.repositoryUrl` is optional** and defaults to `null`, so the first Actions run of a new copy works before you customize anything.
 3. Replace the explanatory Markdown slides in `README.md` with your own talk. Keep `---` between horizontal slides and `--` for a vertical detail slide. Always put a **blank line before and after** each slide separator (`---` or `--`), including when the preceding content is a fenced code block. Without these blank lines, Markdown may interpret `---` as a heading underline instead of a new slide.
 4. In the repository, go to **Settings → Pages**, choose **Deploy from a branch**, **main**, **/(root)**.
 5. Wait for the Pages deployment, then open the URL shown in Settings.
@@ -17,7 +17,7 @@ Run locally using `python -m http.server 8000` and open `http://localhost:8000/`
 The **Repo** toolbar button uses the current project automatically when the
 presentation is served from `<owner>.github.io/<repository>/`. On a local server
 (`localhost` / `127.0.0.1`), the browser cannot determine which GitHub repository
-contains the files, so set the canonical URL in `presentation.config.json`:
+contains the files. If you want the **Repo** button in local previews, optionally set the canonical URL in `presentation.config.json`:
 
 ```json
 {
@@ -27,11 +27,13 @@ contains the files, so set the canonical URL in `presentation.config.json`:
 }
 ```
 
-This is a partial example; retain the other configuration fields. The original
-README to Slides repository uses `https://github.com/jorgektch/readme-to-slides`.
-**After using this template, replace that value with your new repository URL**.
-The unit and Playwright tests use this setting; you should not edit JavaScript
-or hardcode your project's repository name in the test files.
+This is a partial example; retain the other configuration fields. The shipped
+value is `null` so new copies do **not** inherit a misleading link to the
+original README to Slides repository. On GitHub Pages, the repository is
+resolved automatically; on localhost and custom domains, the Repo button is
+hidden until you provide your own URL. A wrong *explicit* URL is still rejected
+by the Actions static validation. You do not need to edit the JavaScript or
+test files to customize the repository link.
 
 When using `?url=` to present a public README from another repository, the
 **Repo** button still points to the *remote README's repository*.
@@ -48,7 +50,7 @@ The repository deliberately includes the original creator's public information, 
 |---|---|---|
 | `presentation.title` | string | Static title shown on cover |
 | `presentation.titleFromRepository` | boolean | If true, derive title from repository slug |
-| `presentation.repositoryUrl` | GitHub HTTPS URL | Repo link used in localhost; auto-detected from GitHub Pages in production |
+| `presentation.repositoryUrl` | GitHub HTTPS URL or `null` | Optional repo link for localhost/custom domains; GitHub Pages is detected automatically; `null` hides unknown local links |
 | `presentation.subtitle` / `eyebrow` | string | Cover copy |
 | `slides.markdown` | local `.md` path | Markdown file to display (default `README.md`) |
 | `slides.width`, `height` | number | Virtual resolution, e.g., 1280 × 720 |

@@ -48,6 +48,14 @@ class TemplateCopyValidationTests(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr)
         self.assertIn('OK: configurable deck', r.stdout)
 
+    def test_fresh_unconfigured_template_copy_passes_initial_actions(self):
+        self.config['presentation']['repositoryUrl'] = None
+        self.save()
+        r = self.run_check()
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertNotIn('Set presentation.repositoryUrl', r.stdout)
+        self.assertNotIn('Template copy detected', r.stderr)
+
     def test_original_template_repo_url_fails_with_helpful_message(self):
         self.config['presentation']['repositoryUrl'] = 'https://github.com/jorgektch/readme-to-slides'
         self.save()

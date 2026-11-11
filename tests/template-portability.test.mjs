@@ -70,3 +70,13 @@ test('custom presentation settings are not overwritten with template identity',(
   assert.equal(c.slides.showNavigation,false);
   assert.equal(c.theme.mode,'light');
 });
+
+
+test('new copies without explicit URLs never inherit a guessed upstream link',()=>{
+  const config=normalizeConfig({presentation:{repositoryUrl:null}});
+  for(const host of ['localhost','127.0.0.1','workshops.example.com']) {
+    assert.equal(resolveLocalRepository({hostname:host,pathname:'/'},config.presentation.repositoryUrl).repository,null);
+  }
+  assert.equal(resolveLocalRepository({hostname:'new-speaker.github.io',pathname:'/talk/'},null).repository,
+    'https://github.com/new-speaker/talk');
+});

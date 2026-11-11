@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.5.1 — First-run template portability
+
+- New template copies no longer fail their first GitHub Actions run simply
+  because `presentation.repositoryUrl` is not customized yet.
+- Default `presentation.repositoryUrl` to `null` so GitHub Pages derives the
+  correct repository from its actual owner and path.
+- Hide the Repo toolbar button on localhost/custom domains unless a verified
+  GitHub URL is configured; prevent misleading inherited template links.
+- Preserve strict validation for incorrect **explicit** repository URLs.
+- Add browser, Node and Python regression tests and update onboarding docs.
+- Compatible with v1.5.0; no configuration schema change or manual migration.
+  Existing copies with the old explicit URL should change it to `null` or their
+  actual repository URL; the engine updater never overwrites user configuration.
+
 ## 1.5.0 — Remote Assets & Safe Engine Updates
 
 - Resolve relative image, video and document paths for public remote GitHub

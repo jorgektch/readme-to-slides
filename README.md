@@ -23,8 +23,8 @@
   <p><a href="https://jorgektch.github.io/readme-to-slides/">▶ Live Demo</a> · <a href="https://github.com/new?template_name=readme-to-slides&amp;template_owner=jorgektch">Use this template</a> · <a href="https://github.com/jorgektch/readme-to-slides/blob/main/presentation.config.json">Configuration</a> · <a href="https://github.com/jorgektch/readme-to-slides/blob/main/LICENSE">MIT License</a></p>
   <p><img src="assets/images/preview.png" alt="Vista previa ilustrativa del tema oscuro de README to Slides" width="860"></p>
   <p><strong>Recursos remotos:</strong> <a href="docs/REMOTE_READMES.md">rutas relativas en READMEs externos</a> · <strong>Actualizaciones:</strong> <a href="docs/ENGINE_UPDATES.md">motor versionado y PRs opcionales</a>.</p>
-  <p><strong>Inicio rápido:</strong> selecciona <strong>Use this template</strong>, edita <code>presentation.config.json</code> (incluido <code>presentation.repositoryUrl</code>) y <code>README.md</code>, y activa <strong>Settings → Pages → Deploy from a branch → main / (root)</strong>. No necesitas PowerPoint, Canva ni un proceso de compilación.</p>
-  <p><strong>Antes de publicar:</strong> revisa <a href="docs/QUALITY_ASSURANCE.md">la lista de pruebas</a> y configura <code>presentation.repositoryUrl</code> para tu repositorio. Los tests no requieren mantener las diapositivas de ejemplo.</p>
+  <p><strong>Inicio rápido:</strong> selecciona <strong>Use this template</strong>, edita <code>presentation.config.json</code> y <code>README.md</code> (la URL del repositorio se detecta automáticamente en GitHub Pages), y activa <strong>Settings → Pages → Deploy from a branch → main / (root)</strong>. No necesitas PowerPoint, Canva ni un proceso de compilación.</p>
+  <p><strong>Antes de publicar:</strong> revisa <a href="docs/QUALITY_ASSURANCE.md">la lista de pruebas</a> y personaliza tu presentación cuando quieras. Una copia nueva pasa Actions sin configurar <code>presentation.repositoryUrl</code>; puedes añadirla opcionalmente para vistas locales.</p>
 </div>
 
 Note: El mismo README puede verse como documento en GitHub y como una presentación Reveal.js en GitHub Pages. Los datos de autor son los valores predeterminados de la plantilla.
@@ -47,7 +47,7 @@ En un taller técnico solemos mantener **dos versiones de lo mismo**:
 ## Quick Start: tu primera presentación
 
 1. Abre **[Use this template](https://github.com/new?template_name=readme-to-slides&template_owner=jorgektch)** y crea tu repositorio.
-2. Personaliza `presentation.config.json` (incluye `presentation.repositoryUrl` con tu URL de GitHub) y sustituye las secciones de este `README.md` por tu charla.
+2. Personaliza `presentation.config.json` y sustituye las secciones de este `README.md` por tu charla. `presentation.repositoryUrl` es opcional: GitHub Pages detecta el repositorio automáticamente.
 3. Activa **GitHub Pages**: `Settings → Pages → main → /(root)` y abre la URL que genere GitHub.
 
 No necesitas una API key, ni Node.js, ni ejecutar un generador para **usar** la presentación. GitHub Pages sirve el HTML y Reveal.js interpreta el Markdown en el navegador.

@@ -37,6 +37,9 @@ test('the real customized README loads without relying on demo headings or autho
   if (config.presentation.repositoryUrl) {
     await expect(page.locator('#nav-repository')).toHaveAttribute('href',
       config.presentation.repositoryUrl.replace(/\/$/,''));
+  } else {
+    await expect(page.locator('#nav-repository')).toBeHidden();
+    await expect(page.locator('#nav-repository')).not.toHaveAttribute('href',/./);
   }
   const diagrams=await page.evaluate(()=>window.slideDiagnostics);
   expect(diagrams.errors).toEqual([]);

@@ -85,18 +85,19 @@ export function resolveRemoteReadme(value) {
 export function resolveLocalRepository(locationLike, configuredRepositoryUrl = null) {
   const path = locationLike.pathname.split('/').filter(Boolean);
   const hostname = String(locationLike.hostname).toLowerCase();
-  if (hostname.endsWith('.github.io') && path[0]) {
+  if (hostname.endsWith('.github.io')) {
     const owner = hostname.slice(0, -'.github.io'.length);
-    return {slug: path[0], repository: `https://github.com/${owner}/${path[0]}`};
+    // A user/organization Pages site can also be served from the domain root.
+    const slug = path[0] || `${owner}.github.io`;
+    return {slug, repository: `https://github.com/${owner}/${slug}`};
   }
   const configured = normalizeRepositoryUrl(configuredRepositoryUrl);
   if (configured) return {
     slug: configured.split('/').at(-1), repository: configured
   };
-  const slug = path[0] || 'readme-to-slides';
-  const owner = hostname.endsWith('.github.io')
-    ? hostname.slice(0, -'.github.io'.length) : 'jorgektch';
-  return {slug, repository: `https://github.com/${owner}/${slug}`};
+  // The GitHub repository cannot be inferred from localhost or a custom
+  // domain. A missing link is safer than pointing every copy to the template.
+  return {slug: path[0] || 'local-presentation', repository: null};
 }
 
 /** Only permit an ordinary GitHub repository URL, not arbitrary redirects. */

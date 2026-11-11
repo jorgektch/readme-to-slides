@@ -134,8 +134,6 @@ if repo_url:
     if (parsed.scheme != "https" or parsed.netloc != "github.com" or len(segments) != 2 or
             parsed.query or parsed.fragment):
         error("presentation.repositoryUrl must be https://github.com/OWNER/REPO")
-else:
-    WARNINGS.append("Set presentation.repositoryUrl for reliable localhost preview")
 actions_repo = os.environ.get("GITHUB_REPOSITORY", "").strip()
 if actions_repo and repo_url and str(repo_url).rstrip("/").lower() != f"https://github.com/{actions_repo}".lower():
     error(f"Template copy detected: presentation.repositoryUrl is '{repo_url}', but this Actions run is '{actions_repo}'. Update the JSON to https://github.com/{actions_repo}")

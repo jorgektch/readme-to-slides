@@ -99,3 +99,17 @@ test('reject unsupported repository URLs and preserve remote README links', () =
   const remote = resolveRemoteReadme('https://github.com/another-owner/some-other-talk/blob/main/README.md');
   assert.equal(remote.repository,'https://github.com/another-owner/some-other-talk');
 });
+
+
+test('a brand-new template copy needs no repository URL to render safely', () => {
+  const settings = normalizeConfig({presentation:{repositoryUrl:null}});
+  assert.equal(settings.presentation.repositoryUrl, null);
+  for (const host of ['localhost','127.0.0.1','custom.example.org']) {
+    const actual = resolveLocalRepository({hostname:host,pathname:'/'},settings.presentation.repositoryUrl);
+    assert.equal(actual.repository, null, host);
+  }
+  const pages = resolveLocalRepository({hostname:'new-owner.github.io',pathname:'/fresh-copy/'},null);
+  assert.equal(pages.repository,'https://github.com/new-owner/fresh-copy');
+  const homepage = resolveLocalRepository({hostname:'new-owner.github.io',pathname:'/'},null);
+  assert.equal(homepage.repository,'https://github.com/new-owner/new-owner.github.io');
+});

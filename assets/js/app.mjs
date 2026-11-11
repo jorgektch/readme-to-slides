@@ -120,8 +120,9 @@ const displayTitle = isExternal || config.presentation.titleFromRepository
   ? titleFromSlug(slug) : config.presentation.title;
 document.title = `${displayTitle} · Presentation`;
 const repoLink = document.getElementById('nav-repository');
-repoLink.href = repoUrl;
-repoLink.hidden = !config.slides.showRepositoryLink;
+if (repoUrl) repoLink.href = repoUrl;
+else repoLink.removeAttribute('href');
+repoLink.hidden = !config.slides.showRepositoryLink || !repoUrl;
 const isUrlSafe = url => safeHttpUrl(url) !== null;
 
 // All template personal information is stored in JSON. The README contains

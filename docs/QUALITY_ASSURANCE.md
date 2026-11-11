@@ -4,8 +4,10 @@ These checks work after replacing the demonstration README with your own talk.
 
 ## Before publishing
 
-1. Set `presentation.repositoryUrl` to your GitHub repository. The GitHub Actions
-   static checker reports a mismatch between this value and `GITHUB_REPOSITORY`.
+1. New copies pass the first Actions run with `presentation.repositoryUrl: null`.
+   GitHub Pages detects the repository automatically. If you need the Repo link
+   on localhost or a custom domain, set it to your GitHub URL; the static
+   checker rejects an explicitly mismatched value in GitHub Actions.
 2. Edit `presentation.title`, other presenter fields and the README itself. The
    README is literal HTML/Markdown on GitHub, so changes to JSON alone cannot
    change its fallback author labels.
@@ -28,7 +30,7 @@ npm run test:e2e
 - **Unit tests:** the actual JSON configuration contract, repository URL selection, remote Markdown
   escaping, theme isolation, video URL validation, navigation and slide fitting.
 - **Static checks:** JSON, engine resources, slide source, missing local assets,
-  duplicate slide IDs and correct project `repositoryUrl` when running on CI.
+  duplicate slide IDs, and explicitly incorrect `repositoryUrl` values on CI.
   Low text contrast and copied source links generate advisory warnings.
 - **Browser tests:** the actual customized deck loads, plus isolated test decks
   for minimal READMEs, vertical routes, F5, video, themes, touch navigation,
@@ -64,5 +66,6 @@ Try creating a new repository from this template and replace its README with:
 This is a one-slide presentation.
 ```
 
-Update `presentation.title` and `presentation.repositoryUrl` and run the checks.
+Optionally update `presentation.title` and `presentation.repositoryUrl`, or
+leave the latter as `null`; both states must pass the checks.
 They should pass without requiring the original demonstration's content.
