@@ -37,10 +37,6 @@ jobs:
           python-version: '3.12'
       - run: npm install --no-audit --no-fund
       - run: npx playwright install --with-deps chromium
-      - name: Start static site
-        run: |
-          python -m http.server 8765 --bind 127.0.0.1 > /tmp/readme-to-slides-server.log 2>&1 &
-          echo $! > /tmp/readme-to-slides-server.pid
       - name: Test actual browser rendering
         run: npm run test:e2e
       - name: Upload browser test report on failure
