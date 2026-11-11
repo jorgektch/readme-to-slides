@@ -76,3 +76,26 @@ test('navigation visibility configuration is validated and defaults to auto', ()
   assert.equal(invalid.slides.navigationHideDelayMs,3000);
   assert.equal(invalid.slides.navigationRevealZonePx,90);
 });
+
+// Regression: a template copy must not use the original template's repository
+// as the local presentation URL after the adopter configures their own URL.
+test('custom repository URL is used on localhost, but GitHub Pages URL takes priority', () => {
+  const project = 'https://github.com/new-owner/my-workshop';
+  const settings = normalizeConfig({presentation:{repositoryUrl:project}});
+  assert.equal(settings.presentation.repositoryUrl, project);
+  const preview = resolveLocalRepository({hostname:'localhost',pathname:'/'},settings.presentation.repositoryUrl);
+  assert.deepEqual(preview,{slug:'my-workshop',repository:project});
+  const pages = resolveLocalRepository({hostname:'new-owner.github.io',pathname:'/my-workshop/'},
+    'https://github.com/jorgektch/readme-to-slides');
+  assert.equal(pages.repository, project);
+});
+
+test('reject unsupported repository URLs and preserve remote README links', () => {
+  for (const url of ['javascript:alert(1)','https://evil.example/a/b',
+    'https://github.com/owner/repo/issues','https://github.com/a/b?bad=1']) {
+    const settings = normalizeConfig({presentation:{repositoryUrl:url}});
+    assert.equal(settings.presentation.repositoryUrl, null);
+  }
+  const remote = resolveRemoteReadme('https://github.com/another-owner/some-other-talk/blob/main/README.md');
+  assert.equal(remote.repository,'https://github.com/another-owner/some-other-talk');
+});

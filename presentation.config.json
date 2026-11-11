@@ -3,7 +3,8 @@
     "title": "README to Slides",
     "subtitle": "Documenta una vez. Explica, demuestra y presenta directamente desde Markdown.",
     "eyebrow": "OPEN SOURCE · MARKDOWN PRESENTATIONS",
-    "titleFromRepository": false
+    "titleFromRepository": false,
+    "repositoryUrl": "https://github.com/jorgektch/readme-to-slides"
   },
   "presenter": {
     "name": "Jorge Jesús Quispe Villaverde",

@@ -62,7 +62,7 @@ fontStylesheet.rel = 'stylesheet';
 fontStylesheet.href = `https://fonts.googleapis.com/css2?${fontParams}&display=swap`;
 document.head.append(fontStylesheet);
 
-const local = resolveLocalRepository(window.location);
+const local = resolveLocalRepository(window.location, config.presentation.repositoryUrl);
 let slug = local.slug;
 let repoUrl = local.repository;
 let markdownSource = config.slides.markdown;

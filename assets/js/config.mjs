@@ -2,7 +2,8 @@
 export const DEFAULTS = Object.freeze({
   presentation: {
     title: 'README to Slides', subtitle: 'Write once. Document and present.',
-    eyebrow: 'OPEN SOURCE · MARKDOWN PRESENTATIONS', titleFromRepository: false
+    eyebrow: 'OPEN SOURCE · MARKDOWN PRESENTATIONS', titleFromRepository: false,
+    repositoryUrl: null
   },
   presenter: {
     name: 'Jorge Jesús Quispe Villaverde',
@@ -67,13 +68,40 @@ export function resolveRemoteReadme(value) {
   throw new Error('Use a public GitHub README URL with /blob/<branch>/<file>');
 }
 
-export function resolveLocalRepository(locationLike) {
+/**
+ * On GitHub Pages the hostname and path identify the repository. On localhost,
+ * a custom domain or other preview hosts, use the repository URL configured in
+ * presentation.config.json instead of guessing from the local HTTP path.
+ */
+export function resolveLocalRepository(locationLike, configuredRepositoryUrl = null) {
   const path = locationLike.pathname.split('/').filter(Boolean);
+  const hostname = String(locationLike.hostname).toLowerCase();
+  if (hostname.endsWith('.github.io') && path[0]) {
+    const owner = hostname.slice(0, -'.github.io'.length);
+    return {slug: path[0], repository: `https://github.com/${owner}/${path[0]}`};
+  }
+  const configured = normalizeRepositoryUrl(configuredRepositoryUrl);
+  if (configured) return {
+    slug: configured.split('/').at(-1), repository: configured
+  };
   const slug = path[0] || 'readme-to-slides';
-  const hostname = String(locationLike.hostname);
-  const owner = hostname.toLowerCase().endsWith('.github.io')
+  const owner = hostname.endsWith('.github.io')
     ? hostname.slice(0, -'.github.io'.length) : 'jorgektch';
-  return { slug, repository: `https://github.com/${owner}/${slug}` };
+  return {slug, repository: `https://github.com/${owner}/${slug}`};
+}
+
+/** Only permit an ordinary GitHub repository URL, not arbitrary redirects. */
+function normalizeRepositoryUrl(input) {
+  if (typeof input !== 'string' || !input.trim()) return null;
+  try {
+    const url = new URL(input);
+    const parts = url.pathname.split('/').filter(Boolean);
+    if (url.protocol !== 'https:' || url.hostname !== 'github.com' ||
+        url.search || url.hash || parts.length !== 2 ||
+        !/^[a-zA-Z0-9-]+$/.test(parts[0]) ||
+        !/^[a-zA-Z0-9_.-]+$/.test(parts[1])) return null;
+    return `https://github.com/${parts[0]}/${parts[1]}`;
+  } catch { return null; }
 }
 
 export function normalizeConfig(user = {}) {
@@ -149,6 +177,7 @@ export function normalizeConfig(user = {}) {
   for (const key of ['center', 'showCounter', 'showNavigation', 'showRepositoryLink', 'allowRemoteReadme']) {
     merged.slides[key] = merged.slides[key] !== false;
   }
+  merged.presentation.repositoryUrl = normalizeRepositoryUrl(merged.presentation.repositoryUrl);
   merged.presentation.titleFromRepository = merged.presentation.titleFromRepository === true;
   return merged;
 }

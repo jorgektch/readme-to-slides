@@ -5,12 +5,36 @@ The **slide content** lives in [`README.md`](../README.md). The **presentation c
 ## 1. Quick start
 
 1. Click **Use this template** on GitHub and create your repository.
-2. Edit `presentation.config.json` to set your talk title, presenter, contact details, theme, and timing.
+2. Edit `presentation.config.json` to set your talk title, **`presentation.repositoryUrl` for your new GitHub repository**, presenter, contact details, theme, and timing.
 3. Replace the explanatory Markdown slides in `README.md` with your own talk. Keep `---` between horizontal slides and `--` for a vertical detail slide.
 4. In the repository, go to **Settings → Pages**, choose **Deploy from a branch**, **main**, **/(root)**.
 5. Wait for the Pages deployment, then open the URL shown in Settings.
 
 Run locally using `python -m http.server 8000` and open `http://localhost:8000/`. Do not open `index.html` using `file://` because the Markdown and JSON are fetched via HTTP.
+
+## Repository link in the slides and local development
+
+The **Repo** toolbar button uses the current project automatically when the
+presentation is served from `<owner>.github.io/<repository>/`. On a local server
+(`localhost` / `127.0.0.1`), the browser cannot determine which GitHub repository
+contains the files, so set the canonical URL in `presentation.config.json`:
+
+```json
+{
+  "presentation": {
+    "repositoryUrl": "https://github.com/YOUR-USERNAME/YOUR-REPOSITORY"
+  }
+}
+```
+
+This is a partial example; retain the other configuration fields. The original
+README to Slides repository uses `https://github.com/jorgektch/readme-to-slides`.
+**After using this template, replace that value with your new repository URL**.
+The unit and Playwright tests use this setting; you should not edit JavaScript
+or hardcode your project's repository name in the test files.
+
+When using `?url=` to present a public README from another repository, the
+**Repo** button still points to the *remote README's repository*.
 
 ## 2. Author information
 
@@ -24,6 +48,7 @@ The repository deliberately includes the original creator's public information, 
 |---|---|---|
 | `presentation.title` | string | Static title shown on cover |
 | `presentation.titleFromRepository` | boolean | If true, derive title from repository slug |
+| `presentation.repositoryUrl` | GitHub HTTPS URL | Repo link used in localhost; auto-detected from GitHub Pages in production |
 | `presentation.subtitle` / `eyebrow` | string | Cover copy |
 | `slides.markdown` | local `.md` path | Markdown file to display (default `README.md`) |
 | `slides.width`, `height` | number | Virtual resolution, e.g., 1280 × 720 |

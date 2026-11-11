@@ -7,7 +7,10 @@ test('loads README slides, styles, controls and diagrams',async ({page}) => {
   expect(count).toBeGreaterThan(12);
   await expect(page.locator('.cover-title')).toHaveText('README to Slides');
   await expect(page.locator('[data-config="email"]').first()).toHaveText('jorgektch@gmail.com');
-  await expect(page.locator('#nav-repository')).toHaveAttribute('href','https://github.com/jorgektch/readme-to-slides');
+  // Do not hardcode the template's repository: this test is copied with the template.
+  // GitHub Pages detects its own repo automatically; localhost uses the configured URL.
+  const settings = await (await page.request.get('/presentation.config.json')).json();
+  await expect(page.locator('#nav-repository')).toHaveAttribute('href', settings.presentation.repositoryUrl);
   const diagrams = await page.evaluate(() => window.slideDiagnostics);
   expect(diagrams.detected).toBeGreaterThanOrEqual(3);
   expect(diagrams.errors).toEqual([]);
