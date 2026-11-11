@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Lexend:wght@300;400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" href="assets/theme.css">
 </head>
 <body>
@@ -22,19 +23,32 @@
              data-separator-notes="^Note:"></section>
   </div></div>
   <div id="deck-counter" class="deck-counter" aria-label="Número de diapositiva" aria-live="off">1 / 1</div>
-  <nav class="deck-navigation" role="toolbar" aria-label="Navegación de diapositivas">
-    <button type="button" id="nav-first" title="Ir a la primera diapositiva" aria-label="Ir a la primera diapositiva">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5v14M18 5l-7 7 7 7"/></svg>
+  <nav class="deck-navigation" role="toolbar" aria-label="Navegación y enlaces de la presentación">
+    <button type="button" id="nav-first" title="Primera diapositiva (Inicio)" aria-label="Ir al inicio">
+      <i class="fa-solid fa-backward-step" aria-hidden="true"></i>
     </button>
-    <button type="button" id="nav-prev" title="Diapositiva anterior" aria-label="Diapositiva anterior">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    <button type="button" id="nav-prev" title="Anterior" aria-label="Diapositiva anterior">
+      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
     </button>
-    <button type="button" id="nav-next" title="Diapositiva siguiente" aria-label="Diapositiva siguiente">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    <button type="button" id="nav-up" title="Diapositiva vertical anterior (Arriba)" aria-label="Subir en el bloque vertical">
+      <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
     </button>
-    <button type="button" id="nav-last" title="Ir a la última diapositiva" aria-label="Ir a la última diapositiva">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5v14M6 5l7 7-7 7"/></svg>
+    <button type="button" id="nav-down" title="Diapositiva vertical siguiente (Abajo)" aria-label="Bajar en el bloque vertical">
+      <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
     </button>
+    <button type="button" id="nav-next" title="Siguiente" aria-label="Diapositiva siguiente">
+      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+    </button>
+    <button type="button" id="nav-last" title="Última diapositiva (Fin)" aria-label="Ir al final">
+      <i class="fa-solid fa-forward-step" aria-hidden="true"></i>
+    </button>
+    <span class="deck-nav-divider" aria-hidden="true"></span>
+    <button type="button" id="nav-overview" title="Mostrar/ocultar vista general (Esc u O)" aria-label="Alternar vista general" aria-pressed="false">
+      <i class="fa-solid fa-table-cells-large" aria-hidden="true"></i>
+    </button>
+    <a id="nav-repository" class="deck-repo-link" href="https://github.com/jorgektch/test" target="_blank" rel="noopener noreferrer" title="Abrir el repositorio en GitHub" aria-label="Abrir repositorio de GitHub">
+      <i class="fa-brands fa-github" aria-hidden="true"></i><span>Repo</span>
+    </a>
   </nav>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
@@ -58,6 +72,7 @@
     const localSlug = location.pathname.split("/").filter(Boolean)[0] || "test";
     let slug = localSlug;
     let markdownUrl = "README.md";
+    let repositoryUrl = `https://github.com/jorgektch/${encodeURIComponent(localSlug)}`;
     if (requested) {
       try {
         const url = new URL(requested);
@@ -65,9 +80,11 @@
         const parts = url.pathname.split("/").filter(Boolean);
         if (url.hostname === "github.com" && parts[2] === "blob" && parts.length >= 5) {
           slug = parts[1];
+          repositoryUrl = `https://github.com/${parts[0]}/${parts[1]}`;
           markdownUrl = `https://raw.githubusercontent.com/${parts[0]}/${parts[1]}/${parts.slice(3).join("/")}`;
         } else if (url.hostname === "raw.githubusercontent.com" && parts.length >= 4) {
           slug = parts[1];
+          repositoryUrl = `https://github.com/${parts[0]}/${parts[1]}`;
           markdownUrl = url.href;
         } else throw new Error("Usa un README público de GitHub");
         document.getElementById("markdown-slides").setAttribute("data-markdown", markdownUrl);
@@ -82,6 +99,7 @@
     });
 
     const title = titleFromSlug(slug);
+    document.getElementById("nav-repository").href = repositoryUrl;
     document.title = `${title} · Jorge Jesús`;
     const coverTitle = document.querySelector(".reveal .slides section.cover [data-repo-title]");
     if (coverTitle) coverTitle.textContent = title;
@@ -97,8 +115,12 @@
     // Toolbar personalizada. Reveal sigue gestionando las flechas del teclado.
     const firstButton = document.getElementById("nav-first");
     const prevButton = document.getElementById("nav-prev");
+    const upButton = document.getElementById("nav-up");
+    const downButton = document.getElementById("nav-down");
     const nextButton = document.getElementById("nav-next");
     const lastButton = document.getElementById("nav-last");
+    const overviewButton = document.getElementById("nav-overview");
+
     function goToLastSlide() {
       const slides = Reveal.getSlides();
       const target = slides[slides.length - 1];
@@ -108,20 +130,35 @@
     }
     firstButton.addEventListener("click", () => Reveal.slide(0, 0));
     prevButton.addEventListener("click", () => Reveal.prev());
+    upButton.addEventListener("click", () => Reveal.up());
+    downButton.addEventListener("click", () => Reveal.down());
     nextButton.addEventListener("click", () => Reveal.next());
     lastButton.addEventListener("click", goToLastSlide);
+    overviewButton.addEventListener("click", () => Reveal.toggleOverview());
+
     function updateNavigation() {
       const slides = Reveal.getSlides();
       const current = Reveal.getCurrentSlide();
       const atFirst = current === slides[0];
       const atLast = current === slides[slides.length - 1];
-      firstButton.disabled = prevButton.disabled = atFirst;
-      lastButton.disabled = nextButton.disabled = atLast;
+      const routes = Reveal.availableRoutes();
+      const fragments = Reveal.availableFragments();
+      firstButton.disabled = atFirst;
+      lastButton.disabled = atLast;
+      prevButton.disabled = atFirst && !fragments.prev;
+      nextButton.disabled = atLast && !fragments.next;
+      upButton.disabled = !routes.top;
+      downButton.disabled = !routes.bottom;
+      const overviewOpen = Reveal.isOverview();
+      overviewButton.setAttribute("aria-pressed", String(overviewOpen));
+      overviewButton.classList.toggle("is-active", overviewOpen);
       updateCounter();
     }
     Reveal.on("slidechanged", updateNavigation);
     Reveal.on("fragmentshown", updateNavigation);
     Reveal.on("fragmenthidden", updateNavigation);
+    Reveal.on("overviewshown", updateNavigation);
+    Reveal.on("overviewhidden", updateNavigation);
     // Atajos adicionales para saltar al inicio o al final.
     document.addEventListener("keydown", event => {
       if (event.altKey || event.ctrlKey || event.metaKey ||

@@ -10,9 +10,9 @@
   <div class="contact-row" aria-label="Contacto del expositor">
     <a class="contact-email" href="mailto:jorgektch@gmail.com">jorgektch@gmail.com</a>
     <div class="contact-socials" aria-label="Redes sociales de jorgektch">
-      <a class="social-icon" href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="GitHub: jorgektch" title="GitHub"><img src="assets/icons/github.svg" alt="" width="22" height="22"></a>
-      <a class="social-icon" href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="Instagram: @jorgektch" title="Instagram"><img src="assets/icons/instagram.svg" alt="" width="22" height="22"></a>
-      <a class="social-icon" href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer" aria-label="TikTok: @jorgektch" title="TikTok"><img src="assets/icons/tiktok.svg" alt="" width="22" height="22"></a>
+      <a class="social-icon" href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="GitHub: jorgektch" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="social-label">GitHub</span></a>
+      <a class="social-icon" href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="Instagram: jorgektch" title="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i><span class="social-label">Instagram</span></a>
+      <a class="social-icon" href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer" aria-label="TikTok: jorgektch" title="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i><span class="social-label">TikTok</span></a>
       <span class="social-handle">/jorgektch</span>
     </div>
   </div>
@@ -47,7 +47,7 @@ Note: Presenta el título de la charla, tu nombre completo y cómo el mismo READ
 | 05 | Implementación | Código con resaltado |
 | 06 | Práctica | Retos + notas del expositor |
 
-**Pista:** usa las flechas `←` `→` y `↑` `↓`; presiona **S** para las notas.
+**Pista:** usa `←` `→` para navegar, `↑` `↓` para las diapositivas verticales, `Esc` o `O` para la vista general y **S** para las notas. El visor incluye también un botón **Repositorio**.
 
 ---
 
@@ -233,7 +233,7 @@ Note: Muestra cada punto uno por uno. Explica que HTML comments con .element y c
 https://jorgektch.github.io/test/?url=https://github.com/USUARIO/REPO/blob/main/README.md
 ```
 
-Si copias `index.html` y `assets/theme.css` a otro repositorio, podrás usar el mismo tema. Su **nombre de repositorio** se convertirá automáticamente en el título de la carátula en la presentación.
+Si copias `index.html` y `assets/theme.css` a otro repositorio, podrás usar el mismo tema. Los iconos de las redes se especifican con etiquetas `<i>` y Font Awesome (sin archivos SVG propios). Su **nombre de repositorio** se convertirá automáticamente en el título de la carátula en la presentación.
 
 ---
 
@@ -243,13 +243,13 @@ Si copias `index.html` y `assets/theme.css` a otro repositorio, podrás usar el 
 | :--- | :--- |
 | Título para GitHub | `# Test` en este README |
 | Título de la portada en slides | Se obtiene de la URL del repositorio |
-| Nombre, redes y correo | Primer y último bloque del README; iconos en `assets/icons/` |
+| Nombre, redes y correo | Primer y último bloque del README; iconos con Font Awesome vía CSS en el visor |
 | Poppins, Lexend, JetBrains Mono | `assets/theme.css` e `index.html` |
 | Colores de la carátula | Variables CSS en `assets/theme.css`: `#0B1020`, `#F5F7FF`, `#36E0C4`, `#AAB9D0` |
 | Fotografías | URLs de imagen o `assets/images/` |
 | Diagramas | Bloques de código `mermaid` |
 
-**Nota:** las fotos remotas y las bibliotecas CDN requieren conexión a Internet. Los iconos de las redes se almacenan en este mismo repositorio. Los diagramas Mermaid se renderizan desde los bloques de código `mermaid` del README, sin necesidad de insertar SVG o capturas. El visor detecta estos bloques por su lenguaje **o** por la sintaxis del diagrama.
+**Nota:** las fotos remotas y las bibliotecas CDN requieren conexión a Internet. Los iconos se generan desde clases HTML de Font Awesome en GitHub Pages; GitHub muestra los nombres enlazados como alternativa accesible. Los diagramas Mermaid se renderizan desde los bloques de código `mermaid` del README, sin necesidad de insertar SVG o capturas. El visor detecta estos bloques por su lenguaje **o** por la sintaxis del diagrama.
 
 ---
 
@@ -264,9 +264,9 @@ Si copias `index.html` y `assets/theme.css` a otro repositorio, podrás usar el 
   <div class="contact-row" aria-label="Contacto del expositor">
     <a class="contact-email" href="mailto:jorgektch@gmail.com">jorgektch@gmail.com</a>
     <div class="contact-socials" aria-label="Redes sociales de jorgektch">
-      <a class="social-icon" href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="GitHub: jorgektch" title="GitHub"><img src="assets/icons/github.svg" alt="" width="22" height="22"></a>
-      <a class="social-icon" href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="Instagram: @jorgektch" title="Instagram"><img src="assets/icons/instagram.svg" alt="" width="22" height="22"></a>
-      <a class="social-icon" href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer" aria-label="TikTok: @jorgektch" title="TikTok"><img src="assets/icons/tiktok.svg" alt="" width="22" height="22"></a>
+      <a class="social-icon" href="https://github.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="GitHub: jorgektch" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="social-label">GitHub</span></a>
+      <a class="social-icon" href="https://www.instagram.com/jorgektch" target="_blank" rel="noopener noreferrer" aria-label="Instagram: jorgektch" title="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i><span class="social-label">Instagram</span></a>
+      <a class="social-icon" href="https://www.tiktok.com/@jorgektch" target="_blank" rel="noopener noreferrer" aria-label="TikTok: jorgektch" title="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i><span class="social-label">TikTok</span></a>
       <span class="social-handle">/jorgektch</span>
     </div>
   </div>
