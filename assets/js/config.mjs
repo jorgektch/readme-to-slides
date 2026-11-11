@@ -53,16 +53,25 @@ export function safeHttpUrl(value) {
 /** Converts GitHub links to raw content and provides the corresponding repository. */
 export function resolveRemoteReadme(value) {
   const url = new URL(value);
-  if (url.protocol !== 'https:') throw new Error('Remote README must use HTTPS');
+  if (url.protocol !== 'https:' || url.port || url.username || url.password) {
+    throw new Error('Remote README must use plain HTTPS without credentials or custom ports');
+  }
   const parts = url.pathname.split('/').filter(Boolean);
-  if (url.hostname === 'github.com' && parts[2] === 'blob' && parts.length >= 5) {
+  // Ref is a single path segment; slash-containing branch names are intentionally
+  // not inferred from ambiguous GitHub /blob/<ref>/<path> URLs.
+  const validSource = parts.length >= 4 && /^[a-zA-Z0-9-]+$/.test(parts[0]) &&
+    /^[a-zA-Z0-9_.-]+$/.test(parts[1]) && /^[a-zA-Z0-9_.-]+$/.test(parts[2]) &&
+    parts.slice(3).every(p => !/%(?:2f|5c|00)/i.test(p) && p !== '.' && p !== '..');
+  if (url.hostname === 'github.com' && parts[2] === 'blob' && parts.length >= 5 &&
+      /^[a-zA-Z0-9-]+$/.test(parts[0]) && /^[a-zA-Z0-9_.-]+$/.test(parts[1]) &&
+      parts.slice(3).every(p => !/%(?:2f|5c|00)/i.test(p) && p !== '.' && p !== '..')) {
     return {
       slug: parts[1],
       repository: `https://github.com/${parts[0]}/${parts[1]}`,
       rawUrl: `https://raw.githubusercontent.com/${parts[0]}/${parts[1]}/${parts.slice(3).join('/')}`
     };
   }
-  if (url.hostname === 'raw.githubusercontent.com' && parts.length >= 4) {
+  if (url.hostname === 'raw.githubusercontent.com' && validSource) {
     return {slug: parts[1], repository: `https://github.com/${parts[0]}/${parts[1]}`, rawUrl: url.href};
   }
   throw new Error('Use a public GitHub README URL with /blob/<branch>/<file>');

@@ -38,3 +38,18 @@ proximity, focus and touch reveal button). Directional actions stay in
 `assets/js/app.mjs` using Reveal.js APIs. This separates toolbar accessibility
 from the slide content and presentation theme. The counter is independent of
 both components.
+
+
+## v1.5 — Relative resources and safe engine updates
+
+- `assets/js/remote-assets.mjs` processes rendered Markdown DOM attributes
+  before media embedding: relative images and videos resolve to the original
+  GitHub raw content; `.md` and `.ipynb` links open GitHub's file viewer.
+- `engine-release.json` stores the current engine version and hashes of only
+  engine-owned resources. User README, config, and slide assets are excluded.
+- `tools/update_engine.py` optionally checks the upstream's latest stable
+  GitHub Release and verifies its SHA-256 manifest. It rejects incompatible
+  versions, unexpected files and locally customized engine code.
+- `.github/workflows/engine-updates.yml` proposes changes as a PR only after
+  tests pass. It never commits to the default branch. See
+  [Engine updates](ENGINE_UPDATES.md) and [Remote READMEs](REMOTE_READMES.md).

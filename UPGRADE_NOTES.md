@@ -72,3 +72,26 @@ This incremental ZIP is based on the current v1.3 `main` repository (file blobs 
 3. Toggle theme dark → light → auto, and verify the original controls and Mermaid diagrams remain functional.
 4. Open the browser console: `window.slideFitDiagnostics`. If any slide is still too tall, split the content. The fitter is intentionally conservative.
 5. Check GitHub Actions and the Pages deployment.
+
+
+## v1.5 — Remote README resources and optional engine update PRs
+
+- Issue #1: `assets/js/remote-assets.mjs` now resolves images, videos and
+  relative Markdown document links based on the source README's directory.
+  Unsafe schemes and traversal outside the source repository/ref are blocked.
+- Issue #2: install `engine-release.json`, `tools/`, and
+  `.github/workflows/engine-updates.yml` to support reviewable updates from
+  official GitHub Releases, without overwriting your README or JSON config.
+- The new opt-in updater **requires a published GitHub Release** (`v1.5.0`)
+  and the repository's Actions PR permission; installing files alone does not
+  create or run updates.
+- The 1.4.1 quality fixes are bundled in this differential: tests no longer
+  require the original demonstration content, malformed configs are checked,
+  and theme preferences are scoped per repository.
+- Do not use this upstream ZIP unchanged on an existing customized workshop:
+  it contains the template README. To upgrade a workshop, copy only the
+  engine-owned files and updater scaffolding after reviewing local modifications.
+
+See [docs/ENGINE_UPDATES.md](docs/ENGINE_UPDATES.md) and
+[docs/REMOTE_READMES.md](docs/REMOTE_READMES.md) for adoption, compatibility,
+limitations, rollback and publishing instructions.

@@ -29,6 +29,12 @@ const DECORATIONS = Object.freeze({
   })
 });
 
+/** Browser localStorage is scoped to the origin, not to the repository path. */
+export function themeStorageKey(repositoryUrl) {
+  const value = String(repositoryUrl || 'local').trim().toLowerCase();
+  return `readme-to-slides.theme-choice.v2:${encodeURIComponent(value)}`;
+}
+
 export function activeThemeName(choice, systemPrefersDark = true) {
   return choice === 'auto' ? (systemPrefersDark ? 'dark' : 'light') :
     choice === 'light' ? 'light' : 'dark';

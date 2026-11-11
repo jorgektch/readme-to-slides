@@ -3,12 +3,13 @@ import {
   prepareRemoteMarkdown, titleFromSlug, safeHttpUrl
 } from './config.mjs';
 import {
-  activeThemeName, nextThemeChoice, resolveThemePalette,
+  activeThemeName, nextThemeChoice, themeStorageKey, resolveThemePalette,
   cssThemeTokens, mermaidThemeVariables
 } from './theme.mjs';
 import {parseVideoUrl, videoEmbedUrl, videoLabel} from './media.mjs';
 import {setupNavigationVisibility} from './navigation.mjs';
 import {setupSlideFit} from './fit.mjs';
+import {rewriteRemoteSlideAssets} from './remote-assets.mjs';
 
 const config = await (async () => {
   try {
@@ -26,9 +27,14 @@ const config = await (async () => {
 document.documentElement.style.setProperty('--deck-video-max-width', `${config.media.videoMaxWidthPx}px`);
 document.documentElement.style.setProperty('--deck-video-max-height', `${config.media.videoMaxHeightPx}px`);
 
+// The repository is resolved before reading preferences because localStorage
+// on github.io is shared by all project sites belonging to the same user.
+const local = resolveLocalRepository(window.location, config.presentation.repositoryUrl);
+// Do not migrate the old origin-wide key: that would import preferences from
+// unrelated decks on the same hostname.
+const THEME_STORAGE_KEY = themeStorageKey(local.repository);
 // Mode: dark (default), light or OS preference. A visitor's manual choice is
-// remembered locally, without changing presentation.config.json or the README.
-const THEME_STORAGE_KEY = 'readme-to-slides.theme-choice.v1';
+// remembered per repository without changing JSON or README.
 const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
 let savedChoice = null;
 try { savedChoice = window.localStorage.getItem(THEME_STORAGE_KEY); } catch { /* storage optional */ }
@@ -62,15 +68,16 @@ fontStylesheet.rel = 'stylesheet';
 fontStylesheet.href = `https://fonts.googleapis.com/css2?${fontParams}&display=swap`;
 document.head.append(fontStylesheet);
 
-const local = resolveLocalRepository(window.location, config.presentation.repositoryUrl);
 let slug = local.slug;
 let repoUrl = local.repository;
 let markdownSource = config.slides.markdown;
 const remoteLink = new URLSearchParams(window.location.search).get('url');
 let remoteMarkdownObjectUrl = null;
+let remoteMarkdownSource = null;
 if (remoteLink && config.slides.allowRemoteReadme) {
   try {
     const remote = resolveRemoteReadme(remoteLink);
+    remoteMarkdownSource = remote;
     const response = await fetch(remote.rawUrl);
     if (!response.ok) throw Error(`Remote README HTTP ${response.status}`);
     const markdown = prepareRemoteMarkdown(await response.text());
@@ -79,6 +86,7 @@ if (remoteLink && config.slides.allowRemoteReadme) {
     slug = remote.slug;
     repoUrl = remote.repository;
   } catch (error) {
+    remoteMarkdownSource = null;
     console.warn('Could not load external README; keeping local source', error);
   }
 }
@@ -104,6 +112,10 @@ await Reveal.initialize({
 });
 
 const isExternal = remoteMarkdownObjectUrl !== null;
+if (isExternal) {
+  const assetReport = rewriteRemoteSlideAssets(document.querySelector('.reveal .slides'), remoteMarkdownSource);
+  console.info('Resolved remote README resources', assetReport);
+}
 const displayTitle = isExternal || config.presentation.titleFromRepository
   ? titleFromSlug(slug) : config.presentation.title;
 document.title = `${displayTitle} · Presentation`;

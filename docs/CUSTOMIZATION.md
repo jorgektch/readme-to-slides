@@ -178,3 +178,14 @@ See [Navigation and accessibility](NAVIGATION.md) for more details.
 - Use `window.slideFitDiagnostics` in the browser console to see any overflow warnings. If the warning persists, split long tables or paragraphs into new slides; do not simply decrease the global font size until it becomes unreadable.
 - `slides.fitSafeGapPx` is measured in the virtual slide dimensions, not viewport pixels. It does not reserve space for overlay controls; those remain independent.
 - Theme mode `auto` remains part of the three-state toolbar and follows the operating system's color preference.
+
+
+## Quality and portable tests
+
+After replacing the sample README, you do not need to keep the sample
+Mermaid diagrams, video, tables, presenter details, or vertical stack.
+The included tests now use separate `tests/fixtures/` content instead
+of requiring the original demonstration.
+
+See [QUALITY_ASSURANCE.md](QUALITY_ASSURANCE.md) for the pre-publication
+checklist and the limits of automated checks.

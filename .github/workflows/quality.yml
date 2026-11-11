@@ -1,4 +1,4 @@
-name: Validate README to Slides
+name: Validate Markdown presentation template
 
 on:
   push:
@@ -18,8 +18,11 @@ jobs:
           python-version: '3.12'
       - name: Run JavaScript unit tests
         run: node --test tests/*.test.mjs
-      - name: Validate Markdown, config and local assets
-        run: python tests/check_deck.py
+      - name: Validate any customized README, config and local assets
+        run: |
+          python tests/check_deck.py
+          python tests/test_quality_checker.py
+          python -m unittest discover -s tests -p test_engine_update.py
 
   browser:
     runs-on: ubuntu-latest
